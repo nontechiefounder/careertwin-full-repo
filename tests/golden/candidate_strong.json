@@ -1,0 +1,25 @@
+{
+  "candidate_id": "30000000-0000-0000-0000-000000000001",
+  "synthetic": true,
+  "matches": [
+    {
+      "requirement_id": "20000000-0000-0000-0000-000000000011",
+      "status": "supported",
+      "evidence_strength": "direct_artifact",
+      "confidence": 0.94
+    },
+    {
+      "requirement_id": "20000000-0000-0000-0000-000000000012",
+      "status": "supported",
+      "evidence_strength": "detailed_claim",
+      "confidence": 0.88
+    },
+    {
+      "requirement_id": "20000000-0000-0000-0000-000000000013",
+      "status": "partial",
+      "evidence_strength": "detailed_claim",
+      "confidence": 0.72
+    }
+  ]
+}
+

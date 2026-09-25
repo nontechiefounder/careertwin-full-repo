@@ -1,0 +1,20 @@
+{
+  "input_text": "Create evidence-linked interview probes for unclear ownership and the reported reduction in duplicate processing.",
+  "context": {
+    "requirements": [
+      {
+        "id": "00000000-0000-0000-0000-000000000301",
+        "label": "Own a production backend service"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "00000000-0000-0000-0000-000000000202",
+        "excerpt": "Reduced duplicate processing from 2.8 percent to 0.08 percent.",
+        "page": 1,
+        "document": "CAND-001_resume.pdf"
+      }
+    ],
+    "risks": ["Ownership boundary is not independently verified"]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "role_id": "20000000-0000-0000-0000-000000000001",
+  "title": "Backend Engineer",
+  "requirements": [
+    {
+      "id": "20000000-0000-0000-0000-000000000011",
+      "label": "Owns a production backend service",
+      "kind": "must_have",
+      "weight": 0.55,
+      "evidence_expectation": "Specific service, ownership boundary, users or traffic and operational responsibility"
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000012",
+      "label": "Designs reliable asynchronous workflows",
+      "kind": "strong_signal",
+      "weight": 0.30,
+      "evidence_expectation": "Retries, idempotency, failure recovery or event processing with concrete implementation detail"
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000013",
+      "label": "Improves measurable system outcomes",
+      "kind": "nice_to_have",
+      "weight": 0.15,
+      "evidence_expectation": "Before and after metric with attributable action"
+    }
+  ]
+}
+

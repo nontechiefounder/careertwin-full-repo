@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 12
+applcnt::cand_012 | stage?? screen
+note: implemented workflow; ownrship unclear; duplicate token DUP-05
+extracted role ref: role_frontend_002

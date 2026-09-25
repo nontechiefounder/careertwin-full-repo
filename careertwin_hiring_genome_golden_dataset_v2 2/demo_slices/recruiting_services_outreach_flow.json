@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0.0",
+  "record_id": "demo_005",
+  "synthetic": true,
+  "source_refs": [
+    "company_007",
+    "sourcingrank_001",
+    "outreach_001",
+    "booking_001"
+  ],
+  "created_at": "2026-07-26T00:00:00Z",
+  "difficulty": "medium",
+  "title": "Recruiting services outreach flow",
+  "refs": [
+    "company_007",
+    "sourcingrank_001",
+    "outreach_001",
+    "booking_001"
+  ],
+  "story": "Proof-grounded personalization respects permission and booking state."
+}

@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 4
+applcnt::cand_004 | stage?? mgr-chat
+note: implemented workflow; ownrship unclear; duplicate token DUP-01
+extracted role ref: role_backend_002

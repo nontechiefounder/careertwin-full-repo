@@ -1,0 +1,30 @@
+version: 0.1.0
+name: CareerTWiN MVP Scoring Rubric
+
+score_dimensions:
+  proof_coverage: 0.40
+  relevance: 0.25
+  evidence_strength: 0.20
+  consistency: 0.15
+
+status_values:
+  supported: 1.0
+  partial: 0.5
+  unsupported: 0.0
+  contradicted: 0.0
+
+gates:
+  all_must_haves_require: [supported, partial]
+  triggered_disqualifier_status: supported
+  automatic_rejection: false
+
+uncertainty:
+  maximum_penalty: 1.0
+  score_and_confidence_are_separate: true
+
+human_controls:
+  requirements_must_be_approved: true
+  release_must_be_approved: true
+  overrides_require_reason: true
+  released_packets_are_immutable: true
+

@@ -1,0 +1,204 @@
+diff --git a/apps/web/__tests__/day3/EmployerDay3Assertions.test.js b/apps/web/__tests__/day3/EmployerDay3Assertions.test.js
+index 2c02d85..d2aefa1 100644
+--- a/apps/web/__tests__/day3/EmployerDay3Assertions.test.js
++++ b/apps/web/__tests__/day3/EmployerDay3Assertions.test.js
+@@ -401,6 +401,58 @@ test.describe('Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3
+     await expect(c3Blockers).toHaveText('2 blockers');
+   });
+ 
++  test('Test D2 — Intercepted Path A 399-Candidate Zero-Evaluation Cohort Semantics & Pagination Equality', async ({ page }) => {
++    const zeroExtractions = Array.from({ length: 399 }, (_, i) => ({
++      id: `zero_ext_${i + 1}`,
++      candidate_name: `Zero Candidate ${i + 1}`,
++      decision_packet: null
++    }));
++
++    await page.route(`**/api/employer/shortlist/${ALPHA_RUN_ID}`, async (route) => {
++      await route.fulfill({
++        json: {
++          hiring_run: { id: ALPHA_RUN_ID, role_title: 'Zero Evaluation Role Cohort' },
++          extractions: zeroExtractions,
++          counts: {
++            cohort_candidates: 399,
++            documents_received: 0,
++            extractions_completed: 399,
++            packets_compiled: 0,
++            evaluations_completed: 0,
++            pending_evaluation: 399
++          }
++        }
++      });
++    });
++
++    await page.goto(`${BASE_URL}/employer/shortlist/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="shortlist-page"]', { state: 'visible', timeout: 15000 });
++
++    // 1. Assert Header & Subtitle & Banner Count Semantics
++    await expect(page.getByTestId('cohort-candidates-badge')).toHaveText('399 Cohort Candidates');
++    await expect(page.getByTestId('shortlist-subtitle')).toHaveText('0 evaluations completed · 399 pending evaluation');
++    await expect(page.getByTestId('no-evaluations-banner')).toBeVisible();
++    await expect(page.getByTestId('no-evaluations-banner')).toContainText('399 candidates are associated with this role cohort, but 0 candidate evaluations are available yet for this hiring run.');
++
++    // 2. Assert Page 1 Pagination & Card Counts (Path A)
++    const cards = page.locator('[data-testid^="shortlist-card-"]');
++    await expect(cards).toHaveCount(20);
++    await expect(page.getByTestId('pagination-count-label')).toHaveText('Showing 1–20 of 399 cohort candidates');
++    await expect(page.getByTestId('pagination-page-indicator')).toHaveText('Page 1 of 20');
++    await expect(page.getByTestId('prev-page-btn')).toBeDisabled();
++    await expect(page.getByTestId('next-page-btn')).toBeEnabled();
++
++    // 3. Navigate to Page 20 and assert 19 cards
++    for (let p = 1; p < 20; p++) {
++      await page.getByTestId('next-page-btn').click();
++    }
++    await page.waitForTimeout(200);
++    await expect(page.getByTestId('pagination-page-indicator')).toHaveText('Page 20 of 20');
++    await expect(cards).toHaveCount(19);
++    await expect(page.getByTestId('pagination-count-label')).toHaveText('Showing 381–399 of 399 cohort candidates');
++    await expect(page.getByTestId('next-page-btn')).toBeDisabled();
++  });
++
+   test('Test E — Path B local file selection in the real browser: PDF, DOCX, CSV, exact 10MB, oversized rejection, handoff notice, and zero upload requests', async ({ page }) => {
+     await page.goto(`${BASE_URL}/employer/intake`, { waitUntil: 'domcontentloaded' });
+     await page.waitForSelector('[data-testid="intake-page"]', { state: 'visible', timeout: 15000 });
+@@ -569,14 +621,17 @@ test.describe('Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3
+     await expect(page.locator('text=enter_file.pdf')).not.toBeVisible();
+   });
+ 
+-  test('Test H — Real Browser-Executed Contrast Verification (Part 5): Evaluates computed styles via window.getComputedStyle() across 10 representative elements', async ({ page }) => {
++  test('Test H — Real Browser-Executed Contrast Verification (Part 4): Evaluates computed styles via window.getComputedStyle() and walks ancestor tree', async ({ page }) => {
+     await page.goto(`${BASE_URL}/employer/shortlist/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
+     await page.waitForSelector('[data-testid="shortlist-page"]');
+ 
+     const auditResults = await page.evaluate(() => {
+       function parseRgb(rgbStr) {
++        if (!rgbStr || rgbStr === 'transparent' || rgbStr === 'initial' || rgbStr === 'inherit') {
++          return { r: 0, g: 0, b: 0, a: 0 };
++        }
+         const match = rgbStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+-        if (!match) return { r: 255, g: 255, b: 255, a: 1 };
++        if (!match) return { r: 0, g: 0, b: 0, a: 0 };
+         return {
+           r: parseInt(match[1], 10),
+           g: parseInt(match[2], 10),
+@@ -605,6 +660,34 @@ test.describe('Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3
+         return (lighter + 0.05) / (darker + 0.05);
+       }
+ 
++      function getResolvedBackgroundColor(element) {
++        let el = element;
++        const bgStack = [];
++        while (el && el !== document.documentElement) {
++          const style = window.getComputedStyle(el);
++          const bgStr = style.backgroundColor;
++          const op = parseFloat(style.opacity || '1');
++          const parsed = parseRgb(bgStr);
++          // Ignore unstyled browser root canvas white fallback in dark theme
++          const isRootWhite = (el === document.body || el === document.documentElement) && parsed && parsed.r === 255 && parsed.g === 255 && parsed.b === 255;
++          if (parsed && parsed.a > 0 && !isRootWhite) {
++            bgStack.unshift({ ...parsed, a: parsed.a * op });
++          }
++          el = el.parentElement;
++        }
++        // Base dark theme document background surface (#0E0E0E)
++        let resolved = { r: 14, g: 14, b: 14, a: 1 };
++        for (const layer of bgStack) {
++          resolved = {
++            r: Math.round(layer.r * layer.a + resolved.r * (1 - layer.a)),
++            g: Math.round(layer.g * layer.a + resolved.g * (1 - layer.a)),
++            b: Math.round(layer.b * layer.a + resolved.b * (1 - layer.a)),
++            a: 1,
++          };
++        }
++        return resolved;
++      }
++
+       const elementsToAudit = [
+         { label: 'shortlist-subtitle', selector: '[data-testid="shortlist-subtitle"]', threshold: 4.5 },
+         { label: 'pagination-count-label', selector: '[data-testid="pagination-count-label"]', threshold: 4.5 },
+@@ -620,29 +703,35 @@ test.describe('Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3
+ 
+       return elementsToAudit.map((item) => {
+         const el = document.querySelector(item.selector);
+-        if (!el) return { label: item.label, found: false };
++        if (!el) return { label: item.label, found: false, error: 'Element missing' };
+ 
+         const style = window.getComputedStyle(el);
+         const fg = parseRgb(style.color);
++        const opacity = parseFloat(style.opacity || '1');
+         
+-        // Compositing against panel/page background (#111111 or #0E0E0E)
+-        const panelBg = { r: 17, g: 17, b: 17, a: 1 };
++        const resolvedBg = getResolvedBackgroundColor(el);
++        if (!resolvedBg) return { label: item.label, found: false, error: 'No opaque background resolved' };
++
+         const compositedFg = {
+-          r: Math.round(fg.r * fg.a + panelBg.r * (1 - fg.a)),
+-          g: Math.round(fg.g * fg.a + panelBg.g * (1 - fg.a)),
+-          b: Math.round(fg.b * fg.a + panelBg.b * (1 - fg.a)),
++          r: Math.round(fg.r * fg.a * opacity + resolvedBg.r * (1 - fg.a * opacity)),
++          g: Math.round(fg.g * fg.a * opacity + resolvedBg.g * (1 - fg.a * opacity)),
++          b: Math.round(fg.b * fg.a * opacity + resolvedBg.b * (1 - fg.a * opacity)),
+         };
+ 
+-        const ratio = getContrastRatio(compositedFg, panelBg);
++        const ratio = getContrastRatio(compositedFg, resolvedBg);
++        const fgHex = `#${compositedFg.r.toString(16).padStart(2, '0')}${compositedFg.g.toString(16).padStart(2, '0')}${compositedFg.b.toString(16).padStart(2, '0')}`;
++        const bgHex = `#${resolvedBg.r.toString(16).padStart(2, '0')}${resolvedBg.g.toString(16).padStart(2, '0')}${resolvedBg.b.toString(16).padStart(2, '0')}`;
++
+         return {
+           label: item.label,
+           found: true,
+           color: style.color,
+           backgroundColor: style.backgroundColor,
+-          opacity: style.opacity,
++          resolvedBgHex: bgHex,
++          compositedFgHex: fgHex,
++          opacity: opacity,
+           fontSize: style.fontSize,
+           fontWeight: style.fontWeight,
+-          compositedFgHex: `#${compositedFg.r.toString(16).padStart(2, '0')}${compositedFg.g.toString(16).padStart(2, '0')}${compositedFg.b.toString(16).padStart(2, '0')}`,
+           ratio: parseFloat(ratio.toFixed(2)),
+           threshold: item.threshold,
+           pass: ratio >= item.threshold,
+@@ -651,6 +740,7 @@ test.describe('Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3
+     });
+ 
+     for (const res of auditResults) {
++      console.log(`[WCAG CONTRAST AUDIT] Element: ${res.label} | Fg: ${res.compositedFgHex} | Bg: ${res.resolvedBgHex} | Size: ${res.fontSize} (${res.fontWeight}) | Ratio: ${res.ratio}:1 (Min: ${res.threshold}:1) | Status: ${res.pass ? 'PASS' : 'FAIL'}`);
+       expect(res.found).toBe(true);
+       expect(res.pass).toBe(true);
+     }
+diff --git a/apps/web/__tests__/packet/CandidateTrustPacketAssertions.test.js b/apps/web/__tests__/packet/CandidateTrustPacketAssertions.test.js
+index 9e9e780..dc001a1 100644
+--- a/apps/web/__tests__/packet/CandidateTrustPacketAssertions.test.js
++++ b/apps/web/__tests__/packet/CandidateTrustPacketAssertions.test.js
+@@ -43,13 +43,14 @@ const cohortExtractionIds = [
+ ];
+ 
+ test.describe('Candidate Trust Packet UX-V2-D1-C6 Assertion Suite', () => {
++  test.setTimeout(60000);
+ 
+   test.beforeEach(async ({ page }) => {
+     await page.goto('http://localhost:3000/auth', { waitUntil: 'domcontentloaded' });
+     await page.fill('input[type="email"]', 'd2c.alpha.owner@example.com');
+     await page.fill('input[type="password"]', pwd);
+     await page.click('button[type="submit"]');
+-    await page.waitForFunction(() => window.location.pathname !== '/auth', { timeout: 15000 });
++    await page.waitForURL((url) => url.pathname !== '/auth', { timeout: 20000 });
+   });
+ 
+   for (const extractionId of cohortExtractionIds) {
+diff --git a/apps/web/components/shortlist/ShortlistHeader.jsx b/apps/web/components/shortlist/ShortlistHeader.jsx
+index 1365ad6..9518e62 100644
+--- a/apps/web/components/shortlist/ShortlistHeader.jsx
++++ b/apps/web/components/shortlist/ShortlistHeader.jsx
+@@ -29,7 +29,7 @@ export default function ShortlistHeader({
+               {roleTitle || "Candidate Shortlist"}
+             </h1>
+             <span
+-              className="px-2.5 py-0.5 rounded-full border border-[#343434] bg-[#1A1A1A] text-[#F2F2F2]/80 text-[10px] font-mono font-medium"
++              className="px-2.5 py-0.5 rounded-full border border-[#343434] bg-[#1A1A1A] text-[#F2F2F2] text-[10px] font-mono font-medium"
+               data-testid="cohort-candidates-badge"
+             >
+               {cohortCandidates} Cohort Candidates

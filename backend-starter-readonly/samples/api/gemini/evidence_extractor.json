@@ -1,0 +1,20 @@
+{
+  "input_text": "Owned a production document-ingestion service processing 2.4 million files per month. Designed an idempotent queue workflow with retry topics and dead-letter recovery, reducing duplicate processing from 2.8 percent to 0.08 percent.",
+  "context": {
+    "candidate_id": "00000000-0000-0000-0000-000000000101",
+    "evidence": [
+      {
+        "id": "00000000-0000-0000-0000-000000000201",
+        "document": "CAND-001_resume.pdf",
+        "page": 1,
+        "excerpt": "Owned a production document-ingestion service processing 2.4 million files per month."
+      },
+      {
+        "id": "00000000-0000-0000-0000-000000000202",
+        "document": "CAND-001_resume.pdf",
+        "page": 1,
+        "excerpt": "Designed an idempotent queue workflow with retry topics and dead-letter recovery, reducing duplicate processing from 2.8 percent to 0.08 percent."
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+careertwin-monorepo/
+├── .env.example
+├── .gitignore
+├── AGENTS.md
+├── FOUNDER_BUILD_PROTOCOL.md
+├── README.md
+├── apps/
+│   └── web/
+│       └── .gitkeep
+├── docs/
+│   ├── architecture/
+│   │   └── STEP3_REVIEW_CORRECTIONS.md
+│   ├── private/
+│   │   └── ip-specs/
+│   │       └── .gitkeep
+│   ├── product/
+│   │   └── .gitkeep
+│   └── security/
+│       └── .gitkeep
+├── evals/
+│   ├── golden/
+│   │   └── v2/
+│   │       └── .gitkeep
+│   └── safety/
+│       └── .gitkeep
+├── infra/
+│   ├── database/
+│   │   └── .gitkeep
+│   ├── deployment/
+│   │   └── .gitkeep
+│   └── monitoring/
+│       └── .gitkeep
+├── packages/
+│   ├── hiring-genome/
+│   │   └── .gitkeep
+│   ├── proof-engine/
+│   │   └── .gitkeep
+│   ├── shared-contracts/
+│   │   └── .gitkeep
+│   └── ui/
+│       └── .gitkeep
+└── services/
+    ├── api/
+    │   └── .gitkeep
+    └── worker/
+        └── .gitkeep
+
+Summary: 16 directories, 21 files.

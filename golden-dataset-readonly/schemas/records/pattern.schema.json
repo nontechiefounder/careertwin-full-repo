@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synthetic.careertwin.local/schemas/records/pattern.schema.json",
+  "title": "CareerTWiN Pattern Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "synthetic",
+    "source_refs",
+    "created_at",
+    "difficulty"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "synthetic": {
+      "const": true
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "const": "2026-07-26T00:00:00Z"
+    },
+    "difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard",
+        "adversarial"
+      ]
+    },
+    "failure_mode": {
+      "enum": [
+        "unsupported_to_verified",
+        "adjacent_fit_confusion",
+        "ownership_overclaim",
+        "protected_proxy",
+        "contradiction",
+        "noisy_source",
+        "duplicate_identity",
+        "human_override",
+        "evidence_withheld",
+        "proof_loop_failure"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

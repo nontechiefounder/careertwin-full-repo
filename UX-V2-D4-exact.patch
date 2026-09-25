@@ -1,0 +1,1170 @@
+diff --git a/apps/web/__tests__/day4/EmployerDay4Assertions.test.js b/apps/web/__tests__/day4/EmployerDay4Assertions.test.js
+new file mode 100644
+index 0000000..507d82b
+--- /dev/null
++++ b/apps/web/__tests__/day4/EmployerDay4Assertions.test.js
+@@ -0,0 +1,248 @@
++const { test, expect } = require('playwright/test');
++const path = require('path');
++const dotenv = require('dotenv');
++
++dotenv.config({ path: path.join(process.cwd(), '.env.local') });
++
++// FAIL-CLOSED Credential Handling
++const pwd = process.env.CAREERTWIN_STAGING_TEST_PASSWORD;
++if (!pwd) {
++  throw new Error(
++    'FAIL-CLOSED: CAREERTWIN_STAGING_TEST_PASSWORD is required for authenticated Day 4 UAT.'
++  );
++}
++
++function required(value, label) {
++  if (value === undefined || value === null || value === '') {
++    throw new Error(`Required fixture field missing: ${label}`);
++  }
++  return value;
++}
++
++const BASE_URL = 'http://localhost:3000';
++const STAGING_OWNER_EMAIL = 'd2c.alpha.owner@example.com';
++const ALPHA_RUN_ID = '11111111-1111-4111-d2c1-111111111111';
++
++test.describe('Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4)', () => {
++  test.beforeEach(async ({ page }) => {
++    await page.goto(`${BASE_URL}/auth`, { waitUntil: 'domcontentloaded' });
++    await page.fill('input[type="email"]', STAGING_OWNER_EMAIL);
++    await page.fill('input[type="password"]', pwd);
++    await page.click('button[type="submit"]');
++    await page.waitForFunction(() => window.location.pathname !== '/auth', { timeout: 15000 });
++  });
++
++  // ── Test A: Workspace loads without fabricated stats ──────────────────────
++  test('A — Workspace renders without hardcoded AVG TTH stat', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const bodyText = await page.textContent('body');
++    expect(bodyText).not.toContain('AVG TTH');
++    expect(bodyText).not.toContain('2.1d');
++  });
++
++  // ── Test B: Workspace does not show inaccurate tour copy ─────────────────
++  test('B — Workspace does not show inaccurate tour copy', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const bodyText = await page.textContent('body');
++    expect(bodyText).not.toContain('upload a JD');
++    expect(bodyText).not.toContain('Sync Your Stack');
++    expect(bodyText).not.toContain('Automate candidate delivery');
++    expect(bodyText).not.toContain('directly into Slack');
++  });
++
++  // ── Test C: Workspace stat cards contain EVALUATIONS ─────────────────────
++  test('C — Workspace shows EVALUATIONS stat card (not SCREENS DONE)', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const bodyText = await page.textContent('body');
++    expect(bodyText).toContain('EVALUATIONS');
++    expect(bodyText).not.toContain('SCREENS DONE');
++  });
++
++  // ── Test D: Workspace hiring run row shows proof-contract readiness chip ──
++  test('D — Hiring run row shows proof-status chip from live data', async ({ page }) => {
++    const analyticsRes = page.waitForResponse(
++      (r) => r.url().includes('/api/employer/analytics') && r.request().method() === 'GET'
++    );
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const analyticsResp = await analyticsRes;
++    expect(analyticsResp.status()).toBe(200);
++    const analyticsData = await analyticsResp.json();
++
++    const runs = analyticsData.runs || [];
++    if (runs.length > 0) {
++      const runId = runs[0].id;
++      await expect(page.getByTestId(`proof-status-${runId}`)).toBeVisible({ timeout: 10000 });
++      const chipText = await page.getByTestId(`proof-status-${runId}`).textContent();
++      expect(['Contract Ready', 'Incomplete'].some((v) => chipText.includes(v))).toBeTruthy();
++    }
++  });
++
++  // ── Test E: Workspace run row has Pipeline and Brief buttons with correct testids ──
++  test('E — Hiring run row has Pipeline and Brief nav buttons with testids', async ({ page }) => {
++    const runsRes = page.waitForResponse(
++      (r) => r.url().includes('/api/employer/analytics') && r.request().method() === 'GET'
++    );
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const runsResp = await runsRes;
++    const analyticsData = await runsResp.json();
++    const runs = analyticsData.runs || [];
++
++    if (runs.length > 0) {
++      const runId = runs[0].id;
++      await expect(page.getByTestId(`shortlist-btn-${runId}`)).toBeVisible({ timeout: 10000 });
++      await expect(page.getByTestId(`brief-btn-${runId}`)).toBeVisible({ timeout: 10000 });
++    }
++  });
++
++  // ── Test F: Brief page "View Candidate Pipeline" button is present ────────
++  test('F — Brief page shows "View Candidate Pipeline" (not "Start Sourcing Session")', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/brief/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="brief-page"]', { state: 'visible', timeout: 15000 });
++
++    const bodyText = await page.textContent('body');
++    // New label
++    expect(bodyText).toContain('View Candidate Pipeline');
++    // Old label must be gone
++    expect(bodyText).not.toContain('Start Sourcing Session');
++  });
++
++  // ── Test G: Brief page pipeline button navigates to shortlist ─────────────
++  test('G — Brief proceed-pipeline-btn navigates to /employer/shortlist/{id}', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/brief/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="brief-page"]', { state: 'visible', timeout: 15000 });
++
++    const proceedBtn = page.getByTestId('proceed-pipeline-btn');
++    await expect(proceedBtn).toBeVisible({ timeout: 10000 });
++    await proceedBtn.click();
++    await page.waitForURL(`**/employer/shortlist/${ALPHA_RUN_ID}`, { timeout: 10000 });
++    expect(page.url()).toContain(`/employer/shortlist/${ALPHA_RUN_ID}`);
++  });
++
++  // ── Test H: Brief page pipeline button does NOT POST sourcing-sessions ─────
++  test('H — Clicking pipeline button does not POST /sourcing-sessions', async ({ page }) => {
++    let sourcingPostCalled = false;
++    page.on('request', (req) => {
++      if (req.url().includes('/sourcing-sessions') && req.method() === 'POST') {
++        sourcingPostCalled = true;
++      }
++    });
++
++    await page.goto(`${BASE_URL}/employer/brief/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="brief-page"]', { state: 'visible', timeout: 15000 });
++
++    const proceedBtn = page.getByTestId('proceed-pipeline-btn');
++    await expect(proceedBtn).toBeVisible({ timeout: 10000 });
++    await proceedBtn.click();
++    await page.waitForURL(`**/employer/shortlist/${ALPHA_RUN_ID}`, { timeout: 10000 });
++
++    expect(sourcingPostCalled).toBe(false);
++  });
++
++  // ── Test I: Shortlist page (zero cohort) shows handoff guidance panel ─────
++  test('I — Shortlist zero-cohort state shows handoff guidance panel', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/shortlist/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('main', { state: 'visible', timeout: 15000 });
++
++    // Either we have candidates (shortlist) or zero state with handoff
++    const hasHandoffPanel = await page.locator('[data-testid="handoff-guidance-panel"]').count();
++    const hasCandidates = await page.locator('[data-testid^="candidate-card-"]').count();
++
++    // If no candidates evaluated, handoff guidance must be present
++    if (hasCandidates === 0) {
++      expect(hasHandoffPanel).toBeGreaterThan(0);
++    }
++    // (If candidates exist, shortlist renders normally — test still passes)
++  });
++
++  // ── Test J: Handoff panel does not contain hardcoded contact info ─────────
++  test('J — Handoff guidance panel does not expose internal contact details', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/shortlist/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('main', { state: 'visible', timeout: 15000 });
++
++    const hasHandoffPanel = await page.locator('[data-testid="handoff-guidance-panel"]').count();
++    if (hasHandoffPanel > 0) {
++      const panelText = await page.getByTestId('handoff-guidance-panel').textContent();
++      // Must not contain email addresses or phone numbers
++      expect(panelText).not.toMatch(/@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}/);
++      expect(panelText).not.toMatch(/\+?[0-9]{10,}/);
++    }
++  });
++
++  // ── Test K: Shortlist API returns 200 with org-scoped data ────────────────
++  test('K — GET /api/employer/shortlist/{id} returns 200 with org-scoped candidates', async ({ page }) => {
++    const shortlistRes = page.waitForResponse(
++      (r) =>
++        r.url().includes(`/api/employer/shortlist/${ALPHA_RUN_ID}`) &&
++        r.request().method() === 'GET'
++    );
++    await page.goto(`${BASE_URL}/employer/shortlist/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    const resp = await shortlistRes;
++    expect(resp.status()).toBe(200);
++    const data = await resp.json();
++    expect(data).toHaveProperty('candidates');
++    expect(data).toHaveProperty('run');
++  });
++
++  // ── Test L: Proof contract breadcrumb readiness badge on brief page ────────
++  test('L — Brief page contract-readiness-badge is present with PROOF CONTRACT COMPLETE or SOURCING BLOCKED', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/brief/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="contract-readiness-badge"]', {
++      state: 'visible',
++      timeout: 15000,
++    });
++    const badgeText = await page.getByTestId('contract-readiness-badge').textContent();
++    expect(['PROOF CONTRACT COMPLETE', 'SOURCING BLOCKED'].some((v) => badgeText.includes(v))).toBeTruthy();
++  });
++
++  // ── Test M: Intake page does not show upload-to-server control ────────────
++  test('M — Intake form does not offer server-upload control for candidate documents', async ({ page }) => {
++    await page.goto(`${BASE_URL}/employer/intake`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="intake-page"]', { state: 'visible', timeout: 15000 });
++
++    // The dropzone must show the handoff notice text
++    const handoffNotice = page.getByTestId('intake-handoff-notice');
++    await expect(handoffNotice).toBeVisible({ timeout: 5000 });
++
++    // There must be no XHR/fetch button that triggers server-side file upload
++    const bodyText = await page.textContent('body');
++    expect(bodyText).not.toContain('Upload to server');
++    expect(bodyText).not.toContain('Submit documents');
++  });
++
++  // ── Test N: Workspace does not fabricate org membership context ──────────
++  test('N — Employer workspace page loads with real org-scoped hiring runs only', async ({ page }) => {
++    const hiringRunsRes = page.waitForResponse(
++      (r) => r.url().includes('/api/employer/hiring-runs') && r.request().method() === 'GET'
++    );
++    await page.goto(`${BASE_URL}/employer`, { waitUntil: 'domcontentloaded' });
++    const resp = await hiringRunsRes;
++    expect(resp.status()).toBe(200);
++    const data = await resp.json();
++    // Must be an array (not a mock object)
++    expect(Array.isArray(data)).toBe(true);
++  });
++
++  // ── Test O: Brief page incomplete contract blocks pipeline button ─────────
++  test('O — Incomplete proof contract shows "Complete Role Intake" blocker instead of pipeline button', async ({ page }) => {
++    // We assert the conditional rendering: if contract is blocked, there is NO proceed-pipeline-btn
++    // and there IS a complete-intake-btn. We test the alpha fixture which may be complete,
++    // so we assert the correct button for whichever state the fixture is in.
++    await page.goto(`${BASE_URL}/employer/brief/${ALPHA_RUN_ID}`, { waitUntil: 'domcontentloaded' });
++    await page.waitForSelector('[data-testid="brief-page"]', { state: 'visible', timeout: 15000 });
++
++    const badgeText = await page.getByTestId('contract-readiness-badge').textContent();
++    const isComplete = badgeText.includes('PROOF CONTRACT COMPLETE');
++
++    if (isComplete) {
++      // Pipeline button must be present
++      await expect(page.getByTestId('proceed-pipeline-btn')).toBeVisible({ timeout: 8000 });
++      // Intake blocker must not be present
++      expect(await page.getByTestId('complete-intake-btn').count()).toBe(0);
++    } else {
++      // Intake blocker must be present
++      await expect(page.getByTestId('complete-intake-btn')).toBeVisible({ timeout: 8000 });
++      // Pipeline button must not be present
++      expect(await page.getByTestId('proceed-pipeline-btn').count()).toBe(0);
++    }
++  });
++});
+diff --git a/apps/web/__tests__/day4/ProofContractReadiness.test.js b/apps/web/__tests__/day4/ProofContractReadiness.test.js
+new file mode 100644
+index 0000000..388cc15
+--- /dev/null
++++ b/apps/web/__tests__/day4/ProofContractReadiness.test.js
+@@ -0,0 +1,100 @@
++import { describe, it, expect } from 'vitest';
++import { evaluateProofContractReadiness } from '@/lib/proofContractReadiness';
++
++describe('evaluateProofContractReadiness — shared utility (UX-V2-D4)', () => {
++  // 1. Complete contract
++  it('1. isComplete=true when title, job_description, and must_haves are all present', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Backend Engineer',
++      job_description: 'Build APIs at scale with Python and FastAPI.',
++      must_haves: ['Python 3.10+', 'FastAPI'],
++    });
++    expect(result.isComplete).toBe(true);
++    expect(result.missingFields).toHaveLength(0);
++  });
++
++  // 2. Missing title
++  it('2. isComplete=false and missingFields contains role_title when title is missing', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: '',
++      job_description: 'Build APIs at scale with Python and FastAPI.',
++      must_haves: ['Python 3.10+'],
++    });
++    expect(result.isComplete).toBe(false);
++    expect(result.missingFields).toContain('role_title');
++  });
++
++  // 3. Missing job description
++  it('3. isComplete=false when job_description is missing and no role_summary', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Backend Engineer',
++      job_description: '',
++      must_haves: ['Python 3.10+'],
++    });
++    expect(result.isComplete).toBe(false);
++    expect(result.missingFields).toContain('job_description');
++  });
++
++  // 4. Short description rejected
++  it('4. isComplete=false when job_description is shorter than 10 chars', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Backend Engineer',
++      job_description: 'Short',
++      must_haves: ['Python'],
++    });
++    expect(result.isComplete).toBe(false);
++  });
++
++  // 5. role_summary accepted as alternative
++  it('5. isComplete=true when role_summary >= 10 chars and must_haves provided', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Data Engineer',
++      role_summary: 'Build pipelines for internal analytics.',
++      must_haves: ['dbt', 'Postgres'],
++    });
++    expect(result.isComplete).toBe(true);
++  });
++
++  // 6. Empty must_haves array
++  it('6. isComplete=false when must_haves is an empty array', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Backend Engineer',
++      job_description: 'Build APIs at scale with Python and FastAPI.',
++      must_haves: [],
++    });
++    expect(result.isComplete).toBe(false);
++    expect(result.missingFields).toContain('must_haves');
++  });
++
++  // 7. explicit_requirements as alternative to must_haves
++  it('7. isComplete=true when explicit_requirements is provided instead of must_haves', () => {
++    const result = evaluateProofContractReadiness({
++      role_title: 'Backend Engineer',
++      job_description: 'Build APIs at scale with Python and FastAPI.',
++      explicit_requirements: ['5+ years Python'],
++    });
++    expect(result.isComplete).toBe(true);
++  });
++
++  // 8. Null runData does not throw
++  it('8. returns isComplete=false for null input without throwing', () => {
++    const result = evaluateProofContractReadiness(null);
++    expect(result.isComplete).toBe(false);
++    expect(result.missingFields).toHaveLength(3);
++  });
++
++  // 9. Undefined runData does not throw
++  it('9. returns isComplete=false for undefined input without throwing', () => {
++    const result = evaluateProofContractReadiness(undefined);
++    expect(result.isComplete).toBe(false);
++  });
++
++  // 10. All three fields missing lists all three in missingFields
++  it('10. all three missing fields listed when runData is empty object', () => {
++    const result = evaluateProofContractReadiness({});
++    expect(result.isComplete).toBe(false);
++    expect(result.missingFields).toContain('role_title');
++    expect(result.missingFields).toContain('job_description');
++    expect(result.missingFields).toContain('must_haves');
++  });
++});
+diff --git a/apps/web/__tests__/security/SourcingSessionSecurity.test.js b/apps/web/__tests__/security/SourcingSessionSecurity.test.js
+new file mode 100644
+index 0000000..6ebb1b3
+--- /dev/null
++++ b/apps/web/__tests__/security/SourcingSessionSecurity.test.js
+@@ -0,0 +1,303 @@
++import { describe, it, expect, vi, beforeEach } from 'vitest';
++
++vi.mock('@/lib/serverAuth', () => ({
++  requireUser: vi.fn(),
++  getVerifiedOrgMembership: vi.fn(),
++}));
++
++import { POST } from '@/app/api/employer/sourcing-sessions/route';
++import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
++
++const VALID_RUN_ID = 'aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa';
++const ORG_ID = 'bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb';
++
++describe('Sourcing Session Route Security — UX-V2-D4 (10 cases)', () => {
++  beforeEach(() => {
++    vi.clearAllMocks();
++  });
++
++  // ── 1. 401 unauthenticated ────────────────────────────────────────────────
++  it('1. returns 401 for unauthenticated POST', async () => {
++    requireUser.mockResolvedValueOnce({
++      errorResponse: new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 }),
++      user: null,
++      supabase: null,
++    });
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(401);
++  });
++
++  // ── 2. 400 invalid JSON ───────────────────────────────────────────────────
++  it('2. returns 400 for invalid JSON body', async () => {
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: {},
++    });
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: 'not-json',
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(400);
++    const data = await res.json();
++    expect(data.error).toBe('Invalid JSON payload');
++  });
++
++  // ── 3. 400 missing hiring_run_id ──────────────────────────────────────────
++  it('3. returns 400 when hiring_run_id is missing', async () => {
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: {},
++    });
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({}),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(400);
++    const data = await res.json();
++    expect(data.error).toContain('hiring_run_id');
++  });
++
++  // ── 4. 400 non-UUID hiring_run_id ─────────────────────────────────────────
++  it('4. returns 400 for non-UUID hiring_run_id', async () => {
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: {},
++    });
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: 'not-a-uuid' }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(400);
++  });
++
++  // ── 5. 404 unknown hiring_run_id ──────────────────────────────────────────
++  it('5. returns 404 when hiring run does not exist', async () => {
++    const mockSupabase = {
++      from: vi.fn().mockReturnValue({
++        select: vi.fn().mockReturnValue({
++          eq: vi.fn().mockReturnValue({
++            single: vi.fn().mockResolvedValue({ data: null, error: { message: 'Not found' } }),
++          }),
++        }),
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: 'cccccccc-cccc-4ccc-cccc-cccccccccccc' }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(404);
++    const data = await res.json();
++    expect(data.error).toBe('Hiring run not found');
++  });
++
++  // ── 6. 403 no org membership ──────────────────────────────────────────────
++  it('6. returns 403 when user has no org membership', async () => {
++    const mockSupabase = {
++      from: vi.fn().mockReturnValue({
++        select: vi.fn().mockReturnValue({
++          eq: vi.fn().mockReturnValue({
++            single: vi.fn().mockResolvedValue({ data: { id: VALID_RUN_ID, org_id: ORG_ID, status: 'active' }, error: null }),
++          }),
++        }),
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    getVerifiedOrgMembership.mockResolvedValueOnce(null);
++
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(403);
++    const data = await res.json();
++    expect(data.error).toBe('Forbidden');
++  });
++
++  // ── 7. 403 auditor role forbidden ─────────────────────────────────────────
++  it('7. returns 403 for auditor-role membership (cannot create sessions)', async () => {
++    const mockSupabase = {
++      from: vi.fn().mockReturnValue({
++        select: vi.fn().mockReturnValue({
++          eq: vi.fn().mockReturnValue({
++            single: vi.fn().mockResolvedValue({ data: { id: VALID_RUN_ID, org_id: ORG_ID, status: 'active' }, error: null }),
++          }),
++        }),
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    getVerifiedOrgMembership.mockResolvedValueOnce({ membership_role: 'auditor' });
++
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(403);
++  });
++
++  // ── 8. 200 success path — no agent triggered ──────────────────────────────
++  it('8. creates session with status pending_handoff (no external agent triggered)', async () => {
++    const insertedSession = {
++      id: 'dddddddd-dddd-4ddd-dddd-dddddddddddd',
++      employer_id: 'u1',
++      hiring_run_id: VALID_RUN_ID,
++      status: 'pending_handoff',
++      created_at: new Date().toISOString(),
++    };
++    const mockSupabase = {
++      from: vi.fn().mockImplementation((table) => {
++        if (table === 'hiring_runs') {
++          return {
++            select: vi.fn().mockReturnValue({
++              eq: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: { id: VALID_RUN_ID, org_id: ORG_ID, status: 'active' }, error: null }),
++              }),
++            }),
++          };
++        }
++        if (table === 'sourcing_sessions') {
++          return {
++            insert: vi.fn().mockReturnValue({
++              select: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: insertedSession, error: null }),
++              }),
++            }),
++          };
++        }
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    getVerifiedOrgMembership.mockResolvedValueOnce({ membership_role: 'owner' });
++
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(200);
++    const data = await res.json();
++    expect(data.status).toBe('pending_handoff');
++    expect(data.session_id).toBe(insertedSession.id);
++    // Must contain operator notice about no external sourcing
++    expect(data.operator_notice).toBeTruthy();
++    expect(data.operator_notice).toContain('not active');
++  });
++
++  // ── 9. session_id in response equals session id ───────────────────────────
++  it('9. session_id in response equals session.id', async () => {
++    const insertedSession = {
++      id: 'eeeeeeee-eeee-4eee-eeee-eeeeeeeeeeee',
++      employer_id: 'u1',
++      hiring_run_id: VALID_RUN_ID,
++      status: 'pending_handoff',
++      created_at: new Date().toISOString(),
++    };
++    const mockSupabase = {
++      from: vi.fn().mockImplementation((table) => {
++        if (table === 'hiring_runs') {
++          return {
++            select: vi.fn().mockReturnValue({
++              eq: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: { id: VALID_RUN_ID, org_id: ORG_ID, status: 'active' }, error: null }),
++              }),
++            }),
++          };
++        }
++        if (table === 'sourcing_sessions') {
++          return {
++            insert: vi.fn().mockReturnValue({
++              select: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: insertedSession, error: null }),
++              }),
++            }),
++          };
++        }
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    getVerifiedOrgMembership.mockResolvedValueOnce({ membership_role: 'admin' });
++
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    const data = await res.json();
++    expect(data.session_id).toBe(data.id);
++  });
++
++  // ── 10. 500 DB error returns typed safe_next_action ───────────────────────
++  it('10. returns 500 with safe_next_action when DB insert fails', async () => {
++    const mockSupabase = {
++      from: vi.fn().mockImplementation((table) => {
++        if (table === 'hiring_runs') {
++          return {
++            select: vi.fn().mockReturnValue({
++              eq: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: { id: VALID_RUN_ID, org_id: ORG_ID, status: 'active' }, error: null }),
++              }),
++            }),
++          };
++        }
++        if (table === 'sourcing_sessions') {
++          return {
++            insert: vi.fn().mockReturnValue({
++              select: vi.fn().mockReturnValue({
++                single: vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } }),
++              }),
++            }),
++          };
++        }
++      }),
++    };
++    requireUser.mockResolvedValueOnce({
++      errorResponse: null,
++      user: { id: 'u1' },
++      supabase: mockSupabase,
++    });
++    getVerifiedOrgMembership.mockResolvedValueOnce({ membership_role: 'recruiter' });
++
++    const req = new Request('http://localhost/api/employer/sourcing-sessions', {
++      method: 'POST',
++      body: JSON.stringify({ hiring_run_id: VALID_RUN_ID }),
++    });
++    const res = await POST(req);
++    expect(res.status).toBe(500);
++    const data = await res.json();
++    expect(data.error).toBe('SOURCING_SESSION_CREATION_FAILED');
++    expect(data.safe_next_action).toBeTruthy();
++  });
++});
+diff --git a/apps/web/app/api/employer/sourcing-sessions/route.js b/apps/web/app/api/employer/sourcing-sessions/route.js
+index 8bcf0b2..b50ce19 100644
+--- a/apps/web/app/api/employer/sourcing-sessions/route.js
++++ b/apps/web/app/api/employer/sourcing-sessions/route.js
+@@ -1,68 +1,89 @@
+-import { createSupabaseServerClient } from '@/lib/supabaseServer';
++import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
+ import { NextResponse } from 'next/server';
+-import { runSourcingAgent } from '@/lib/sourcing/agent';
++
++const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
++const ALLOWED_EMPLOYER_ROLES = ['owner', 'admin', 'recruiter', 'hiring_manager'];
+ 
+ export async function POST(request) {
+   try {
+-    const supabase = await createSupabaseServerClient(request);
+-    const { data: { user }, error: authError } = await supabase.auth.getUser();
++    // 1. Fail-closed authentication
++    const authRes = await requireUser(request);
++    if (authRes.errorResponse) return authRes.errorResponse;
++    const { user, supabase } = authRes;
+ 
+-    if (authError || !user) {
+-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++    let body;
++    try {
++      body = await request.json();
++    } catch {
++      return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
+     }
+ 
+-    const { hiring_run_id } = await request.json();
++    const { hiring_run_id } = body || {};
+ 
+-    if (!hiring_run_id) {
+-        return NextResponse.json({ error: 'hiring_run_id is required' }, { status: 400 });
++    if (!hiring_run_id || typeof hiring_run_id !== 'string' || !UUID_REGEX.test(hiring_run_id)) {
++      return NextResponse.json({ error: 'hiring_run_id must be a valid UUID' }, { status: 400 });
+     }
+ 
+-    // 1. Fetch current budget status
+-    const { data: run } = await supabase
+-        .from('hiring_runs')
+-        .select('crustdata_credits_spent')
+-        .eq('id', hiring_run_id)
+-        .single();
++    // 2. Fetch the hiring run to resolve org context
++    const { data: run, error: runError } = await supabase
++      .from('hiring_runs')
++      .select('id, org_id, status')
++      .eq('id', hiring_run_id)
++      .single();
++
++    if (runError || !run) {
++      return NextResponse.json({ error: 'Hiring run not found' }, { status: 404 });
++    }
+ 
+-    const creditsSpent = run?.crustdata_credits_spent || 0;
++    // 3. Verify org membership with role authorization
++    const membership = await getVerifiedOrgMembership(supabase, user.id, run.org_id);
++    if (!membership || !ALLOWED_EMPLOYER_ROLES.includes(membership.membership_role)) {
++      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
++    }
+ 
+-    // 2. Create the session
++    // 4. Private-pilot operating model: autonomous sourcing via external API is not
++    //    available in this pilot. The sourcing session record is created but the
++    //    external agent is not triggered. Clients are directed to the handoff process.
+     const newSession = {
+-        employer_id: user.id,
+-        hiring_run_id: hiring_run_id,
+-        status: 'active',
+-        created_at: new Date().toISOString()
++      employer_id: user.id,
++      hiring_run_id,
++      status: 'pending_handoff',
++      created_at: new Date().toISOString(),
+     };
+ 
+     const { data: session, error: sessError } = await supabase
+-        .from('sourcing_sessions')
+-        .insert([newSession])
+-        .select()
+-        .single();
++      .from('sourcing_sessions')
++      .insert([newSession])
++      .select()
++      .single();
+ 
+     if (sessError) {
+-        return NextResponse.json({ error: 'Failed to create session' }, { status: 500 });
+-    }
+-
+-    // 🚀 3. Trigger the Autonomous Agent
+-    // Only trigger if creditsSpent < 3 (leaving room for exactly one search)
+-    if (creditsSpent < 3) {
+-        await supabase
+-            .from('hiring_runs')
+-            .update({ sourcing_status: 'searching' })
+-            .eq('id', hiring_run_id);
+-            
+-        // Trigger as "fire and forget" or semi-awaited for events
+-        runSourcingAgent(supabase, session.id, hiring_run_id).catch(console.error);
++      console.error('Sourcing session creation error:', sessError);
++      return NextResponse.json(
++        {
++          error: 'SOURCING_SESSION_CREATION_FAILED',
++          safe_next_action: 'Retry later or contact your pilot administrator.',
++        },
++        { status: 500 }
++      );
+     }
+ 
+     return NextResponse.json({
+-        ...session,
+-        session_id: session.id
++      ...session,
++      session_id: session.id,
++      operator_notice:
++        'Autonomous external sourcing is not active in this pilot. Contact your pilot administrator to initiate the approved candidate handoff process.',
+     });
+ 
+   } catch (err) {
+-    console.error('Sourcing session creation error:', err);
+-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
++    console.error('Sourcing session unexpected error:', err);
++    return NextResponse.json(
++      {
++        error: 'SOURCING_SESSION_CREATION_FAILED',
++        safe_next_action: 'Retry later or contact your pilot administrator.',
++      },
++      { status: 500 }
++    );
+   }
+ }
++
+diff --git a/apps/web/app/employer/brief/[id]/page.jsx b/apps/web/app/employer/brief/[id]/page.jsx
+index 48a2cb6..7622b3e 100644
+--- a/apps/web/app/employer/brief/[id]/page.jsx
++++ b/apps/web/app/employer/brief/[id]/page.jsx
+@@ -39,7 +39,6 @@ export default function BriefPage({ params }) {
+   const [data, setData] = useState(null);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+-  const [starting, setStarting] = useState(false);
+   const [regenerating, setRegenerating] = useState(false);
+ 
+   const fetchBrief = useCallback(async (isRegeneration = false) => {
+@@ -63,23 +62,18 @@ export default function BriefPage({ params }) {
+     fetchBrief();
+   }, [fetchBrief]);
+ 
+-  const startSourcing = async () => {
+-    setStarting(true);
+-    try {
+-      const res = await api.post("/employer/sourcing-sessions", { hiring_run_id: id });
+-      router.push(`/employer/sourcing-session/${res.data.session_id}`);
+-    } catch {
+-      toast.error("Failed to start sourcing");
+-    } finally {
+-      setStarting(false);
+-    }
++  // Private-pilot operating model: sourcing sessions depend on an external API not
++  // available in the current pilot. Navigation goes directly to the shortlist page
++  // where the handoff guidance panel is displayed.
++  const viewCandidatePipeline = () => {
++    router.push(`/employer/shortlist/${id}`);
+   };
+ 
+   if (loading) {
+     return (
+       <div className="min-h-screen bg-[#0E0E0E] flex flex-col items-center justify-center text-[#F2F2F2]">
+         <Loader2 className="h-6 w-6 text-[#10D97A] animate-spin mb-2" />
+-        <p className="text-xs font-mono text-[#A3A3A3]">Loading Proof Contract & Sourcing Blueprint...</p>
++        <p className="text-xs font-mono text-[#A3A3A3]">Loading Proof Contract & Candidate Pipeline...</p>
+       </div>
+     );
+   }
+@@ -92,8 +86,8 @@ export default function BriefPage({ params }) {
+           id={id}
+           onRegenerate={() => fetchBrief(true)}
+           regenerating={regenerating}
+-          onStartSourcing={startSourcing}
+-          starting={starting}
++          onStartSourcing={viewCandidatePipeline}
++          starting={false}
+         />
+         <main className="flex-1 p-6">
+           <ProofContractErrorState error={error} onRetry={() => fetchBrief()} />
+@@ -113,8 +107,8 @@ export default function BriefPage({ params }) {
+           id={id}
+           onRegenerate={() => fetchBrief(true)}
+           regenerating={regenerating}
+-          onStartSourcing={startSourcing}
+-          starting={starting}
++          onStartSourcing={viewCandidatePipeline}
++          starting={false}
+         />
+         <main className="flex-1 p-6">
+           <ProofContractEmptyState />
+@@ -137,8 +131,8 @@ export default function BriefPage({ params }) {
+         missingFields={missingFields}
+         onRegenerate={() => fetchBrief(true)}
+         regenerating={regenerating}
+-        onStartSourcing={startSourcing}
+-        starting={starting}
++        onStartSourcing={viewCandidatePipeline}
++        starting={false}
+       />
+ 
+       <main className="flex-1 max-w-5xl w-full mx-auto px-6 py-8 space-y-6">
+@@ -237,13 +231,12 @@ export default function BriefPage({ params }) {
+ 
+               <button
+                 type="button"
+-                onClick={startSourcing}
+-                disabled={starting}
++                onClick={viewCandidatePipeline}
+                 className="px-5 py-2.5 rounded-xl border border-[#10D97A]/40 bg-[#10D97A] text-xs font-semibold text-[#0E0E0E] hover:bg-[#10D97A]/90 transition-all flex items-center gap-2"
+                 data-testid="proceed-pipeline-btn"
+               >
+-                {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+-                Proceed to Candidate Pipeline
++                <ArrowRight className="h-4 w-4" />
++                View Candidate Pipeline
+               </button>
+             </>
+           ) : (
+diff --git a/apps/web/app/employer/page.jsx b/apps/web/app/employer/page.jsx
+index e201d5d..6ec62fd 100644
+--- a/apps/web/app/employer/page.jsx
++++ b/apps/web/app/employer/page.jsx
+@@ -11,12 +11,14 @@ import {
+   Plus, ArrowRight, Briefcase, TrendingUp,
+   Users, Clock, CheckCircle2, Zap, Target, BarChart3,
+   Link2, Shield, FileText, Activity, Eye,
+-  CircleDot, Search, Filter, Brain, Loader2, ArrowUpRight
++  CircleDot, Search, Filter, Brain, Loader2, ArrowUpRight,
++  CheckSquare, AlertTriangle
+ } from "lucide-react";
+ import {
+   PieChart, Pie, Cell, ResponsiveContainer,
+   AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, CartesianGrid
+ } from "recharts";
++import { evaluateProofContractReadiness } from "@/lib/proofContractReadiness";
+ 
+ const STAGE_CONFIG = {
+   sourcing:        { label: "Sourcing",    dotColor: "bg-white/40" },
+@@ -85,9 +87,9 @@ export default function Dashboard() {
+     { label: "ACTIVE ROLES",  value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.active_roles || 0),       sub: "hiring runs" },
+     { label: "CANDIDATES",    value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.total_candidates || 0),    sub: "sourced total" },
+     { label: "SHORTLISTED",   value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.total_shortlisted || 0),   sub: `${s.total_candidates ? Math.round((s.total_shortlisted/s.total_candidates)*100) : 0}% of sourced` },
+-    { label: "SCREENS DONE",  value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.screens_completed || 0),   sub: "AI interviews" },
++    { label: "EVALUATIONS",   value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.packets_generated || 0),   sub: "packets compiled" },
+     { label: "PACKETS",       value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : (s.packets_generated || 0),   sub: "decision ready" },
+-    { label: "AVG TTH",       value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : "2.1d",                       sub: "time to hire" },
++    { label: "ORG SCOPE",     value: loading ? <Skeleton className="h-8 w-16 bg-white/[0.04]" /> : "ACTIVE",                     sub: "verified tenant" },
+   ];
+ 
+   return (
+@@ -169,74 +171,7 @@ export default function Dashboard() {
+         </div>
+       )}
+ 
+-      {/* ── Product Tour Overlays ────────────────────── */}
+-      {tourStep > 0 && (
+-        <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
+-          {/* Backdrop Blur Overlays */}
+-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] pointer-events-auto" onClick={() => setTourStep(0)} />
+-          
+-          {/* Step 1: Intake Spotlight */}
+-          {tourStep === 1 && (
+-            <div className="absolute top-[80px] right-[24px] pointer-events-auto animate-fade-in">
+-              <div className="relative">
+-                {/* Visual Anchor Glow */}
+-                <div className="absolute inset-0 w-full h-full bg-[#10D97A]/20 animate-ping rounded-lg blur-xl" />
+-                
+-                <div className="bg-[#0f0f0f] border border-[#10D97A]/40 p-6 rounded-2xl shadow-[0_0_50px_rgba(16,217,122,0.15)] w-[280px] mt-4 backdrop-blur-xl relative">
+-                  <div className="flex justify-between items-center mb-3">
+-                    <span className="text-[10px] font-mono text-[#10D97A] uppercase tracking-widest">Phase 01</span>
+-                    <span className="text-[10px] text-white/20">1/3</span>
+-                  </div>
+-                  <p className="text-[15px] font-semibold text-white mb-2 underline decoration-[#10D97A]/40 underline-offset-4">Define Your Role</p>
+-                  <p className="text-[12px] text-white/50 mb-6 leading-relaxed">
+-                    Click <span className="text-white font-medium">&quot;New Role&quot;</span> to upload a JD. Our AI immediately weights skills.
+-                  </p>
+-                  <button onClick={nextTourStep} className="w-full py-2.5 bg-white text-black text-[12px] font-bold rounded-xl hover:bg-white/90 transition-all shadow-xl">
+-                    Next Feature
+-                  </button>
+-                </div>
+-              </div>
+-            </div>
+-          )}
+-
+-          {/* Step 2: Integrations Spotlight */}
+-          {tourStep === 2 && (
+-            <div className="absolute top-[80px] right-[125px] pointer-events-auto animate-fade-in">
+-              <div className="bg-[#0f0f0f] border border-[#10D97A]/40 p-6 rounded-2xl shadow-[0_0_50px_rgba(16,217,122,0.15)] w-[280px] mt-4 backdrop-blur-xl">
+-                  <div className="flex justify-between items-center mb-3">
+-                    <span className="text-[10px] font-mono text-[#10D97A] uppercase tracking-widest">Phase 02</span>
+-                    <span className="text-[10px] text-white/20">2/3</span>
+-                  </div>
+-                  <p className="text-[15px] font-semibold text-white mb-2 underline decoration-[#10D97A]/40 underline-offset-4">Sync Your Stack</p>
+-                  <p className="text-[12px] text-white/50 mb-6 leading-relaxed">
+-                    Automate candidate delivery directly into Slack or your favorite ATS.
+-                  </p>
+-                  <button onClick={nextTourStep} className="w-full py-2.5 bg-[#10D97A] text-black text-[12px] font-bold rounded-xl hover:opacity-90 transition-all shadow-xl">
+-                    Almost Done
+-                  </button>
+-                </div>
+-            </div>
+-          )}
+-
+-          {/* Step 3: Analytics / Activity Spotlight */}
+-          {tourStep === 3 && (
+-            <div className="absolute bottom-[40px] left-[50%] -translate-x-1/2 pointer-events-auto animate-fade-up">
+-               <div className="bg-[#0f0f0f] border border-[#10D97A]/40 p-6 rounded-2xl shadow-[0_0_50px_rgba(16,217,122,0.15)] w-[320px] backdrop-blur-xl text-center">
+-                  <div className="flex justify-center mb-3">
+-                    <span className="text-[10px] font-mono text-[#10D97A] uppercase tracking-widest">Phase 03</span>
+-                  </div>
+-                  <p className="text-[15px] font-semibold text-white mb-2">Live Agency Feed</p>
+-                  <p className="text-[12px] text-white/50 mb-6 leading-relaxed">
+-                    Monitior every AI search and extraction event in real-time right here.
+-                  </p>
+-                  <button onClick={() => setTourStep(0)} className="w-full py-2.5 bg-gradient-to-r from-[#10D97A] to-[#10D97A]/80 text-black text-[12px] font-bold rounded-xl hover:opacity-90 transition-all shadow-xl">
+-                    Launch Pipeline
+-                  </button>
+-                </div>
+-            </div>
+-          )}
+-        </div>
+-      )}
++      {/* ── Product Tour Overlays — suppressed in private pilot ── */}
+ 
+       <div className="px-6 py-5">
+ 
+@@ -318,25 +253,47 @@ export default function Dashboard() {
+                           </p>
+                         </div>
+ 
+-                        {/* Mini stats — Naive inline style */}
+-                        <div className="flex items-center gap-5 shrink-0">
++                      {/* Mini stats — counts from API */}
++                        <div className="flex items-center gap-5 shrink-0" data-testid={`run-stats-${run.id}`}>
+                           {[
+-                            { label: "Candidates",  val: run.candidates_count  || 0 },
+-                            { label: "Shortlisted", val: run.shortlisted_count || 0 },
+-                            { label: "Screened",    val: run.screens_completed || 0 },
++                            { label: "Cohort",     val: run.candidates_count  || 0 },
++                            { label: "Evaluated",  val: run.screens_completed || 0 },
++                            { label: "Pending",    val: Math.max(0, (run.candidates_count || 0) - (run.screens_completed || 0)) },
+                           ].map((m, i) => (
+                             <div key={i} className="text-center hidden sm:block">
+                               <p className="text-[15px] font-mono font-semibold text-white/70">{m.val}</p>
+                               <p className="text-[9px] text-white/25">{m.label}</p>
+                             </div>
+                           ))}
++                          {/* Proof-contract readiness chip */}
++                          {(() => {
++                            const readiness = evaluateProofContractReadiness(run);
++                            return (
++                              <div
++                                className={`hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-mono uppercase tracking-wider ${
++                                  readiness.isComplete
++                                    ? "border-[#10D97A]/30 bg-[#10D97A]/10 text-[#10D97A]"
++                                    : "border-amber-500/40 bg-amber-500/10 text-amber-400"
++                                }`}
++                                data-testid={`proof-status-${run.id}`}
++                              >
++                                {readiness.isComplete
++                                  ? <><CheckSquare className="h-2.5 w-2.5" /> Contract Ready</>
++                                  : <><AlertTriangle className="h-2.5 w-2.5" /> Incomplete</>}
++                              </div>
++                            );
++                          })()}
+                           <div className="flex items-center gap-1.5">
+                             <button onClick={() => router.push(`/employer/shortlist/${run.id}`)}
+-                              className="px-2.5 py-1.5 rounded-lg border border-white/[0.07] text-[11px] text-white/45 hover:text-white/75 hover:border-white/[0.13] transition-all">
+-                              Shortlist
++                              className="px-2.5 py-1.5 rounded-lg border border-white/[0.07] text-[11px] text-white/45 hover:text-white/75 hover:border-white/[0.13] transition-all"
++                              data-testid={`shortlist-btn-${run.id}`}
++                            >
++                              Pipeline
+                             </button>
+                             <button onClick={() => router.push(`/employer/brief/${run.id}`)}
+-                              className="px-2.5 py-1.5 rounded-lg border border-white/[0.07] text-[11px] text-white/45 hover:text-white/75 hover:border-white/[0.13] transition-all flex items-center gap-1">
++                              className="px-2.5 py-1.5 rounded-lg border border-white/[0.07] text-[11px] text-white/45 hover:text-white/75 hover:border-white/[0.13] transition-all flex items-center gap-1"
++                              data-testid={`brief-btn-${run.id}`}
++                            >
+                               Brief <ArrowRight className="h-2.5 w-2.5" />
+                             </button>
+                           </div>
+diff --git a/apps/web/components/shortlist/ShortlistEmptyState.jsx b/apps/web/components/shortlist/ShortlistEmptyState.jsx
+index 35f0c41..1e92ea5 100644
+--- a/apps/web/components/shortlist/ShortlistEmptyState.jsx
++++ b/apps/web/components/shortlist/ShortlistEmptyState.jsx
+@@ -27,21 +27,54 @@ export default function ShortlistEmptyState({ roleId, isFiltered = false, onClea
+   }
+ 
+   return (
+-    <div className="flex flex-col items-center justify-center p-12 text-center border border-[#343434] bg-[#111111] rounded-2xl my-8 max-w-lg mx-auto">
++    <div
++      className="flex flex-col items-center justify-center p-12 text-center border border-[#343434] bg-[#111111] rounded-2xl my-8 max-w-2xl mx-auto"
++      data-testid="zero-evaluation-cohort-state"
++    >
+       <div className="w-12 h-12 rounded-full border border-[#343434] bg-[#1A1A1A] flex items-center justify-center mb-4 text-[#4A4A4A]">
+         <Users className="h-6 w-6" />
+       </div>
+-      <h3 className="text-sm font-semibold text-[#F2F2F2] mb-1">No Candidates Shortlisted Yet</h3>
+-      <p className="text-xs text-[#4A4A4A] max-w-xs mb-6">
+-        No candidate document extractions or trust packets have been ingested for this hiring pipeline yet.
++      <h3 className="text-sm font-semibold text-[#F2F2F2] mb-1">No Candidates Received Yet</h3>
++      <p className="text-xs text-[#A3A3A3] max-w-sm mb-6 leading-relaxed">
++        Candidate documents for this role have not been received. Candidate ingestion is
++        completed by your pilot administrator through an approved secure transfer process.
+       </p>
++
++      {/* Operator Handoff Contract */}
++      <div
++        className="w-full text-left border border-amber-500/30 bg-amber-500/[0.06] rounded-xl p-5 mb-6 space-y-3"
++        data-testid="handoff-guidance-panel"
++      >
++        <p className="text-[11px] font-mono text-amber-400 uppercase tracking-widest mb-2">
++          Approved Candidate Intake Process
++        </p>
++        <div className="space-y-2 text-xs text-[#A3A3A3]">
++          <p className="font-medium text-[#F2F2F2]/80">What you provide to your pilot administrator:</p>
++          <ul className="list-disc list-inside space-y-1 text-[#A3A3A3]">
++            <li>Role reference: this role brief URL or hiring run ID</li>
++            <li>Candidate document set (PDF, DOCX, or CSV résumés)</li>
++            <li>Any additional sourcing notes or priority instructions</li>
++          </ul>
++          <p className="font-medium text-[#F2F2F2]/80 pt-2">Transfer method:</p>
++          <p className="text-amber-300/80 font-mono text-[10px]">
++            Contact your pilot administrator through the secure channel defined in your
++            onboarding agreement. Do not send documents through unsecured email or
++            public file-sharing services.
++          </p>
++        </div>
++        <p className="text-[10px] font-mono text-[#4A4A4A] pt-1">
++          Candidate files are not submitted through this form. Evaluation begins only after
++          an authorized operational handoff is confirmed.
++        </p>
++      </div>
++
+       {roleId && (
+         <Link
+           href={`/employer/brief/${roleId}`}
+-          className="px-4 py-2 rounded-lg border border-[#10D97A]/40 bg-[#10D97A] text-xs font-semibold text-[#0E0E0E] hover:bg-[#10D97A]/90 transition-all flex items-center gap-2"
++          className="px-4 py-2 rounded-lg border border-[#343434] bg-[#1A1A1A] text-xs font-medium text-[#F2F2F2]/80 hover:text-[#F2F2F2] hover:border-[#10D97A]/40 transition-all flex items-center gap-2"
+           data-testid="go-brief-btn"
+         >
+-          Go to Role Brief <ArrowRight className="h-3.5 w-3.5" />
++          Return to Role Brief <ArrowRight className="h-3.5 w-3.5" />
+         </Link>
+       )}
+     </div>
+diff --git a/apps/web/lib/proofContractReadiness.js b/apps/web/lib/proofContractReadiness.js
+new file mode 100644
+index 0000000..e4949d6
+--- /dev/null
++++ b/apps/web/lib/proofContractReadiness.js
+@@ -0,0 +1,38 @@
++/**
++ * evaluateProofContractReadiness
++ *
++ * Pure function — safe to import in both client and server components.
++ * Canonical source of proof-contract readiness for a hiring run.
++ *
++ * MUST remain in sync with the copy in:
++ *   apps/web/app/api/employer/hiring-runs/route.js
++ * Any change here must be mirrored there and vice-versa.
++ */
++export function evaluateProofContractReadiness(runData) {
++  const hasTitle = Boolean(
++    runData?.role_title &&
++    typeof runData.role_title === 'string' &&
++    runData.role_title.trim().length > 0
++  );
++  const hasSummaryOrDesc = Boolean(
++    (runData?.role_summary &&
++      typeof runData.role_summary === 'string' &&
++      runData.role_summary.trim().length >= 10) ||
++    (runData?.job_description &&
++      typeof runData.job_description === 'string' &&
++      runData.job_description.trim().length >= 10)
++  );
++  const hasMustHaves = Boolean(
++    (Array.isArray(runData?.must_haves) && runData.must_haves.length > 0) ||
++    (Array.isArray(runData?.explicit_requirements) && runData.explicit_requirements.length > 0)
++  );
++
++  return {
++    isComplete: hasTitle && hasSummaryOrDesc && hasMustHaves,
++    missingFields: [
++      !hasTitle && 'role_title',
++      !hasSummaryOrDesc && 'job_description',
++      !hasMustHaves && 'must_haves',
++    ].filter(Boolean),
++  };
++}

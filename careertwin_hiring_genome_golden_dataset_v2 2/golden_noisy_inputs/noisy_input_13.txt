@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 13
+applcnt::cand_013 | stage?? mgr-chat
+note: implemented workflow; ownrship bounded; duplicate token DUP-06
+extracted role ref: role_fullstack_001

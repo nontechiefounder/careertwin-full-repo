@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 18
+applcnt::cand_018 | stage?? screen
+note: implemented workflow; ownrship unclear; duplicate token DUP-08
+extracted role ref: role_data_analyst_001

@@ -1,0 +1,42 @@
+{
+  "id": "ROLE-BACKEND-001",
+  "title": "Backend Engineer, Evidence Platform",
+  "location": "Remote, United States",
+  "summary": "Build and operate backend services that ingest documents, coordinate asynchronous processing, preserve evidence provenance and expose reliable APIs to reviewers.",
+  "responsibilities": [
+    "Own a production Python service from design through on-call operations.",
+    "Design idempotent asynchronous workflows with retries and recovery.",
+    "Build observable APIs and workers with measurable reliability targets.",
+    "Improve latency, correctness or operational efficiency using evidence."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-OWNERSHIP",
+      "label": "Owns a production backend service",
+      "kind": "must_have",
+      "weight": 0.45,
+      "evidence_expectation": "Specific service, ownership boundary, real users or traffic, and operational responsibility."
+    },
+    {
+      "id": "REQ-ASYNC",
+      "label": "Designs reliable asynchronous workflows",
+      "kind": "strong_signal",
+      "weight": 0.25,
+      "evidence_expectation": "Concrete retries, idempotency, queues, recovery or event-processing implementation."
+    },
+    {
+      "id": "REQ-OBSERVABILITY",
+      "label": "Operates observable and reliable systems",
+      "kind": "strong_signal",
+      "weight": 0.15,
+      "evidence_expectation": "Monitoring, SLO, alerting, incident response or production debugging ownership."
+    },
+    {
+      "id": "REQ-OUTCOME",
+      "label": "Improves measurable system outcomes",
+      "kind": "nice_to_have",
+      "weight": 0.15,
+      "evidence_expectation": "Before-and-after metric connected to the candidate's action."
+    }
+  ]
+}

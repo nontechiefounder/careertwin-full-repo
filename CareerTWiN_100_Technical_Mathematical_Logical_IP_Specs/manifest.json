@@ -1,0 +1,802 @@
+[
+  {
+    "id": "CTW-IP-001",
+    "number": 1,
+    "title": "Hiring Genome Compiler",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "001_hiring_genome_compiler.md"
+  },
+  {
+    "id": "CTW-IP-002",
+    "number": 2,
+    "title": "Organization-Specific Hiring Memory Model",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "002_organization_specific_hiring_memory_model.md"
+  },
+  {
+    "id": "CTW-IP-003",
+    "number": 3,
+    "title": "Role Success DNA Generator",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "003_role_success_dna_generator.md"
+  },
+  {
+    "id": "CTW-IP-004",
+    "number": 4,
+    "title": "Role Intelligence Compiler",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "004_role_intelligence_compiler.md"
+  },
+  {
+    "id": "CTW-IP-005",
+    "number": 5,
+    "title": "Proof Contract Generator",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "MVP-critical",
+    "filename": "005_proof_contract_generator.md"
+  },
+  {
+    "id": "CTW-IP-006",
+    "number": 6,
+    "title": "Proof Dimension Weighting Logic",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "006_proof_dimension_weighting_logic.md"
+  },
+  {
+    "id": "CTW-IP-007",
+    "number": 7,
+    "title": "Accepted Proof Route Generator",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "007_accepted_proof_route_generator.md"
+  },
+  {
+    "id": "CTW-IP-008",
+    "number": 8,
+    "title": "Semantic Anchor Generation Engine",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "Pilot / near-term",
+    "filename": "008_semantic_anchor_generation_engine.md"
+  },
+  {
+    "id": "CTW-IP-009",
+    "number": 9,
+    "title": "Semantic Evidence Distribution Engine",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "MVP-critical",
+    "filename": "009_semantic_evidence_distribution_engine.md"
+  },
+  {
+    "id": "CTW-IP-010",
+    "number": 10,
+    "title": "Text-First Candidate Evaluation Method",
+    "category": "Hiring Genome and Role Intelligence",
+    "priority": "MVP-critical",
+    "filename": "010_text_first_candidate_evaluation_method.md"
+  },
+  {
+    "id": "CTW-IP-011",
+    "number": 11,
+    "title": "Role Fit Distribution Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "011_role_fit_distribution_formula.md"
+  },
+  {
+    "id": "CTW-IP-012",
+    "number": 12,
+    "title": "Evidence Strength Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "012_evidence_strength_formula.md"
+  },
+  {
+    "id": "CTW-IP-013",
+    "number": 13,
+    "title": "Proof Coverage Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "013_proof_coverage_formula.md"
+  },
+  {
+    "id": "CTW-IP-014",
+    "number": 14,
+    "title": "Evidence Reliability Weighting Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "014_evidence_reliability_weighting_formula.md"
+  },
+  {
+    "id": "CTW-IP-015",
+    "number": 15,
+    "title": "Source Provenance Confidence Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "015_source_provenance_confidence_formula.md"
+  },
+  {
+    "id": "CTW-IP-016",
+    "number": 16,
+    "title": "Claim-to-Proof Graph",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "MVP-critical",
+    "filename": "016_claim_to_proof_graph.md"
+  },
+  {
+    "id": "CTW-IP-017",
+    "number": 17,
+    "title": "Claim-to-Proof Ledger",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "MVP-critical",
+    "filename": "017_claim_to_proof_ledger.md"
+  },
+  {
+    "id": "CTW-IP-018",
+    "number": 18,
+    "title": "Evidence Contradiction Detection Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "018_evidence_contradiction_detection_logic.md"
+  },
+  {
+    "id": "CTW-IP-019",
+    "number": 19,
+    "title": "Evidence Deduplication Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "019_evidence_deduplication_logic.md"
+  },
+  {
+    "id": "CTW-IP-020",
+    "number": 20,
+    "title": "Evidence Freshness Decay Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "020_evidence_freshness_decay_formula.md"
+  },
+  {
+    "id": "CTW-IP-021",
+    "number": 21,
+    "title": "Evidence Source Independence Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "021_evidence_source_independence_formula.md"
+  },
+  {
+    "id": "CTW-IP-022",
+    "number": 22,
+    "title": "Candidate Uncertainty Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "022_candidate_uncertainty_formula.md"
+  },
+  {
+    "id": "CTW-IP-023",
+    "number": 23,
+    "title": "Distribution Entropy Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "023_distribution_entropy_formula.md"
+  },
+  {
+    "id": "CTW-IP-024",
+    "number": 24,
+    "title": "Missing-Evidence Penalty Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "024_missing_evidence_penalty_formula.md"
+  },
+  {
+    "id": "CTW-IP-025",
+    "number": 25,
+    "title": "Contradiction Penalty Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "025_contradiction_penalty_formula.md"
+  },
+  {
+    "id": "CTW-IP-026",
+    "number": 26,
+    "title": "Must-Have Gate Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "MVP-critical",
+    "filename": "026_must_have_gate_logic.md"
+  },
+  {
+    "id": "CTW-IP-027",
+    "number": 27,
+    "title": "Disqualifier Gate Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "MVP-critical",
+    "filename": "027_disqualifier_gate_logic.md"
+  },
+  {
+    "id": "CTW-IP-028",
+    "number": 28,
+    "title": "Human Override Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "MVP-critical",
+    "filename": "028_human_override_logic.md"
+  },
+  {
+    "id": "CTW-IP-029",
+    "number": 29,
+    "title": "Hiring Genome Match Formula",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Pilot / near-term",
+    "filename": "029_hiring_genome_match_formula.md"
+  },
+  {
+    "id": "CTW-IP-030",
+    "number": 30,
+    "title": "Role-Family Transfer Logic",
+    "category": "Evidence, Proof and Semantic Evaluation",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "030_role_family_transfer_logic.md"
+  },
+  {
+    "id": "CTW-IP-031",
+    "number": 31,
+    "title": "Decision Blocker Engine",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "031_decision_blocker_engine.md"
+  },
+  {
+    "id": "CTW-IP-032",
+    "number": 32,
+    "title": "Decision Blocker Priority Formula",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "032_decision_blocker_priority_formula.md"
+  },
+  {
+    "id": "CTW-IP-033",
+    "number": 33,
+    "title": "Minimum Sufficient Proof Protocol",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "033_minimum_sufficient_proof_protocol.md"
+  },
+  {
+    "id": "CTW-IP-034",
+    "number": 34,
+    "title": "Minimum Proof Selection Optimizer",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "034_minimum_proof_selection_optimizer.md"
+  },
+  {
+    "id": "CTW-IP-035",
+    "number": 35,
+    "title": "Proof Request Burden Formula",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "035_proof_request_burden_formula.md"
+  },
+  {
+    "id": "CTW-IP-036",
+    "number": 36,
+    "title": "Expected Confidence Lift Formula",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "036_expected_confidence_lift_formula.md"
+  },
+  {
+    "id": "CTW-IP-037",
+    "number": 37,
+    "title": "Confidence-Lift-to-Effort Ratio",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "037_confidence_lift_to_effort_ratio.md"
+  },
+  {
+    "id": "CTW-IP-038",
+    "number": 38,
+    "title": "Interview Readiness Threshold Logic",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "038_interview_readiness_threshold_logic.md"
+  },
+  {
+    "id": "CTW-IP-039",
+    "number": 39,
+    "title": "Candidate State Classification Logic",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "039_candidate_state_classification_logic.md"
+  },
+  {
+    "id": "CTW-IP-040",
+    "number": 40,
+    "title": "High-Fit/Low-Proof Detection",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "040_high_fit_low_proof_detection.md"
+  },
+  {
+    "id": "CTW-IP-041",
+    "number": 41,
+    "title": "Adjacent-Role Recommendation Logic",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "041_adjacent_role_recommendation_logic.md"
+  },
+  {
+    "id": "CTW-IP-042",
+    "number": 42,
+    "title": "Proof Resolution Rate Formula",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "042_proof_resolution_rate_formula.md"
+  },
+  {
+    "id": "CTW-IP-043",
+    "number": 43,
+    "title": "Proof Submission Quality Formula",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "043_proof_submission_quality_formula.md"
+  },
+  {
+    "id": "CTW-IP-044",
+    "number": 44,
+    "title": "Candidate Proof Re-Evaluation Logic",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "044_candidate_proof_re_evaluation_logic.md"
+  },
+  {
+    "id": "CTW-IP-045",
+    "number": 45,
+    "title": "Trust Packet Revision Algorithm",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "Pilot / near-term",
+    "filename": "045_trust_packet_revision_algorithm.md"
+  },
+  {
+    "id": "CTW-IP-046",
+    "number": 46,
+    "title": "Proof-Ranked Shortlist Algorithm",
+    "category": "Decision Blockers, Minimum Proof and Shortlisting",
+    "priority": "MVP-critical",
+    "filename": "046_proof_ranked_shortlist_algorithm.md"
+  },
+  {
+    "id": "CTW-IP-047",
+    "number": 47,
+    "title": "Shortlist Diversity Guardrail",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "047_shortlist_diversity_guardrail.md"
+  },
+  {
+    "id": "CTW-IP-048",
+    "number": 48,
+    "title": "Shortlist Confidence Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "048_shortlist_confidence_formula.md"
+  },
+  {
+    "id": "CTW-IP-049",
+    "number": 49,
+    "title": "Hiring-Manager Acceptance Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "049_hiring_manager_acceptance_formula.md"
+  },
+  {
+    "id": "CTW-IP-050",
+    "number": 50,
+    "title": "Technical-Screen Pass Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "050_technical_screen_pass_formula.md"
+  },
+  {
+    "id": "CTW-IP-051",
+    "number": 51,
+    "title": "Weak-Fit Interview Rate Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "051_weak_fit_interview_rate_formula.md"
+  },
+  {
+    "id": "CTW-IP-052",
+    "number": 52,
+    "title": "Review Time Saved Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "052_review_time_saved_formula.md"
+  },
+  {
+    "id": "CTW-IP-053",
+    "number": 53,
+    "title": "Interview Hours Saved Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "053_interview_hours_saved_formula.md"
+  },
+  {
+    "id": "CTW-IP-054",
+    "number": 54,
+    "title": "Outcome-Calibrated Hiring Memory Update",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "054_outcome_calibrated_hiring_memory_update.md"
+  },
+  {
+    "id": "CTW-IP-055",
+    "number": 55,
+    "title": "Decision Feedback Weighting Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "055_decision_feedback_weighting_formula.md"
+  },
+  {
+    "id": "CTW-IP-056",
+    "number": 56,
+    "title": "Hiring Genome Confidence Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "056_hiring_genome_confidence_formula.md"
+  },
+  {
+    "id": "CTW-IP-057",
+    "number": 57,
+    "title": "Hiring Genome Drift Detection",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "057_hiring_genome_drift_detection.md"
+  },
+  {
+    "id": "CTW-IP-058",
+    "number": 58,
+    "title": "Role Bar Drift Detection",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "058_role_bar_drift_detection.md"
+  },
+  {
+    "id": "CTW-IP-059",
+    "number": 59,
+    "title": "Hiring-Manager Calibration Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "059_hiring_manager_calibration_logic.md"
+  },
+  {
+    "id": "CTW-IP-060",
+    "number": 60,
+    "title": "Interviewer Disagreement Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "060_interviewer_disagreement_formula.md"
+  },
+  {
+    "id": "CTW-IP-061",
+    "number": 61,
+    "title": "Historical Decision Reliability Weighting",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "061_historical_decision_reliability_weighting.md"
+  },
+  {
+    "id": "CTW-IP-062",
+    "number": 62,
+    "title": "Outcome Recency Weighting",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "062_outcome_recency_weighting.md"
+  },
+  {
+    "id": "CTW-IP-063",
+    "number": 63,
+    "title": "Sparse-History Confidence Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "063_sparse_history_confidence_logic.md"
+  },
+  {
+    "id": "CTW-IP-064",
+    "number": 64,
+    "title": "Cold-Start Hiring Genome Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "064_cold_start_hiring_genome_logic.md"
+  },
+  {
+    "id": "CTW-IP-065",
+    "number": 65,
+    "title": "Company-Level vs Role-Level Memory Weighting",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "065_company_level_vs_role_level_memory_weighting.md"
+  },
+  {
+    "id": "CTW-IP-066",
+    "number": 66,
+    "title": "Customer-Approved Pattern Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "066_customer_approved_pattern_logic.md"
+  },
+  {
+    "id": "CTW-IP-067",
+    "number": 67,
+    "title": "Pattern Provenance and Citation Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "067_pattern_provenance_and_citation_logic.md"
+  },
+  {
+    "id": "CTW-IP-068",
+    "number": 68,
+    "title": "Semantic Pattern Stability Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "068_semantic_pattern_stability_formula.md"
+  },
+  {
+    "id": "CTW-IP-069",
+    "number": 69,
+    "title": "Repeated-Run Consistency Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "069_repeated_run_consistency_formula.md"
+  },
+  {
+    "id": "CTW-IP-070",
+    "number": 70,
+    "title": "AI Output Calibration Logic",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "070_ai_output_calibration_logic.md"
+  },
+  {
+    "id": "CTW-IP-071",
+    "number": 71,
+    "title": "Model Confidence Calibration Formula",
+    "category": "Outcomes, Learning, Calibration and Drift",
+    "priority": "Pilot / near-term",
+    "filename": "071_model_confidence_calibration_formula.md"
+  },
+  {
+    "id": "CTW-IP-072",
+    "number": 72,
+    "title": "Provider Fallback Degradation Logic",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "072_provider_fallback_degradation_logic.md"
+  },
+  {
+    "id": "CTW-IP-073",
+    "number": 73,
+    "title": "Schema Repair Boundary Logic",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "073_schema_repair_boundary_logic.md"
+  },
+  {
+    "id": "CTW-IP-074",
+    "number": 74,
+    "title": "Evidence-Subset Validation Logic",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "MVP-critical",
+    "filename": "074_evidence_subset_validation_logic.md"
+  },
+  {
+    "id": "CTW-IP-075",
+    "number": 75,
+    "title": "Hallucination Detection Guardrail",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "075_hallucination_detection_guardrail.md"
+  },
+  {
+    "id": "CTW-IP-076",
+    "number": 76,
+    "title": "Protected-Attribute Leakage Detection",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "076_protected_attribute_leakage_detection.md"
+  },
+  {
+    "id": "CTW-IP-077",
+    "number": 77,
+    "title": "Proxy-Attribute Detection",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "077_proxy_attribute_detection.md"
+  },
+  {
+    "id": "CTW-IP-078",
+    "number": 78,
+    "title": "Bias-Safe Evaluation Guardrails",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "078_bias_safe_evaluation_guardrails.md"
+  },
+  {
+    "id": "CTW-IP-079",
+    "number": 79,
+    "title": "Job-Relevance Validation Logic",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "Pilot / near-term",
+    "filename": "079_job_relevance_validation_logic.md"
+  },
+  {
+    "id": "CTW-IP-080",
+    "number": 80,
+    "title": "Human-in-the-Loop Release Protocol",
+    "category": "Reliability, Safety and Human Governance",
+    "priority": "MVP-critical",
+    "filename": "080_human_in_the_loop_release_protocol.md"
+  },
+  {
+    "id": "CTW-IP-081",
+    "number": 81,
+    "title": "Candidate Proof Passport",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "081_candidate_proof_passport.md"
+  },
+  {
+    "id": "CTW-IP-082",
+    "number": 82,
+    "title": "Role-Specific Selective Disclosure Protocol",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "082_role_specific_selective_disclosure_protocol.md"
+  },
+  {
+    "id": "CTW-IP-083",
+    "number": 83,
+    "title": "Candidate-Controlled Evidence Permissioning",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "083_candidate_controlled_evidence_permissioning.md"
+  },
+  {
+    "id": "CTW-IP-084",
+    "number": 84,
+    "title": "Proof Artifact Authenticity Logic",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "084_proof_artifact_authenticity_logic.md"
+  },
+  {
+    "id": "CTW-IP-085",
+    "number": 85,
+    "title": "Proof Artifact Hashing and Provenance",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "085_proof_artifact_hashing_and_provenance.md"
+  },
+  {
+    "id": "CTW-IP-086",
+    "number": 86,
+    "title": "Interview Probe Compiler",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "086_interview_probe_compiler.md"
+  },
+  {
+    "id": "CTW-IP-087",
+    "number": 87,
+    "title": "Uncertainty-to-Question Mapping",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "087_uncertainty_to_question_mapping.md"
+  },
+  {
+    "id": "CTW-IP-088",
+    "number": 88,
+    "title": "Candidate-Specific Interview Question Ranking",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "088_candidate_specific_interview_question_ranking.md"
+  },
+  {
+    "id": "CTW-IP-089",
+    "number": 89,
+    "title": "Interview Answer Evidence Mapper",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "089_interview_answer_evidence_mapper.md"
+  },
+  {
+    "id": "CTW-IP-090",
+    "number": 90,
+    "title": "Interview Outcome Learning Logic",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "090_interview_outcome_learning_logic.md"
+  },
+  {
+    "id": "CTW-IP-091",
+    "number": 91,
+    "title": "Hiring Genome Audit Method",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "091_hiring_genome_audit_method.md"
+  },
+  {
+    "id": "CTW-IP-092",
+    "number": 92,
+    "title": "Proof Exchange Protocol",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "092_proof_exchange_protocol.md"
+  },
+  {
+    "id": "CTW-IP-093",
+    "number": 93,
+    "title": "Candidate Trust Packet Format",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "MVP-critical",
+    "filename": "093_candidate_trust_packet_format.md"
+  },
+  {
+    "id": "CTW-IP-094",
+    "number": 94,
+    "title": "Hiring Memory Export Format",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "094_hiring_memory_export_format.md"
+  },
+  {
+    "id": "CTW-IP-095",
+    "number": 95,
+    "title": "Readable and Auditable Hiring Genome Bundle",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "095_readable_and_auditable_hiring_genome_bundle.md"
+  },
+  {
+    "id": "CTW-IP-096",
+    "number": 96,
+    "title": "Versioned Hiring Genome Protocol",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "096_versioned_hiring_genome_protocol.md"
+  },
+  {
+    "id": "CTW-IP-097",
+    "number": 97,
+    "title": "Hiring Memory Ownership and Portability Model",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "097_hiring_memory_ownership_and_portability_model.md"
+  },
+  {
+    "id": "CTW-IP-098",
+    "number": 98,
+    "title": "Outcome Learning Loop",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Pilot / near-term",
+    "filename": "098_outcome_learning_loop.md"
+  },
+  {
+    "id": "CTW-IP-099",
+    "number": 99,
+    "title": "Cross-Role Pattern Reuse Logic",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "Post-pilot / platform expansion",
+    "filename": "099_cross_role_pattern_reuse_logic.md"
+  },
+  {
+    "id": "CTW-IP-100",
+    "number": 100,
+    "title": "Human-Agent Hiring Decision Protocol",
+    "category": "Candidate Proof, Interview Intelligence and Platform Protocols",
+    "priority": "MVP-critical",
+    "filename": "100_human_agent_hiring_decision_protocol.md"
+  }
+]

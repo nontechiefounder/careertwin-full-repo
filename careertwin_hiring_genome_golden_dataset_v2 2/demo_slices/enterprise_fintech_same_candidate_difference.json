@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0.0",
+  "record_id": "demo_002",
+  "synthetic": true,
+  "source_refs": [
+    "cand_002",
+    "company_001",
+    "company_002",
+    "fitdist_cand_002_crossco_001",
+    "fitdist_cand_002_crossco_002"
+  ],
+  "created_at": "2026-07-26T00:00:00Z",
+  "difficulty": "medium",
+  "title": "Enterprise fintech company-specific difference",
+  "refs": [
+    "cand_002",
+    "company_001",
+    "company_002",
+    "fitdist_cand_002_crossco_001",
+    "fitdist_cand_002_crossco_002"
+  ],
+  "story": "The same evidence is sufficient for a bounded Seed-context proof request but not the fintech operational bar."
+}

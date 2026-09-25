@@ -1,0 +1,214 @@
+{
+  "schema_version": "2.0.0",
+  "created_at": "2026-07-26T00:00:00Z",
+  "mvp_critical_specs": [
+    "005",
+    "009",
+    "010",
+    "016",
+    "017",
+    "026",
+    "027",
+    "028",
+    "046",
+    "074",
+    "080",
+    "093",
+    "100"
+  ],
+  "artifacts": [
+    {
+      "artifact": "golden_companies.jsonl",
+      "ip_specs": [
+        "001",
+        "002",
+        "003",
+        "004"
+      ],
+      "behaviors_tested": [
+        "company memory inputs"
+      ]
+    },
+    {
+      "artifact": "expected_hiring_genomes.jsonl",
+      "ip_specs": [
+        "001",
+        "002",
+        "054",
+        "055",
+        "064",
+        "068"
+      ],
+      "behaviors_tested": [
+        "governed company memory"
+      ]
+    },
+    {
+      "artifact": "expected_role_success_dna.jsonl",
+      "ip_specs": [
+        "003",
+        "005",
+        "006"
+      ],
+      "behaviors_tested": [
+        "role-specific success dimensions"
+      ]
+    },
+    {
+      "artifact": "expected_company_pattern_extractions.jsonl",
+      "ip_specs": [
+        "054",
+        "055",
+        "056",
+        "057",
+        "078",
+        "079"
+      ],
+      "behaviors_tested": [
+        "pattern support and approval"
+      ]
+    },
+    {
+      "artifact": "expected_post_proof_updates.jsonl",
+      "ip_specs": [
+        "033",
+        "034",
+        "035",
+        "036",
+        "037",
+        "042",
+        "043",
+        "044",
+        "045"
+      ],
+      "behaviors_tested": [
+        "minimum proof loop"
+      ]
+    },
+    {
+      "artifact": "expected_code_claims.jsonl",
+      "ip_specs": [
+        "015",
+        "016",
+        "017",
+        "018",
+        "021",
+        "084",
+        "085"
+      ],
+      "behaviors_tested": [
+        "code proof and ownership"
+      ]
+    },
+    {
+      "artifact": "expected_interview_signal_extraction.jsonl",
+      "ip_specs": [
+        "086",
+        "087",
+        "088",
+        "089",
+        "090"
+      ],
+      "behaviors_tested": [
+        "interview intelligence"
+      ]
+    },
+    {
+      "artifact": "expected_memory_updates.jsonl",
+      "ip_specs": [
+        "058",
+        "059",
+        "060",
+        "061",
+        "062",
+        "063",
+        "066",
+        "067",
+        "070",
+        "071"
+      ],
+      "behaviors_tested": [
+        "bounded outcome learning"
+      ]
+    },
+    {
+      "artifact": "expected_fit_distributions.jsonl",
+      "ip_specs": [
+        "009",
+        "010",
+        "011",
+        "029"
+      ],
+      "behaviors_tested": [
+        "text-first semantic fit"
+      ]
+    },
+    {
+      "artifact": "expected_evidence_subset_validation.jsonl",
+      "ip_specs": [
+        "074",
+        "075"
+      ],
+      "behaviors_tested": [
+        "evidence causality and hallucination"
+      ]
+    },
+    {
+      "artifact": "expected_safety_invariance_tests.jsonl",
+      "ip_specs": [
+        "076",
+        "077",
+        "078",
+        "079"
+      ],
+      "behaviors_tested": [
+        "protected-signal invariance"
+      ]
+    },
+    {
+      "artifact": "expected_human_review_flags.jsonl",
+      "ip_specs": [
+        "028",
+        "080",
+        "100"
+      ],
+      "behaviors_tested": [
+        "human decision authority"
+      ]
+    },
+    {
+      "artifact": "expected_candidate_proof_passports.jsonl",
+      "ip_specs": [
+        "081",
+        "082",
+        "083",
+        "093",
+        "094",
+        "095",
+        "096",
+        "097",
+        "098",
+        "099"
+      ],
+      "behaviors_tested": [
+        "candidate trust packet"
+      ]
+    },
+    {
+      "artifact": "baseline_careertwin_expected_results.jsonl",
+      "ip_specs": [
+        "005",
+        "009",
+        "010",
+        "016",
+        "017",
+        "026",
+        "027",
+        "046"
+      ],
+      "behaviors_tested": [
+        "MVP critical regression"
+      ]
+    }
+  ]
+}

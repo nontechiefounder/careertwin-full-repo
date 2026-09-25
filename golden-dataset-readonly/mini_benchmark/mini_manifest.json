@@ -1,0 +1,29 @@
+{
+  "dataset_version": "2.0.0",
+  "created_at": "2026-07-26T00:00:00Z",
+  "synthetic_only": true,
+  "counts": {
+    "companies": 2,
+    "roles": 6,
+    "candidates": 18,
+    "historical_decisions": 48,
+    "proof_submission_loops": 6,
+    "code_artifacts": 4,
+    "ai_interviews": 6,
+    "outcome_events": 12,
+    "safety_invariance_pairs": 8,
+    "evidence_subset_cases": 6,
+    "human_review_cases": 6
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "72430faf4dfb87e34043daae756a29c9049be12d42bbaa825cfae208b85f2eec"
+    },
+    {
+      "path": "mini_slice_index.json",
+      "sha256": "6714c5d952e228eb0a0ed09c16b2e78e1f60eb1f13a249aabe611cbe105d42ba"
+    }
+  ],
+  "validation_status": "validated_by_parent_validator"
+}

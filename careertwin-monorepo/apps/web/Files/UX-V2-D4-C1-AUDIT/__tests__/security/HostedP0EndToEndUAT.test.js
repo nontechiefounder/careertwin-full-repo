@@ -1,0 +1,327 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { createMockRequest } from './apiAuthorizationTestHarness';
+
+// Import P0 handlers
+import { GET as getPacket } from '@/app/api/employer/packets/[extractionId]/route';
+import { POST as actionPacket } from '@/app/api/employer/packets/[extractionId]/action/route';
+import { POST as generatePacket } from '@/app/api/employer/packets/[extractionId]/generate/route';
+import { POST as createScreeningSession } from '@/app/api/employer/screening-sessions/route';
+
+import { GET as getCandidateStatus } from '@/app/api/candidate/status/[candidateId]/route';
+import { GET as getProofProfile } from '@/app/api/candidate/proof-profile/[candidateId]/route';
+import { POST as generateProofProfile } from '@/app/api/candidate/proof-profile/[candidateId]/generate/route';
+import { GET as getScreeningSession } from '@/app/api/candidate/screening-sessions/[sessionId]/route';
+import { POST as startScreening } from '@/app/api/candidate/screening-sessions/[sessionId]/start/route';
+import { POST as answerScreening } from '@/app/api/candidate/screening-sessions/[sessionId]/answer/route';
+import { POST as completeScreening } from '@/app/api/candidate/screening-sessions/[sessionId]/complete/route';
+
+import { createSupabaseServerClient } from '@/lib/supabaseServer';
+
+vi.mock('@/lib/supabaseServer', () => ({
+  createSupabaseServerClient: vi.fn(),
+}));
+
+vi.mock('@/lib/ai', () => ({
+  generateChat: vi.fn().mockResolvedValue({
+    text: JSON.stringify({
+      recommendation: "ADVANCE",
+      summary: "Strong candidate",
+      proof_strength: 0.9,
+      key_strengths: ["Architecture", "System Design"],
+      risks: [],
+      missing_proof: [],
+      suggested_probes: ["Ask about scale"]
+    })
+  })
+}));
+
+describe('Step 4B5.4 — Hosted P0 End-to-End Workflow & Authorization Suite', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe('EMPLOYER ALPHA & BETA WORKFLOWS', () => {
+    it('1. Employer Alpha authenticates and fetches candidate Trust Packet', async () => {
+      createSupabaseServerClient.mockImplementation(async (req) => ({
+        auth: {
+          getUser: async () => ({ data: { user: { id: 'emp-alpha', email: 'alpha@org.com' } }, error: null }),
+        },
+        from: (table) => {
+          const makeBuilder = () => ({
+            select: () => makeBuilder(),
+            eq: () => makeBuilder(),
+            order: () => makeBuilder(),
+            limit: () => makeBuilder(),
+            single: async () => ({ data: { id: 'hr-1', org_id: 'org-alpha' }, error: null }),
+            maybeSingle: async () => {
+              if (table === 'candidates') {
+                return {
+                  data: {
+                    id: 'ext-1',
+                    candidate_id: 'cand-1',
+                    hiring_runs: { id: 'hr-1', org_id: 'org-alpha', role_title: 'Backend Engineer' },
+                    decision_packet: { why_matched: 'Strong fit' },
+                  },
+                  error: null,
+                };
+              }
+              if (table === 'organization_memberships') {
+                return { data: { membership_role: 'owner', membership_status: 'active' }, error: null };
+              }
+              return { data: null, error: null };
+            },
+          });
+          return makeBuilder();
+        },
+      }));
+
+      const req = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-alpha' } });
+      const res = await getPacket(req, { params: Promise.resolve({ extractionId: 'ext-1' }) });
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json.packet.why_matched).toBe('Strong fit');
+    });
+
+    it('2. Employer Alpha generates packet (authorization runs BEFORE service role)', async () => {
+      createSupabaseServerClient.mockImplementation(async (req, useServiceRole = false) => {
+        if (useServiceRole) {
+          return {
+            from: () => ({
+              update: () => ({
+                eq: () => ({ select: () => ({ count: 1 }) }),
+              }),
+            }),
+          };
+        }
+        return {
+          auth: {
+            getUser: async () => ({ data: { user: { id: 'emp-alpha', email: 'alpha@org.com' } }, error: null }),
+          },
+          from: (table) => {
+            const makeBuilder = () => ({
+              select: () => makeBuilder(),
+              eq: () => makeBuilder(),
+              order: () => makeBuilder(),
+              limit: () => makeBuilder(),
+              maybeSingle: async () => {
+                if (table === 'candidates') {
+                  return {
+                    data: {
+                      id: 'ext-1',
+                      candidate_id: 'cand-1',
+                      fit_score: 0.9,
+                      hiring_runs: { id: 'hr-1', org_id: 'org-alpha', role_title: 'Backend Engineer', job_description: 'Job desc', must_haves: [] },
+                      candidate_profiles: { name: 'Cand One', bio: 'Backend Dev', location: 'Remote', skills: [] },
+                    },
+                    error: null,
+                  };
+                }
+                if (table === 'organization_memberships') {
+                  return { data: { membership_role: 'owner', membership_status: 'active' }, error: null };
+                }
+                return { data: null, error: null };
+              },
+            });
+            return makeBuilder();
+          },
+        };
+      });
+
+      const req = createMockRequest({ method: 'POST', headers: { Authorization: 'Bearer token-alpha' } });
+      const res = await generatePacket(req, { params: Promise.resolve({ extractionId: 'ext-1' }) });
+      expect(res.status).toBe(200);
+    });
+
+    it('3. Employer Alpha creates screening session via POST /api/employer/screening-sessions', async () => {
+      createSupabaseServerClient.mockImplementation(async (req, useServiceRole = false) => {
+        if (useServiceRole) {
+          return {
+            from: () => ({
+              insert: (rows) => ({
+                select: () => ({
+                  single: async () => ({
+                    data: {
+                      id: 'sess-alpha-123',
+                      candidate_id: rows[0].candidate_id,
+                      hiring_run_id: rows[0].hiring_run_id,
+                      status: 'not_started',
+                    },
+                    error: null,
+                  }),
+                }),
+              }),
+            }),
+          };
+        }
+        return {
+          auth: {
+            getUser: async () => ({ data: { user: { id: 'emp-alpha', email: 'alpha@org.com' } }, error: null }),
+          },
+          from: (table) => {
+            const makeBuilder = () => ({
+              select: () => makeBuilder(),
+              eq: () => makeBuilder(),
+              order: () => makeBuilder(),
+              limit: () => makeBuilder(),
+              maybeSingle: async () => {
+                if (table === 'hiring_runs') return { data: { id: 'hr-1', org_id: 'org-alpha' }, error: null };
+                if (table === 'organization_memberships') return { data: { membership_role: 'owner', membership_status: 'active' }, error: null };
+                if (table === 'candidates') return { data: { id: 'cand-rec-1', candidate_id: 'cand-1' }, error: null };
+                return { data: null, error: null };
+              },
+            });
+            return makeBuilder();
+          },
+        };
+      });
+
+      const req = createMockRequest({
+        method: 'POST',
+        headers: { Authorization: 'Bearer token-alpha' },
+        body: { hiring_run_id: 'hr-1', candidate_id: 'cand-1' },
+      });
+      const res = await createScreeningSession(req);
+      expect(res.status).toBe(201);
+      const json = await res.json();
+      expect(json.session_id).toBe('sess-alpha-123');
+    });
+
+    it('4. Employer Beta from different organization is DENIED access (403)', async () => {
+      createSupabaseServerClient.mockImplementation(async (req) => ({
+        auth: {
+          getUser: async () => ({ data: { user: { id: 'emp-beta', email: 'beta@org.com' } }, error: null }),
+        },
+        from: (table) => {
+          const makeBuilder = () => ({
+            select: () => makeBuilder(),
+            eq: () => makeBuilder(),
+            order: () => makeBuilder(),
+            limit: () => makeBuilder(),
+            maybeSingle: async () => {
+              if (table === 'candidates') return { data: { id: 'ext-1', hiring_runs: { org_id: 'org-alpha' } }, error: null };
+              if (table === 'organization_memberships') return { data: null, error: null }; // Not a member of org-alpha
+              return { data: null, error: null };
+            },
+          });
+          return makeBuilder();
+        },
+      }));
+
+      const req = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-beta' } });
+      const res = await getPacket(req, { params: Promise.resolve({ extractionId: 'ext-1' }) });
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('CANDIDATE ONE & TWO WORKFLOWS', () => {
+    it('5. Candidate One reads own status and proof profile', async () => {
+      createSupabaseServerClient.mockImplementation(async (req) => ({
+        auth: {
+          getUser: async () => ({ data: { user: { id: 'cand-1', email: 'cand1@test.com' } }, error: null }),
+        },
+        from: (table) => ({
+          select: () => ({
+            eq: () => ({
+              single: async () => ({ data: { id: 'cand-1', name: 'Candidate One' }, error: null }),
+              maybeSingle: async () => ({ data: { candidate_id: 'cand-1', summary: 'Proof summary' }, error: null }),
+            }),
+          }),
+        }),
+      }));
+
+      const reqStatus = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-cand-1' } });
+      const resStatus = await getCandidateStatus(reqStatus, { params: Promise.resolve({ candidateId: 'cand-1' }) });
+      expect(resStatus.status).toBe(200);
+
+      const reqProof = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-cand-1' } });
+      const resProof = await getProofProfile(reqProof, { params: Promise.resolve({ candidateId: 'cand-1' }) });
+      expect(resProof.status).toBe(200);
+    });
+
+    it('6. Candidate One reads, starts, answers, and completes own screening session', async () => {
+      createSupabaseServerClient.mockImplementation(async (req) => ({
+        auth: {
+          getUser: async () => ({ data: { user: { id: 'cand-1', email: 'cand1@test.com' } }, error: null }),
+        },
+        from: (table) => ({
+          select: () => ({
+            eq: () => ({
+              single: async () => ({ data: { id: 'sess-1', candidate_id: 'cand-1', questions: [{ id: 'q1' }] }, error: null }),
+              maybeSingle: async () => ({ data: null, error: null }),
+            }),
+          }),
+          update: () => ({
+            eq: () => ({
+              select: () => ({ single: async () => ({ data: { id: 'sess-1', status: 'started' }, error: null }) }),
+              then: (resolve) => resolve({ data: [{ id: 'sess-1', status: 'completed' }], error: null }),
+            }),
+          }),
+          upsert: () => ({
+            select: () => ({ single: async () => ({ data: { session_id: 'sess-1', question_id: 'q1' }, error: null }) }),
+            then: (resolve) => resolve({ data: [{ id: 'summary-1' }], error: null }),
+          }),
+        }),
+      }));
+
+      // GET
+      const reqGet = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-cand-1' } });
+      const resGet = await getScreeningSession(reqGet, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resGet.status).toBe(200);
+
+      // START
+      const reqStart = createMockRequest({ method: 'POST', headers: { Authorization: 'Bearer token-cand-1' } });
+      const resStart = await startScreening(reqStart, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resStart.status).toBe(200);
+
+      // ANSWER
+      const reqAns = createMockRequest({ method: 'POST', headers: { Authorization: 'Bearer token-cand-1' }, body: { question_id: 'q1', answer_text: 'Ans' } });
+      const resAns = await answerScreening(reqAns, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resAns.status).toBe(200);
+
+      // COMPLETE
+      const reqComp = createMockRequest({ method: 'POST', headers: { Authorization: 'Bearer token-cand-1' } });
+      const resComp = await completeScreening(reqComp, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resComp.status).toBe(200);
+    });
+
+    it('7. Candidate Two attempting Candidate One session access is DENIED (403)', async () => {
+      createSupabaseServerClient.mockImplementation(async (req) => ({
+        auth: {
+          getUser: async () => ({ data: { user: { id: 'cand-2', email: 'cand2@test.com' } }, error: null }),
+        },
+        from: (table) => ({
+          select: () => ({
+            eq: () => ({
+              single: async () => ({ data: { id: 'sess-1', candidate_id: 'cand-1' }, error: null }),
+            }),
+          }),
+        }),
+      }));
+
+      const reqGet = createMockRequest({ method: 'GET', headers: { Authorization: 'Bearer token-cand-2' } });
+      const resGet = await getScreeningSession(reqGet, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resGet.status).toBe(403);
+
+      const reqStart = createMockRequest({ method: 'POST', headers: { Authorization: 'Bearer token-cand-2' } });
+      const resStart = await startScreening(reqStart, { params: Promise.resolve({ sessionId: 'sess-1' }) });
+      expect(resStart.status).toBe(403);
+    });
+  });
+
+  describe('UNAUTHENTICATED ACCESS DENIAL', () => {
+    it('8. Unauthenticated requests to P0 routes return 401 Unauthorized', async () => {
+      createSupabaseServerClient.mockImplementation(async () => ({
+        auth: { getUser: async () => ({ data: { user: null }, error: { message: 'Unauthenticated' } }) },
+      }));
+
+      const req1 = createMockRequest({ method: 'GET' });
+      expect((await getCandidateStatus(req1, { params: Promise.resolve({ candidateId: 'c-1' }) })).status).toBe(401);
+
+      const req2 = createMockRequest({ method: 'GET' });
+      expect((await getPacket(req2, { params: Promise.resolve({ extractionId: 'ext-1' }) })).status).toBe(401);
+
+      const req3 = createMockRequest({ method: 'POST', body: { hiring_run_id: 'hr-1', candidate_id: 'cand-1' } });
+      expect((await createScreeningSession(req3)).status).toBe(401);
+    });
+  });
+});

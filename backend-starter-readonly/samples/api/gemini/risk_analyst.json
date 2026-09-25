@@ -1,0 +1,11 @@
+{
+  "input_text": "Resume claim: handled 900,000 jobs per day from April 2021 through May 2026. Supporting project summary: service launched in January 2024 and handled 90,000 jobs per day. Ownership is described as both sole owner and team contributor.",
+  "context": {
+    "candidate_id": "00000000-0000-0000-0000-000000000103",
+    "evidence_ids": [
+      "00000000-0000-0000-0000-000000000231",
+      "00000000-0000-0000-0000-000000000232"
+    ],
+    "instruction": "Return verification risks, not rejection recommendations."
+  }
+}

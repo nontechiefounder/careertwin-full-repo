@@ -1,0 +1,7 @@
+{
+  "input_text": "Senior Backend Engineer. Own document-ingestion services from design through production operations. Build idempotent asynchronous workflows using queues. Define service-level objectives, tracing and incident runbooks. Show a measurable production outcome.",
+  "context": {
+    "role_title": "Senior Backend Engineer",
+    "instruction": "Propose atomic requirements for human review. Do not approve them."
+  }
+}

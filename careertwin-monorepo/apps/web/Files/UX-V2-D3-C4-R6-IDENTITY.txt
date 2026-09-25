@@ -1,0 +1,49 @@
+=== UX-V2-D3-C4-R6 IDENTITY COMMAND EVIDENCE ===
+Timestamp: 2026-08-21T00:44:00Z
+
+--- git status --short ---
+(clean worktree — no output)
+
+--- git branch --show-current ---
+antigravity/step4b2-frontend-parity
+
+--- git rev-parse 3f098cad0f14394f284d9b9b844988122bbb2f92 ---
+3f098cad0f14394f284d9b9b844988122bbb2f92
+
+--- git rev-parse b4bf1fbf747d910edce26d0a7b639511ada7ad63 ---
+b4bf1fbf747d910edce26d0a7b639511ada7ad63
+
+--- git diff --name-status 3f098cad..b4bf1fb ---
+A	apps/web/Files/UX-V2-D3-C4-R5-COMBINED-EXECUTION.log
+A	apps/web/Files/UX-V2-D3-C4-R5-exact.patch
+A	apps/web/Files/UX_V2_D3_C4_R5_FINAL_REPORT.md
+A	apps/web/Files/d3_c4_r5_active_complete_contract.png
+A	apps/web/Files/d3_c4_r5_zero_evaluation_page1.png
+
+--- git diff --exit-code 3f098cad..b4bf1fb -- apps/web/app apps/web/components apps/web/lib apps/web/__tests__ ---
+(no output — exit code 0)
+
+--- git show-ref --tags | grep ux-v2-d3-private-pilot ---
+6c55810f73647df562101e710535bda60275d65f refs/tags/ux-v2-d3-private-pilot-accepted
+fd2203f279a723b2193dbfff2fc9f43bba1c5e07 refs/tags/ux-v2-d3-private-pilot-code-accepted
+bbc6b2177d292d1eb0b8b28eaa63d00c8c3614bc refs/tags/ux-v2-d3-private-pilot-evidence-accepted
+94eea994696bbb998525881aa93ba823661bb16b refs/tags/ux-v2-d3-private-pilot-final
+1d8235b9814e7f8ed6a741c74d0a0d83b2462069 refs/tags/ux-v2-d3-private-pilot-final-reconciled
+
+--- tag resolved commits ---
+ux-v2-d3-private-pilot-code-accepted     -> 3f098cad0f14394f284d9b9b844988122bbb2f92
+ux-v2-d3-private-pilot-evidence-accepted -> b4bf1fbf747d910edce26d0a7b639511ada7ad63
+
+--- git rev-parse 3f098cad^{tree} ---
+d079be8673decff11b9a2a0e3388911257650adb
+
+--- git rev-parse b4bf1fb^{tree} ---
+745aff792d26ed335285e92b071712ccf57cb994
+
+(Full tree hashes differ because evidence files differ. Scoped production+test diff is 0.)
+
+TESTED_CODE_COMMIT=3f098cad0f14394f284d9b9b844988122bbb2f92
+EVIDENCE_PACKAGE_COMMIT=b4bf1fbf747d910edce26d0a7b639511ada7ad63
+PRODUCTION_TEST_TREE_DIFF_EXIT_CODE=0
+CODE_TAG_COMMIT=3f098cad0f14394f284d9b9b844988122bbb2f92
+EVIDENCE_TAG_COMMIT=b4bf1fbf747d910edce26d0a7b639511ada7ad63

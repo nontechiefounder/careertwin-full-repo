@@ -1,0 +1,30 @@
+{
+  "input_text": "Classify only the supplied claims against the supplied role requirements.",
+  "context": {
+    "requirements": [
+      {
+        "id": "00000000-0000-0000-0000-000000000301",
+        "label": "Own a production backend service",
+        "kind": "must_have"
+      },
+      {
+        "id": "00000000-0000-0000-0000-000000000302",
+        "label": "Build reliable asynchronous workflows",
+        "kind": "strong_signal"
+      }
+    ],
+    "claims": [
+      {
+        "predicate": "owned_service",
+        "object_text": "Owned a production ingestion service processing 2.4 million files monthly.",
+        "evidence_ids": ["00000000-0000-0000-0000-000000000201"]
+      },
+      {
+        "predicate": "built_async_workflow",
+        "object_text": "Designed an idempotent queue workflow with dead-letter recovery.",
+        "evidence_ids": ["00000000-0000-0000-0000-000000000202"]
+      }
+    ],
+    "rubric_version": "0.1.0"
+  }
+}

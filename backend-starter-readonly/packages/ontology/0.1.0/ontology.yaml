@@ -1,0 +1,116 @@
+version: 0.1.0
+name: CareerTWiN Evidence Ontology
+description: Canonical entities and relationships for proof-ranked candidate review.
+
+entities:
+  Organization:
+    identity: [id]
+  Role:
+    identity: [id, org_id]
+  Requirement:
+    identity: [id, role_id]
+    attributes: [kind, weight, evidence_expectation, approved]
+  Candidate:
+    identity: [id, role_id, org_id]
+  Document:
+    identity: [id, candidate_id]
+    attributes: [sha256, media_type, scan_status, parser_version]
+  Claim:
+    identity: [id, candidate_id]
+    attributes: [predicate, object_text, confidence, model_run_id]
+  EvidenceRef:
+    identity: [id, document_id]
+    attributes: [page_number, offsets, bounding_box, excerpt_sha256, parser_version]
+  RequirementMatch:
+    identity: [id, candidate_id, requirement_id]
+    attributes: [status, evidence_strength, confidence, reason_codes, rubric_version]
+  RiskFlag:
+    identity: [id, candidate_id]
+    attributes: [code, severity]
+  InterviewProbe:
+    identity: [id, candidate_id]
+  TrustPacket:
+    identity: [id, candidate_id, version]
+
+relationships:
+  PART_OF:
+    from: Requirement
+    to: Role
+  APPLIED_TO:
+    from: Candidate
+    to: Role
+  CONTAINS:
+    from: Document
+    to: EvidenceRef
+  ASSERTS:
+    from: Candidate
+    to: Claim
+  SUPPORTS:
+    from: EvidenceRef
+    to: Claim
+  CONTRADICTS:
+    from: EvidenceRef
+    to: Claim
+  SATISFIES:
+    from: Claim
+    to: Requirement
+  TESTS:
+    from: InterviewProbe
+    to: Requirement
+  REFERENCES:
+    from: TrustPacket
+    to: EvidenceRef
+
+requirement_kinds:
+  - must_have
+  - strong_signal
+  - nice_to_have
+  - disqualifier
+
+match_statuses:
+  - supported
+  - partial
+  - unsupported
+  - contradicted
+
+evidence_strengths:
+  direct_artifact: 1.0
+  verified_outcome: 0.9
+  detailed_claim: 0.7
+  self_assertion: 0.4
+  inference: 0.2
+
+reason_codes:
+  - requirement_supported_by_direct_artifact
+  - requirement_supported_by_detailed_claim
+  - partial_scope_match
+  - missing_quantified_outcome
+  - missing_ownership_boundary
+  - missing_recency
+  - conflicting_dates
+  - conflicting_scope
+  - unsupported_claim
+  - disqualifier_supported
+  - human_override
+
+prohibited_features:
+  - name
+  - photo
+  - age
+  - date_of_birth
+  - gender
+  - race
+  - ethnicity
+  - religion
+  - disability
+  - pregnancy
+  - sexual_orientation
+  - nationality
+  - citizenship
+  - address
+  - postal_code
+  - graduation_year
+  - marital_status
+  - family_status
+  - similarity_to_past_employee
+

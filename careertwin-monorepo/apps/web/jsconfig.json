@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@packages/shared-contracts": ["../../packages/shared-contracts/src/index.ts"],
+      "@packages/shared-contracts/*": ["../../packages/shared-contracts/src/*"],
+      "@packages/hiring-genome": ["../../packages/hiring-genome/src/index.ts"],
+      "@packages/hiring-genome/*": ["../../packages/hiring-genome/src/*"],
+      "@packages/proof-engine": ["../../packages/proof-engine/src/index.ts"],
+      "@packages/proof-engine/*": ["../../packages/proof-engine/src/*"]
+    }
+  }
+}

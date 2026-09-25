@@ -1,0 +1,11 @@
+# Proof Contract Quality Rubric
+
+Score each dimension using Weak, Partial, Moderate, Strong, or Exceptional after writing evidence-grounded reasoning. Do not average away a critical contradiction.
+
+## Dimensions
+
+- **Job Relevance** — cite attributable sources and name uncertainty.\n- **Dimension Completeness** — cite attributable sources and name uncertainty.\n- **Accepted Proof Routes** — cite attributable sources and name uncertainty.\n- **Semantic Anchors** — cite attributable sources and name uncertainty.\n- **Weight Normalization** — cite attributable sources and name uncertainty.\n- **Prohibited-Signal Exclusion** — cite attributable sources and name uncertainty.\n
+
+## Release rule
+
+Missing provenance, protected-signal use, or unsupported verified evidence requires withholding and human review.

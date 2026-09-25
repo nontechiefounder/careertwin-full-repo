@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 14
+applcnt::cand_014 | stage?? screen
+note: implemented workflow; ownrship unclear; duplicate token DUP-06
+extracted role ref: role_fullstack_001

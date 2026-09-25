@@ -1,0 +1,4 @@
+SYNTHETIC RECORD 19
+applcnt::cand_019 | stage?? mgr-chat
+note: implemented workflow; ownrship bounded; duplicate token DUP-09
+extracted role ref: role_data_analyst_002
