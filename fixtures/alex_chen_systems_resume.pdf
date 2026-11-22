@@ -1,0 +1,43 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+3 0 obj
+<< /Length 434 >>
+stream
+BT
+/F1 10 Tf
+40 740 Td
+14 TL
+(Alex Chen) Tj
+T* (Senior Distributed Systems Engineer) Tj
+T* (Professional Summary:) Tj
+T* (Experienced distributed systems engineer. Built Go microservices and event queues.) Tj
+T* (Candidate has no Kubernetes experience.) Tj
+T* (Specialized in high-throughput data pipelines, messaging, and PostgreSQL.) Tj
+T* (Core Skills: Go, Distributed Systems, Event-Driven Architecture, PostgreSQL, Docker.) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Pages /Kids [2 0 R] /Count 1 >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000205 00000 n 
+0000000690 00000 n 
+0000000747 00000 n 
+trailer
+<< /Size 6 /Root 5 0 R >>
+startxref
+796
+%%EOF

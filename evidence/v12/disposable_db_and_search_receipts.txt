@@ -1,0 +1,53 @@
+### 1. authenticated SELECT gmail_refresh_token (expect SQLSTATE 42501)
+exit_code=0
+BEGIN
+SET
+ROLLBACK
+ERROR:  permission denied for table profiles
+HINT:  Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO authenticated;
+
+### 2. authenticated SELECT safe columns for Alpha UID (expect 1 row)
+exit_code=0
+BEGIN
+SET
+SET
+                  id                  |            email            |    name     |   role   |  company   | gmail_connected | gmail_email 
+--------------------------------------+-----------------------------+-------------+----------+------------+-----------------+-------------
+ a1111111-1111-4111-d2c0-000000000001 | d2c.alpha.owner@example.com | Alpha Owner | employer | Alpha Corp | f               | 
+(1 row)
+
+ROLLBACK
+
+### 3. authenticated SELECT other user profile (expect 0 rows via RLS)
+exit_code=0
+BEGIN
+SET
+SET
+ id | email 
+----+-------
+(0 rows)
+
+ROLLBACK
+
+### 4. service_role SELECT count(gmail_refresh_token) (expect success)
+exit_code=0
+BEGIN
+SET
+ service_role_count 
+--------------------
+                  0
+(1 row)
+
+ROLLBACK
+
+### 5. PostgREST search query term=O'Reilly
+status=200
+body=[]
+
+### 5. PostgREST search query term=Node.js
+status=200
+body=[]
+
+### 5. PostgREST search query term=Staff id.neq.0
+status=200
+body=[]

@@ -1,0 +1,67 @@
+# ==============================================================================
+# CareerTWiN Monorepo Git Ignore Rules
+# ==============================================================================
+
+# Environment files & Secrets
+.env
+.env.*
+!.env.example
+
+# JavaScript / Node.js build & dependencies
+node_modules/
+node_modules
+.next/
+.vercel/
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
+
+# Python build & environments
+.venv/
+env/
+venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.pyc
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+__MACOSX/
+
+# Candidate Data, Datasets & Sensitive Exports
+data/talent_vault.json
+data/private/
+candidate_uploads/
+candidate_exports/
+candidate_datasets/
+production_exports/
+database_dumps/
+quarantine/
+
+# Security, Certificates & Keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Local Supabase Ephemeral CLI Folders
+supabase/.temp/
+supabase/.branches/
+
+# Runtime services & candidate packages
+private-context-storage/
+logs/pids/
+logs/services/
+logs/temporal.db
+WorkByLine_V3_Implementation_Candidate_*.zip
+evidence/browser_acceptance/trace.zip
+

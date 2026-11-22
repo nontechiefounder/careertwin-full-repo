@@ -1,0 +1,1594 @@
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+
+ RUN  v4.1.2 /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web
+
+
+ Test Files 0 passed (52)
+      Tests 0 passed (0)
+   Start at 02:27:21
+   Duration 925ms
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx [queued]
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx [queued]
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx [queued]
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js [queued]
+
+ Test Files 0 passed (52)
+      Tests 0 passed (22)
+   Start at 02:27:21
+   Duration 1.23s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx [queued]
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 0/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx [queued]
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 0 passed (64)
+   Start at 02:27:21
+   Duration 1.43s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 0/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx [queued]
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 0/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 0 passed (81)
+   Start at 02:27:21
+   Duration 1.65s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 0/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 0/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 0/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 0/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 0 passed (99)
+   Start at 02:27:21
+   Duration 1.75s
+stderr | __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx > CTW-V2-DEMO-CORE-07 — Ingestion, Provenance Integrity & Release Hardening Suite > 1. Genuine Document Parsing & Parser Provenance > 1.1 parses single-page synthetic resume with exact text and genuine parser metadata
+Warning: Cannot access the `require` function: "TypeError [ERR_INVALID_ARG_VALUE]: The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received 'http://localhost:3000/index.cjs'".
+Warning: Cannot polyfill `ImageData`, rendering may be broken.
+Warning: Cannot polyfill `Path2D`, rendering may be broken.
+
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S1 — Unauthenticated request to /api/employer/analytics returns 401
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S2 — Tenant B token accessing Tenant A brief returns 403 or 404
+GoTrueClient@sb-127-auth-token:1 (2.100.1) 2026-10-22T20:57:23.883Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 1/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 0/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 1/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 0/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 2 passed (99)
+   Start at 02:27:21
+   Duration 1.95s
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S3 — Tenant B token accessing Tenant A packet returns 403 or 404
+GoTrueClient@sb-127-auth-token:2 (2.100.1) 2026-10-22T20:57:23.982Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 1/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 0/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 4/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 2/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 7 passed (99)
+   Start at 02:27:21
+   Duration 2.05s
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S4 — Sourcing sessions route requires verified org membership
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+GoTrueClient@sb-127-auth-token:3 (2.100.1) 2026-10-22T20:57:24.113Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S5 — Malformed Authorization header format returns 401
+GoTrueClient@sb-127-auth-token:4 (2.100.1) 2026-10-22T20:57:24.114Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S7 — Verified org membership extracts user organization context
+GoTrueClient@sb-127-auth-token:5 (2.100.1) 2026-10-22T20:57:24.121Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 1/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 1/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 5/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 3/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 10 passed (99)
+   Start at 02:27:21
+   Duration 2.15s
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S8 — Cross-tenant org ID mismatch fails org verification
+GoTrueClient@sb-127-auth-token:6 (2.100.1) 2026-10-22T20:57:24.249Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 3/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 0/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 2/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 6/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 7/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 0 passed (52)
+      Tests 18 passed (99)
+   Start at 02:27:21
+   Duration 2.35s
+stderr | __tests__/security/EmployerWorkspaceSecurity.test.js > Employer Workspace Security Suite (UX-V2-D4-C2) > Scenario S9 — Invalid hiring run UUID parameter returns 400 or 404
+GoTrueClient@sb-127-auth-token:7 (2.100.1) 2026-10-22T20:57:24.339Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 4/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 2/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 6/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 1 passed (52)
+      Tests 23 passed (99)
+   Start at 02:27:21
+   Duration 2.45s
+ ✓ __tests__/security/EmployerWorkspaceSecurity.test.js (10 tests) 937ms
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 4/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 2/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 6/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 1 passed (52)
+      Tests 23 passed (99)
+   Start at 02:27:21
+   Duration 2.45s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 5/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 3/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 8/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 1 passed (52)
+      Tests 27 passed (99)
+   Start at 02:27:21
+   Duration 2.55s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 6/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 3/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 9/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 1 passed (52)
+      Tests 29 passed (99)
+   Start at 02:27:21
+   Duration 2.66s
+ ✓ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx (10 tests) 985ms
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 7/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 3/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 10/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 2 passed (52)
+      Tests 31 passed (99)
+   Start at 02:27:21
+   Duration 2.86s
+ ✓ __tests__/evals/Core08IntegrityAndAudit.test.jsx (8 tests) 1054ms
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 8/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 4/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 10/10
+ ❯ __tests__/security/EmployerWorkspaceSecurity.test.js 10/10
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 0/21
+
+ Test Files 3 passed (52)
+      Tests 33 passed (99)
+   Start at 02:27:21
+   Duration 2.96s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 8/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 1/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 5/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 10/10
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 3/21
+
+ Test Files 3 passed (52)
+      Tests 37 passed (99)
+   Start at 02:27:21
+   Duration 3.16s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 8/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 6/21
+ ❯ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx 10/10
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 0/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 6/21
+
+ Test Files 3 passed (52)
+      Tests 42 passed (105)
+   Start at 02:27:21
+   Duration 3.27s
+
+ ❯ __tests__/evals/Core08IntegrityAndAudit.test.jsx 8/8
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 7/21
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 0/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 7/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js [queued]
+
+ Test Files 3 passed (52)
+      Tests 44 passed (105)
+   Start at 02:27:21
+   Duration 3.37s
+ ✓ __tests__/security/ExecutableDatabaseValidation.test.js (6 tests) 301ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 8/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx [queued]
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 8/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 0/16
+
+ Test Files 4 passed (52)
+      Tests 52 passed (121)
+   Start at 02:27:21
+   Duration 3.57s
+stderr | __tests__/security/TenantEvidenceSecurity.test.js > PART 2 — COMPLETE TENANT-SECURITY & RPC INTEGRITY SUITE
+GoTrueClient@sb-127-auth-token:1 (2.100.1) 2026-10-22T20:57:25.480Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 8/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx [queued]
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 8/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 0/16
+
+ Test Files 4 passed (52)
+      Tests 52 passed (121)
+   Start at 02:27:21
+   Duration 3.57s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 9/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx [queued]
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 8/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 0/16
+
+ Test Files 4 passed (52)
+      Tests 53 passed (121)
+   Start at 02:27:21
+   Duration 3.67s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 9/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx [queued]
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 9/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 0/16
+
+ Test Files 4 passed (52)
+      Tests 54 passed (121)
+   Start at 02:27:21
+   Duration 3.87s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 9/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 0/17
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 10/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 0/16
+
+ Test Files 4 passed (52)
+      Tests 55 passed (138)
+   Start at 02:27:21
+   Duration 3.97s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 10/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 0/17
+ ❯ __tests__/security/ExecutableDatabaseValidation.test.js 6/6
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 17/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 6/16
+
+ Test Files 4 passed (52)
+      Tests 69 passed (138)
+   Start at 02:27:21
+   Duration 4.17s
+ ✓ __tests__/security/StagingAuthorizationBlockers.test.js (21 tests) 2917ms
+     ✓ B.5: Profile INSERT with gmail integration fields is DENIED (columns not granted)  371ms
+ ✓ __tests__/security/TenantEvidenceSecurity.test.js (16 tests) 786ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 2/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 10/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 9/17
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 21/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 16/16
+
+ Test Files 6 passed (52)
+      Tests 92 passed (138)
+   Start at 02:27:21
+   Duration 4.27s
+ ✓ __tests__/packet/CandidateTrustPacketUI.test.jsx (17 tests) 356ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 11/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 17/17
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 21/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 16/16
+
+ Test Files 7 passed (52)
+      Tests 102 passed (138)
+   Start at 02:27:21
+   Duration 4.48s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 18/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 17/17
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 21/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 16/16
+
+ Test Files 7 passed (52)
+      Tests 109 passed (138)
+   Start at 02:27:21
+   Duration 4.69s
+stderr | __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx > CTW-V2-DEMO-CORE-09 Upload, RPC Integrity & Skill Classification Suite > 3. Original-Document Preservation & Cross-Tenant Download Retrieval > 3.3 genuine parser on fixtures/sarah_connor_lead_infra.pdf proves 2 pages and page_spans (C09-05)
+Warning: Cannot access the `require` function: "TypeError [ERR_INVALID_ARG_VALUE]: The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received 'http://localhost:3000/index.cjs'".
+Warning: Cannot polyfill `ImageData`, rendering may be broken.
+Warning: Cannot polyfill `Path2D`, rendering may be broken.
+
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 19/21
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 17/17
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+ ❯ __tests__/security/StagingAuthorizationBlockers.test.js 21/21
+ ❯ __tests__/security/TenantEvidenceSecurity.test.js 16/16
+
+ Test Files 7 passed (52)
+      Tests 110 passed (138)
+   Start at 02:27:21
+   Duration 4.79s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 19/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx [queued]
+ ❯ __tests__/packet/CandidateTrustPacketUI.test.jsx 17/17
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+
+ Test Files 7 passed (52)
+      Tests 110 passed (138)
+   Start at 02:27:21
+   Duration 4.90s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 19/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx [queued]
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx [queued]
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 0/22
+
+ Test Files 7 passed (52)
+      Tests 110 passed (138)
+   Start at 02:27:21
+   Duration 5.00s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 20/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx [queued]
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 0/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 1/22
+
+ Test Files 7 passed (52)
+      Tests 112 passed (147)
+   Start at 02:27:21
+   Duration 5.20s
+ ✓ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx (21 tests) 3773ms
+       ✓ 1.1 requires valid 64-hex file_sha256 in document-backed evaluations  559ms
+       ✓ 1.4 rejects duplicate claim IDs and duplicate evidence IDs  353ms
+       ✓ 1.10 RPC rejects persistence when hiring-run rubric is missing approval metadata (C09-03)  456ms
+       ✓ 3.4 persists 2-page document to database and verifies parser_metadata integrity (C09-05)  375ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 3/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 0/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 1/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 2/22
+
+ Test Files 8 passed (52)
+      Tests 115 passed (155)
+   Start at 02:27:21
+   Duration 5.30s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 4/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 0/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 5/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 3/22
+
+ Test Files 8 passed (52)
+      Tests 121 passed (155)
+   Start at 02:27:21
+   Duration 5.40s
+ ✓ __tests__/pages/SourcingSessionPolling.test.jsx (9 tests) 373ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 6/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 0/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 7/22
+
+ Test Files 9 passed (52)
+      Tests 131 passed (155)
+   Start at 02:27:21
+   Duration 5.60s
+ ✓ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx (7 tests) 3936ms
+     ✓ A. Sequential reviewer actions retain both accepted events in decision_history without data loss  498ms
+     ✓ A2. Two truly simultaneous reviewer actions block-and-serialize via row lock, retaining both accepted events  845ms
+     ✓ B. Deterministic overlapping regeneration vs. review concurrency preserves newer evaluation data and serializes safely (C09-06)  1096ms
+     ✓ D. Forces activity_events failure AFTER candidate decision update and proves complete transaction rollback (C09-06)  794ms
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 1/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx [queued]
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx [queued]
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 8/22
+
+ Test Files 10 passed (52)
+      Tests 134 passed (155)
+   Start at 02:27:21
+   Duration 5.70s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 2/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 0/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 0/15
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 8/22
+
+ Test Files 10 passed (52)
+      Tests 135 passed (186)
+   Start at 02:27:21
+   Duration 5.80s
+
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx 21/21
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 2/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 4/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 2/15
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 9/22
+
+ Test Files 10 passed (52)
+      Tests 142 passed (186)
+   Start at 02:27:21
+   Duration 5.90s
+ ✓ __tests__/evals/ReleaseBlockerVerification.test.jsx (8 tests) 779ms
+stdout | __tests__/pages/EmployerChatGreeting.test.jsx > Employer Chat Greeting & Declarative Chips (ChatPage) > 13. Error-state navigation chips use the correct destinations
+[ChatPage] Error during chat submit caught: Network error
+
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 8/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 9/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 9/15
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 9/22
+
+ Test Files 11 passed (52)
+      Tests 160 passed (186)
+   Start at 02:27:21
+   Duration 6.10s
+ ✓ __tests__/pages/EmployerChatGreeting.test.jsx (16 tests) 369ms
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 8/8
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 16/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 11/15
+ ❯ __tests__/pages/SourcingSessionPolling.test.jsx 9/9
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 11/22
+
+ Test Files 12 passed (52)
+      Tests 171 passed (186)
+   Start at 02:27:21
+   Duration 6.20s
+ ✓ __tests__/pages/OneShotDataLoading.test.jsx (15 tests) 445ms
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx [queued]
+ ❯ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx 7/7
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 8/8
+ ❯ __tests__/pages/AuthPage.test.jsx [queued]
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 16/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 15/15
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 19/22
+
+ Test Files 13 passed (52)
+      Tests 183 passed (186)
+   Start at 02:27:21
+   Duration 6.31s
+ ✓ __tests__/security/FullSupabaseRuntimeValidation.test.js (22 tests) 5099ms
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 1/7
+ ❯ __tests__/evals/ReleaseBlockerVerification.test.jsx 8/8
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx [queued]
+ ❯ __tests__/pages/AuthPage.test.jsx [queued]
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 16/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 15/15
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 22/22
+
+ Test Files 14 passed (52)
+      Tests 187 passed (193)
+   Start at 02:27:21
+   Duration 6.62s
+ ✓ __tests__/chat/EmployerChatUI.test.jsx (7 tests) 325ms
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 0/4
+ ❯ __tests__/pages/AuthPage.test.jsx [queued]
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 16/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 15/15
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 22/22
+
+ Test Files 15 passed (52)
+      Tests 193 passed (197)
+   Start at 02:27:21
+   Duration 6.82s
+
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 1/4
+ ❯ __tests__/pages/AuthPage.test.jsx 0/3
+ ❯ __tests__/pages/EmployerChatGreeting.test.jsx 16/16
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 15/15
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 22/22
+
+ Test Files 15 passed (52)
+      Tests 194 passed (200)
+   Start at 02:27:21
+   Duration 6.92s
+ ✓ __tests__/intake/RoleIntakeUI.test.jsx (4 tests) 202ms
+ ✓ __tests__/pages/AuthPage.test.jsx (3 tests) 189ms
+
+ ❯ __tests__/brief/ProofContractUI.test.jsx [queued]
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 0/9
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/pages/OneShotDataLoading.test.jsx 15/15
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 22/22
+
+ Test Files 17 passed (52)
+      Tests 200 passed (209)
+   Start at 02:27:21
+   Duration 7.02s
+stdout | __tests__/components/AuthProviderLifecycle.test.jsx > AuthProvider Lifecycle & Hook Dependency Tests (W10/W11) > 5. Valid locally mocked session stores token, syncs cookie, and calls /auth/me
+[Auth] Synced token to cookie: sb-undefined-auth-token
+
+stdout | __tests__/components/AuthProviderLifecycle.test.jsx > AuthProvider Lifecycle & Hook Dependency Tests (W10/W11) > 6. Logout invokes Supabase signOut, removes storage, clears cookie, and redirects
+[Auth] Cleared auth cookie
+
+stdout | __tests__/components/AuthProviderLifecycle.test.jsx > AuthProvider Lifecycle & Hook Dependency Tests (W10/W11) > 7. Repeated logout invocation does not cause dependency loops or runtime errors
+[Auth] Cleared auth cookie
+
+stdout | __tests__/components/AuthProviderLifecycle.test.jsx > AuthProvider Lifecycle & Hook Dependency Tests (W10/W11) > 7. Repeated logout invocation does not cause dependency loops or runtime errors
+[Auth] Cleared auth cookie
+
+
+ ❯ __tests__/api/employer.test.js [queued]
+ ❯ __tests__/brief/ProofContractUI.test.jsx [queued]
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 1/9
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/FullSupabaseRuntimeValidation.test.js 22/22
+
+ Test Files 17 passed (52)
+      Tests 201 passed (209)
+   Start at 02:27:21
+   Duration 7.13s
+ ✓ __tests__/components/AuthProviderLifecycle.test.jsx (9 tests) 113ms
+
+ ❯ __tests__/api/employer.test.js [queued]
+ ❯ __tests__/brief/ProofContractUI.test.jsx [queued]
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx [queued]
+
+ Test Files 18 passed (52)
+      Tests 209 passed (209)
+   Start at 02:27:21
+   Duration 7.33s
+
+ ❯ __tests__/api/employer.test.js 0/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx [queued]
+ ❯ __tests__/chat/EmployerChatUI.test.jsx 7/7
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx [queued]
+
+ Test Files 18 passed (52)
+      Tests 209 passed (213)
+   Start at 02:27:21
+   Duration 7.43s
+stderr | __tests__/api/employer.test.js > /api/employer/packets/[extractionId] - Real Packet Generation & Retrieval Flow > executes full pipeline: approved role + evidence -> engine eval -> database write -> GET packet
+RPC persistence error: Mock fallback to table update
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 0/15
+
+ Test Files 19 passed (52)
+      Tests 213 passed (233)
+   Start at 02:27:21
+   Duration 7.53s
+ ✓ __tests__/api/employer.test.js (4 tests) 38ms
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 0/15
+
+ Test Files 19 passed (52)
+      Tests 213 passed (233)
+   Start at 02:27:21
+   Duration 7.53s
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 1. Stale deprecated ct_token plus mock user: token & user removed, cookie cleared, user null, loading false, /auth/me not called
+[Auth] Cleared auth cookie
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 2. Deprecated token without ct_user: token removed, cookie cleared, unauthenticated state
+[Auth] Cleared auth cookie
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 3. is_mock ct_user with ordinary stale token: both entries removed, cookie cleared, unauthenticated state
+[Auth] Cleared auth cookie
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 4. Deprecated cookie with no localStorage token: relevant cookie cleared, unrelated cookies remain, user null
+[Auth] Cleared auth cookie
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 5. Valid locally mocked normal Supabase session initializes normally and calls /auth/me
+[Auth] Synced token to cookie: sb-undefined-auth-token
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 7. Auth listener: normal auth events are processed normally without mock bypass
+[Auth] Synced token to cookie: sb-undefined-auth-token
+
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 8. Login receives unexpected deprecated session response: fails closed, no token/user stored
+[Auth] Cleared auth cookie
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 1/15
+
+ Test Files 19 passed (52)
+      Tests 214 passed (233)
+   Start at 02:27:21
+   Duration 7.64s
+stderr | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 8. Login receives unexpected deprecated session response: fails closed, no token/user stored
+[Auth] Login error: Error: Invalid or deprecated session token
+    at Object.login (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/auth.js:174:17)
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 1/15
+
+ Test Files 19 passed (52)
+      Tests 214 passed (233)
+   Start at 02:27:21
+   Duration 7.64s
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 9. Normal mocked login success remains functional
+[Auth] Synced token to cookie: sb-undefined-auth-token
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 1/15
+
+ Test Files 19 passed (52)
+      Tests 214 passed (233)
+   Start at 02:27:21
+   Duration 7.64s
+stderr | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 10. Normal mocked login failure remains functional
+[Auth] Login error: Error: Invalid login credentials
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/ClientMockSessionDecommission.test.jsx:264:36
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 0/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/TypewriterEffect.test.jsx [queued]
+ ❯ __tests__/intake/RoleIntakeUI.test.jsx 4/4
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 1/15
+
+ Test Files 19 passed (52)
+      Tests 214 passed (233)
+   Start at 02:27:21
+   Duration 7.64s
+ ✓ __tests__/brief/ProofContractUI.test.jsx (5 tests) 213ms
+stdout | __tests__/security/ClientMockSessionDecommission.test.jsx > Client-Side Mock-Session Decommission & Stale Cleanup Tests (Step 4B5B3.1) > 11. Logout behavior remains functional
+[Auth] Cleared auth cookie
+
+ ✓ __tests__/security/ClientMockSessionDecommission.test.jsx (15 tests) 153ms
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/ResearchQAPanel.test.jsx [queued]
+ ❯ __tests__/components/TypewriterEffect.test.jsx 1/5
+ ❯ __tests__/pages/AuthPage.test.jsx 3/3
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+
+ Test Files 21 passed (52)
+      Tests 234 passed (238)
+   Start at 02:27:21
+   Duration 7.74s
+ ✓ __tests__/components/TypewriterEffect.test.jsx (5 tests) 69ms
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/AuthProviderLifecycle.test.jsx 9/9
+ ❯ __tests__/components/ResearchQAPanel.test.jsx [queued]
+ ❯ __tests__/components/TypewriterEffect.test.jsx 5/5
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx [queued]
+
+ Test Files 22 passed (52)
+      Tests 238 passed (238)
+   Start at 02:27:21
+   Duration 7.94s
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/ResearchQAPanel.test.jsx [queued]
+ ❯ __tests__/components/TypewriterEffect.test.jsx 5/5
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 0/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx [queued]
+
+ Test Files 22 passed (52)
+      Tests 238 passed (248)
+   Start at 02:27:21
+   Duration 8.14s
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 2. Deprecated cookie input fails closed without returning an isMock client
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+GoTrueClient@sb-example-auth-token:1 (2.100.1) 2026-10-22T20:57:30.153Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 3. Header and cookie precedence: deprecated input in header cannot be hidden by another cookie
+GoTrueClient@sb-example-auth-token:2 (2.100.1) 2026-10-22T20:57:30.154Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 4. No-token ordinary request returns standard client without isMock property
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+GoTrueClient@sb-example-auth-token:3 (2.100.1) 2026-10-22T20:57:30.154Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 5. Valid locally mocked ordinary bearer token constructs normal client without mock properties
+GoTrueClient@sb-example-auth-token:4 (2.100.1) 2026-10-22T20:57:30.155Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 6. Service-role request with deprecated session input is rejected before service-role client creation
+GoTrueClient@sb-example-auth-token:5 (2.100.1) 2026-10-22T20:57:30.155Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 7. Service-role request without deprecated input constructs normal service-role client
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+GoTrueClient@sb-example-auth-token:6 (2.100.1) 2026-10-22T20:57:30.155Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 8. Returned normal client has no isMock property, no synthetic user, and no stubbed database response
+GoTrueClient@sb-example-auth-token:7 (2.100.1) 2026-10-22T20:57:30.156Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 9. No raw token is logged during client creation
+GoTrueClient@sb-example-auth-token:8 (2.100.1) 2026-10-22T20:57:30.156Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | __tests__/security/ServerMockSessionDecommission.test.js > Server-Side Mock-Session Decommission Tests (Step 4B5B3.2) > 10. Zero external network requests occur during server client initialization
+GoTrueClient@sb-example-auth-token:9 (2.100.1) 2026-10-22T20:57:30.157Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 1/6
+ ❯ __tests__/components/TypewriterEffect.test.jsx 5/5
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx [queued]
+
+ Test Files 23 passed (52)
+      Tests 249 passed (254)
+   Start at 02:27:21
+   Duration 8.45s
+ ✓ __tests__/security/ServerMockSessionDecommission.test.js (10 tests) 15ms
+
+ ❯ __tests__/api/employer.test.js 4/4
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 1/6
+ ❯ __tests__/components/TypewriterEffect.test.jsx 5/5
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx [queued]
+
+ Test Files 23 passed (52)
+      Tests 249 passed (254)
+   Start at 02:27:21
+   Duration 8.45s
+
+ ❯ __tests__/brief/ProofContractUI.test.jsx 5/5
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 3/6
+ ❯ __tests__/components/TypewriterEffect.test.jsx 5/5
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/ClientMockSessionDecommission.test.jsx 15/15
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx [queued]
+
+ Test Files 23 passed (52)
+      Tests 251 passed (254)
+   Start at 02:27:21
+   Duration 8.55s
+ ✓ __tests__/components/ResearchQAPanel.test.jsx (6 tests) 346ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/components/ProtectedRoute.test.jsx [queued]
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 6/6
+ ❯ __tests__/evals/KubernetesMismatchProvenance.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx 1/4
+
+ Test Files 24 passed (52)
+      Tests 255 passed (258)
+   Start at 02:27:21
+   Duration 8.65s
+ ✓ __tests__/shortlist/CandidateShortlistUI.test.jsx (4 tests) 52ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/components/ProtectedRoute.test.jsx [queued]
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 6/6
+ ❯ __tests__/evals/KubernetesMismatchProvenance.test.js 0/6
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx 4/4
+
+ Test Files 25 passed (52)
+      Tests 258 passed (264)
+   Start at 02:27:21
+   Duration 8.85s
+ ✓ __tests__/evals/KubernetesMismatchProvenance.test.js (6 tests) 15ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/components/ProtectedRoute.test.jsx 0/4
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 6/6
+ ❯ __tests__/evals/KubernetesMismatchProvenance.test.js 6/6
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/ServerMockSessionDecommission.test.js 10/10
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx 4/4
+
+ Test Files 26 passed (52)
+      Tests 264 passed (268)
+   Start at 02:27:21
+   Duration 8.95s
+stdout | __tests__/components/ProtectedRoute.test.jsx > ProtectedRoute > redirects to / if role does not match
+Dev: Bypassing role check for employer
+
+ ✓ __tests__/components/ProtectedRoute.test.jsx (4 tests) 51ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/components/ProtectedRoute.test.jsx 4/4
+ ❯ __tests__/components/ResearchQAPanel.test.jsx 6/6
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/evals/KubernetesMismatchProvenance.test.js 6/6
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/shortlist/CandidateShortlistUI.test.jsx 4/4
+
+ Test Files 27 passed (52)
+      Tests 268 passed (268)
+   Start at 02:27:21
+   Duration 9.15s
+
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js [queued]
+ ❯ __tests__/components/ProtectedRoute.test.jsx 4/4
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/evals/KubernetesMismatchProvenance.test.js 6/6
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+
+ Test Files 27 passed (52)
+      Tests 268 passed (268)
+   Start at 02:27:21
+   Duration 9.58s
+
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 0/8
+ ❯ __tests__/components/ProtectedRoute.test.jsx 4/4
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js [queued]
+
+ Test Files 27 passed (52)
+      Tests 268 passed (276)
+   Start at 02:27:21
+   Duration 9.78s
+stderr | __tests__/api/rubricApproval.test.js > Rubric Version Approval Integrity Suite (RC-C1.2 Condition 1) > Strict Rubric Version Validation in Packet Generation > allows packet generation when valid persisted approval of the exact rubric version exists
+RPC persistence error: RPC test mock
+
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 8/8
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts [queued]
+
+ Test Files 29 passed (52)
+      Tests 286 passed (286)
+   Start at 02:27:21
+   Duration 9.98s
+ ✓ __tests__/api/rubricApproval.test.js (8 tests) 20ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 8/8
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts [queued]
+
+ Test Files 29 passed (52)
+      Tests 286 passed (286)
+   Start at 02:27:21
+   Duration 9.98s
+stderr | __tests__/security/SourcingSessionSecurity.test.js > Sourcing Session Route Security — UX-V2-D4 (10 cases) > 10. returns 500 with safe_next_action when internal exception occurs
+Sourcing session unexpected error: Error: Unexpected internal failure
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/SourcingSessionSecurity.test.js:224:13
+    at Mock (file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/spy/dist/index.js:332:34)
+    at Module.POST (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/employer/sourcing-sessions/route.js:10:38)
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/SourcingSessionSecurity.test.js:231:23
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20
+
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 8/8
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts [queued]
+
+ Test Files 29 passed (52)
+      Tests 286 passed (286)
+   Start at 02:27:21
+   Duration 9.98s
+ ✓ __tests__/security/SourcingSessionSecurity.test.js (10 tests) 16ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 8/8
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts [queued]
+
+ Test Files 29 passed (52)
+      Tests 286 passed (286)
+   Start at 02:27:21
+   Duration 9.98s
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/api/rubricApproval.test.js 8/8
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 0/10
+
+ Test Files 29 passed (52)
+      Tests 286 passed (296)
+   Start at 02:27:21
+   Duration 10.08s
+ ✓ ../../packages/proof-engine/__tests__/proofEngine.test.ts (10 tests) 10ms
+
+ ❯ __tests__/api/dryRunEmail.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 0/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 30 passed (52)
+      Tests 296 passed (314)
+   Start at 02:27:21
+   Duration 10.19s
+ ✓ __tests__/evals/SourceFaithfulClaimExtraction.test.js (18 tests) 10ms
+
+ ❯ __tests__/api/dryRunEmail.test.js 0/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js [queued]
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js [queued]
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 31 passed (52)
+      Tests 314 passed (325)
+   Start at 02:27:21
+   Duration 10.39s
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > suppresses duplicate scheduled email sequences on repeated requests
+[Email] Sequence already fully initiated for candidate profile_dup_123; suppressing duplicate.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > direct sendSMTPEmail and sendGmailEmail invocations are strictly suppressed in dry-run mode
+[SMTP] Dry run active: external email to candidate@example.com suppressed for safety.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > direct sendSMTPEmail and sendGmailEmail invocations are strictly suppressed in dry-run mode
+[Gmail API] Dry run active: external email to candidate@example.com suppressed for safety.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > atomically suppresses duplicate email sequence when concurrent request hits database unique constraint (23505)
+[Email] Atomic database constraint prevented duplicate Day 0 sequence for candidate profile_concurrent_1 (code 23505).
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > handles concurrent requests from separate application instances safely without duplicate sequence creation
+[Email] Atomic database constraint prevented duplicate Day 0 sequence for candidate profile_multi_inst (code 23505).
+
+ ✓ __tests__/api/dryRunEmail.test.js (11 tests) 18ms
+ ✓ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js (18 tests) 31ms
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stderr | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 4 — Characterize Authenticated Employer Routes with Candidate Identity > 4. Employer hiring-runs suggest POST accepts candidate token
+AI Suggestion failed, using robust fallback: Error: AI: All providers failed. Last error: undefined
+    at generateChat (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/ai.js:36:9)
+    at Module.POST (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/employer/hiring-runs/suggest/route.js:53:39)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/ApiAuthorizationCharacterization.test.js:176:19
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20
+
+stderr | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 4 — Characterize Authenticated Employer Routes with Candidate Identity > 8. Employer auto-source POST accepts candidate token
+Agent Workflow Error: Error: AI: All providers failed. Last error: undefined
+    at generateChat (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/ai.js:36:9)
+    at runSourcingAgent (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/sourcing/agent.js:44:44)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at Module.POST (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/employer/sourcing-sessions/[id]/auto-source/route.js:33:20)
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/ApiAuthorizationCharacterization.test.js:200:19
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20
+
+stderr | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 5 — Reconcile Role-Checked Routes > 2. Employer brief GET allows access when user is verified
+Brief synthesis failed, using rule-based fallback: Error: AI: All providers failed. Last error: undefined
+    at generateChat (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/ai.js:36:9)
+    at Module.GET (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/employer/brief/[id]/route.js:75:35)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/ApiAuthorizationCharacterization.test.js:214:19
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stdout | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 6 & 7 — Callbacks, Provider Invocation & Zero External Network Isolation > 1. Intentionally public auth endpoints handle requests without throwing and signin rejects invalid credentials
+[API Signin] Attempting login for: wrong@example.com
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stderr | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 6 & 7 — Callbacks, Provider Invocation & Zero External Network Isolation > 1. Intentionally public auth endpoints handle requests without throwing and signin rejects invalid credentials
+[API Signin] Auth Error: { message: 'Invalid login credentials', status: 401 }
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stdout | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 6 & 7 — Callbacks, Provider Invocation & Zero External Network Isolation > 1. Intentionally public auth endpoints handle requests without throwing and signin rejects invalid credentials
+[API Signup] Creating unconfirmed user: new@example.com
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stderr | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 6 & 7 — Callbacks, Provider Invocation & Zero External Network Isolation > 1. Intentionally public auth endpoints handle requests without throwing and signin rejects invalid credentials
+[API Signup] Unexpected error: TypeError: supabase.auth.admin.generateLink is not a function
+    at Module.POST (/Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/auth/signup/route.js:35:76)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/ApiAuthorizationCharacterization.test.js:252:25
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+stdout | __tests__/security/ApiAuthorizationCharacterization.test.js > API Authorization Characterization Baseline Tests (Step 4B5.3-B Hardened Baseline) > PART 6 & 7 — Callbacks, Provider Invocation & Zero External Network Isolation > 2. Zero real external network requests occur across all route handlers
+GOOGLE_CLIENT_ID: MISSING
+GOOGLE_CLIENT_SECRET: MISSING
+GOOGLE_REDIRECT_URI: undefined
+
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 1/25
+ ❯ __tests__/security/SourcingSessionSecurity.test.js 10/10
+ ❯ ../../packages/proof-engine/__tests__/proofEngine.test.ts 10/10
+
+ Test Files 33 passed (52)
+      Tests 344 passed (368)
+   Start at 02:27:21
+   Duration 10.49s
+ ✓ __tests__/security/ApiAuthorizationCharacterization.test.js (25 tests) 35ms
+
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/evals/SourceFaithfulClaimExtraction.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js [queued]
+ ❯ __tests__/security/HiringRunSecurity.test.js [queued]
+
+ Test Files 34 passed (52)
+      Tests 368 passed (368)
+   Start at 02:27:21
+   Duration 10.70s
+stderr | __tests__/security/HiringRunSecurity.test.js > Hiring Runs API Route Security & Single Tenant Contract (UX-V2 Day 3 C4-R1) > 15. returns 500 safe error response when hiring_runs insert operation fails
+Hiring run creation error: { message: 'Insert constraint error' }
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 0/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 35 passed (52)
+      Tests 393 passed (401)
+   Start at 02:27:21
+   Duration 10.80s
+ ✓ __tests__/security/HiringRunSecurity.test.js (25 tests) 22ms
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/api/dryRunEmail.test.js 11/11
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 0/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 35 passed (52)
+      Tests 393 passed (401)
+   Start at 02:27:21
+   Duration 10.80s
+stdout | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 3. Arbitrary invalid credentials call Supabase signInWithPassword and return 401 without mock fields
+[API Signin] Attempting login for: invalid@example.com
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+stderr | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 3. Arbitrary invalid credentials call Supabase signInWithPassword and return 401 without mock fields
+[API Signin] Auth Error: { message: 'Invalid login credentials', status: 401 }
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+stdout | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 4. Successful mocked Supabase sign-in returns legitimate user and session shape without mock fields
+[API Signin] Attempting login for: legit@example.com
+
+stdout | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 5. Supabase exception returns 500 error response without exposing raw credentials
+[API Signin] Attempting login for: test@example.com
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+stderr | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 5. Supabase exception returns 500 error response without exposing raw credentials
+[API Signin] Unexpected error: Error: Database network error
+    at /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/__tests__/security/AuthSigninDecommission.test.js:106:48
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)
+    at file:///Users/darshilparmar/Desktop/CareerTWiN%20Private%20Pilot%20Build/careertwin-v2-demo-worktree/apps/web/node_modules/@vitest/runner/dist/chunk-artifact.js:2945:64
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+stdout | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 7. Zero external network requests occur during local mocked execution
+[API Signin] Attempting login for: check@example.com
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+stderr | __tests__/security/AuthSigninDecommission.test.js > Auth Signin Decommission Security Tests (Step 4B5B2) > PART 5 — Handler Execution Tests > 7. Zero external network requests occur during local mocked execution
+[API Signin] Auth Error: { message: 'Invalid credentials', status: 401 }
+
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+ ✓ __tests__/security/AuthSigninDecommission.test.js (8 tests) 13ms
+
+ ❯ __tests__/api/candidate.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js [queued]
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 36 passed (52)
+      Tests 401 passed (401)
+   Start at 02:27:21
+   Duration 11.00s
+ ✓ __tests__/api/candidate.test.js (3 tests) 5ms
+
+ ❯ __tests__/api/candidate.test.js 3/3
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js 1/10
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 37 passed (52)
+      Tests 405 passed (414)
+   Start at 02:27:21
+   Duration 11.10s
+stderr | __tests__/chat/EmployerChatRouteSecurity.test.js > Employer Chat Route Security & Data-Truth (UX-V2-D2-C3) > 7. Returns HTTP 503 CHAT_DATA_UNAVAILABLE when hiring_runs query fails in Supabase
+Authorized chat hiring_runs query failed: Database connection lost
+
+stderr | __tests__/chat/EmployerChatRouteSecurity.test.js > Employer Chat Route Security & Data-Truth (UX-V2-D2-C3) > 10. Candidate query branch: returns 503 CHAT_DATA_UNAVAILABLE when candidates query fails in Supabase
+Authorized chat candidates query failed: Candidate table locked
+
+
+ ❯ __tests__/api/candidate.test.js 3/3
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js 1/10
+ ❯ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js 18/18
+ ❯ __tests__/security/ApiAuthorizationCharacterization.test.js 25/25
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HiringRunSecurity.test.js 25/25
+
+ Test Files 37 passed (52)
+      Tests 405 passed (414)
+   Start at 02:27:21
+   Duration 11.10s
+ ✓ __tests__/chat/EmployerChatRouteSecurity.test.js (10 tests) 25ms
+
+ ❯ __tests__/api/candidate.test.js 3/3
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js 10/10
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js [queued]
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ServerAuthContract.test.js [queued]
+
+ Test Files 38 passed (52)
+      Tests 414 passed (414)
+   Start at 02:27:21
+   Duration 11.20s
+
+ ❯ __tests__/api/candidate.test.js 3/3
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js 10/10
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js [queued]
+ ❯ __tests__/security/AuthSigninDecommission.test.js 8/8
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ServerAuthContract.test.js 0/32
+
+ Test Files 38 passed (52)
+      Tests 414 passed (446)
+   Start at 02:27:21
+   Duration 11.40s
+ ✓ __tests__/security/ServerAuthContract.test.js (32 tests) 7ms
+ ✓ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js (3 tests) 27ms
+
+ ❯ __tests__/api/researchQA.test.js [queued]
+ ❯ __tests__/chat/EmployerChatRouteSecurity.test.js 10/10
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js 3/3
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ServerAuthContract.test.js 32/32
+ ❯ __tests__/security/ShortlistSecurity.test.js [queued]
+
+ Test Files 40 passed (52)
+      Tests 449 passed (449)
+   Start at 02:27:21
+   Duration 11.51s
+ ✓ __tests__/security/ShortlistSecurity.test.js (5 tests) 24ms
+
+ ❯ __tests__/api/researchQA.test.js 0/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js [queued]
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js 3/3
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ServerAuthContract.test.js 32/32
+ ❯ __tests__/security/ShortlistSecurity.test.js 5/5
+
+ Test Files 41 passed (52)
+      Tests 454 passed (466)
+   Start at 02:27:21
+   Duration 11.71s
+ ✓ __tests__/api/researchQA.test.js (12 tests) 19ms
+ ✓ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js (7 tests) 6ms
+
+ ❯ __tests__/api/researchQA.test.js 12/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js 7/7
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js 3/3
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js [queued]
+ ❯ __tests__/security/ShortlistSecurity.test.js 5/5
+
+ Test Files 43 passed (52)
+      Tests 473 passed (473)
+   Start at 02:27:21
+   Duration 11.81s
+
+ ❯ __tests__/api/researchQA.test.js 12/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js 7/7
+ ❯ __tests__/security/ApiAuthorizationBoundaryReconciliation.test.js 3/3
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js [queued]
+ ❯ __tests__/security/ShortlistSecurity.test.js 5/5
+
+ Test Files 43 passed (52)
+      Tests 473 passed (473)
+   Start at 02:27:21
+   Duration 12.01s
+ ✓ __tests__/security/ScreeningServerCreationPath.test.js (4 tests) 13ms
+
+ ❯ __tests__/api/researchQA.test.js 12/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js 7/7
+ ❯ __tests__/security/CandidateDisplayNormalization.test.js [queued]
+ ❯ __tests__/security/HostedP0EndToEndUAT.test.js [queued]
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js 4/4
+ ❯ __tests__/security/ShortlistSecurity.test.js 5/5
+
+ Test Files 44 passed (52)
+      Tests 477 passed (477)
+   Start at 02:27:21
+   Duration 12.11s
+stderr | __tests__/security/HostedP0EndToEndUAT.test.js > Step 4B5.4 — Hosted P0 End-to-End Workflow & Authorization Suite > EMPLOYER ALPHA & BETA WORKFLOWS > 1. Employer Alpha authenticates and fetches candidate Trust Packet
+Scheduled emails fetch warning: FAIL-CLOSED ERROR: SUPABASE_SERVICE_ROLE_KEY is missing.
+
+
+ ❯ __tests__/api/researchQA.test.js 12/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js 7/7
+ ❯ __tests__/security/CandidateDisplayNormalization.test.js [queued]
+ ❯ __tests__/security/LocalSchemaContract.test.js 0/14
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js 4/4
+
+ Test Files 45 passed (52)
+      Tests 485 passed (499)
+   Start at 02:27:21
+   Duration 12.21s
+ ✓ __tests__/security/HostedP0EndToEndUAT.test.js (8 tests) 14ms
+
+ ❯ __tests__/api/researchQA.test.js 12/12
+ ❯ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js 7/7
+ ❯ __tests__/security/CandidateDisplayNormalization.test.js [queued]
+ ❯ __tests__/security/LocalSchemaContract.test.js 0/14
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js 4/4
+
+ Test Files 45 passed (52)
+      Tests 485 passed (499)
+   Start at 02:27:21
+   Duration 12.21s
+ ✓ __tests__/security/LocalSchemaContract.test.js (14 tests) 6ms
+ ✓ __tests__/security/CandidateDisplayNormalization.test.js (9 tests) 5ms
+
+ ❯ __tests__/day4/ProofContractReadiness.test.js [queued]
+ ❯ __tests__/security/ScreeningServerCreationPath.test.js 4/4
+ ❯ __tests__/security/VitestDiscoveryContract.test.js [queued]
+
+ Test Files 47 passed (52)
+      Tests 508 passed (508)
+   Start at 02:27:21
+   Duration 12.41s
+ ✓ __tests__/security/AccessibilityContrast.test.js (9 tests) 2ms
+ ✓ __tests__/day4/ProofContractReadiness.test.js (10 tests) 6ms
+
+ ❯ __tests__/security/VitestDiscoveryContract.test.js 0/1
+
+ Test Files 49 passed (52)
+      Tests 527 passed (528)
+   Start at 02:27:21
+   Duration 12.51s
+ ✓ __tests__/security/VitestDiscoveryContract.test.js (1 test) 6ms
+ ↓ __tests__/packet/CandidateTrustPacketE2E.test.js (1 test | 1 skipped)
+
+ ❯ __tests__/staging/StagingRemoteRuntimeValidation.test.js [queued]
+
+ Test Files 50 passed | 1 skipped (52)
+      Tests 528 passed | 1 skipped (529)
+   Start at 02:27:21
+   Duration 12.61s
+ ↓ __tests__/staging/StagingRemoteRuntimeValidation.test.js (1 test | 1 skipped)
+
+ Test Files  50 passed | 2 skipped (52)
+      Tests  528 passed | 2 skipped (530)
+   Start at  02:27:21
+   Duration  12.75s (transform 5.41s, setup 4.93s, import 16.11s, tests 24.23s, environment 34.81s)
+

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "source_disposable_db": "127.0.0.1:54399/disposable_v3_backup_src_db",
+  "restored_disposable_db": "127.0.0.1:54399/disposable_v3_restore_target_db",
+  "writers_quiesced": true,
+  "sources_backed_up": 4,
+  "versions_backed_up": 5,
+  "formats_covered": [
+    "txt_v1_v2",
+    "pdf",
+    "docx",
+    "pending_txt_job"
+  ],
+  "reconcile_storage": {
+    "scanned_disk_files": 5,
+    "db_tracked_versions": 5,
+    "orphaned_files": [],
+    "missing_files": [],
+    "hash_mismatches": [],
+    "reconciled_orphans_pruned": 0,
+    "dry_run": true
+  },
+  "inference_backend": "sentence_transformers:6.2.0/torch:2.15.0/transformers:5.22.0/tokenizers:0.23.3",
+  "access_controls_verified": true,
+  "idempotency_replay_verified": true,
+  "historical_and_current_retrieval_verified": true,
+  "pending_job_recovered_and_indexed": true
+}

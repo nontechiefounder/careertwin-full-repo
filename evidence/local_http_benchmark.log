@@ -1,0 +1,17 @@
+{
+  "scope": "real TCP/HTTP on local single-process service; SQLite test backend; synthetic text corpus; no LLM",
+  "documents": 100,
+  "source_versions": 100,
+  "processed": 100,
+  "retrieval_requests": 30,
+  "intake_seconds": 0.262,
+  "processing_seconds": 0.186,
+  "retrieval_median_ms": 38.86,
+  "retrieval_p95_ms": 41.45,
+  "originals_preserved": true,
+  "coverage_reconciled": true,
+  "unauthenticated_read_denied": true,
+  "production_scale": "NOT_EVALUATED",
+  "semantic_accuracy": "NOT_EVALUATED",
+  "provider_cost": "NO_PROVIDER_CALLS"
+}

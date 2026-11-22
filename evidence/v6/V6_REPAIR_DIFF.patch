@@ -1,0 +1,891 @@
+--- /dev/null
++++ b/STEP_FAILURE_REPAIRS_EVIDENCE.md
+@@ -0,0 +1,37 @@
++# workBYLiNE Genome — Failure Repairs Verification Evidence (`v6`)
++
++**Date:** 2026-11-21  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v5.zip` (`9ab195880aed49a7eda94155829f46dfb4765cf7afee07e34eda340d9bc449ff`)
++
++---
++
++## 1. Baseline Reproduction on Frozen v5 (`audit_probes.mjs`)
++
++- **Command:** `node --no-warnings --experimental-vm-modules /tmp/wbl-repo-review/audit_probes.mjs` (against extracted frozen v5).
++- **Result:** Exit `0`, `outbound_attempts: 0`.
++  - `signup_email_failure` (`71a2bc02...`): `status: 200`, `"Signup successful! Please check your email to verify your account."` (**R3 CONFIRMED**).
++  - `screening_answers_query_failure` (`19cb3b4a...`): `status: 200`, `generation_calls: 1`, `persistence_calls: 1`, `question_count: 0` (**R2 CONFIRMED**).
++- **Post-Repair Re-run:** `audit_probes.mjs` exited `1` (`ERR_ASSERTION: Unexpected module @/lib/verificationEmail`), confirming `signup/route.js` now delegates to `@/lib/verificationEmail` rather than inline silent error swallowing.
++
++---
++
++## 2. Post-Repair Verification Matrix (on `/tmp/wbl-v6-candidate`)
++
++| Check | Command & CWD | Exit | Result & Boundary |
++|---|---|---:|---|
++| **Locked Install (Root & Web)** | `npm ci --no-audit --no-fund` (root & `apps/web`) | `0` | `4` root packages + `936` web packages installed with full lockfile lifecycle |
++| **R2/R3 & Discovery Vitest** | `npx --no-install vitest run __tests__/security/VitestDiscoveryContract.test.js __tests__/api/screeningCompleteBehavior.test.js __tests__/pages/AuthPage.test.jsx __tests__/api/dryRunEmail.test.js __tests__/security/ApiAuthorizationCharacterization.test.js` (`apps/web`) | `0` | **5/5 files, 45/45 tests PASSED** (mocked `supabaseServer`, `smtp`, `ai`, `jsdom` UI) |
++| **Root Suites** | `node tests/contracts.mjs && node tests/postgres_schema.mjs && node tests/check_overlay.mjs && node tests/v3_regression.mjs` (root) | `0` | Contracts `8/8`, PGlite `5/5`, Overlay `9/9`, V3 Regression `6/6` |
++| **v5 Employer-Chat Replay** | `node --no-warnings --experimental-vm-modules tests/employer-chat-v5.mjs` (root) | `0` | **38/38 PASSED**, `external requests: 0` (Node loopback HTTP, mocked provider transport) |
++| **ESLint & Next.js Build** | `npm run lint && npm run build` (`apps/web`) | `0` | `0` lint errors (`3` `<img>` warnings), Next.js Webpack compiled in `18.8s`, **51/51 routes** |
++| **Guarded Disposable Harness** | `bash scripts/guarded_disposable_verify.sh` (`Run ID: 20261120T224638Z_59395`, DB `supabase_db_wbl-disposable-verify` `54422`, Kong `54421`, App `:3010`, `WORKBYLINE_GENERATION_GATE=false`, live keys blank, `CAREERTWIN_DRY_RUN_EMAIL=true`) | `0` | `status: "PASSED"`, `cleanup_status: "clean"`: Step 5 migrations `1\|1\|0\|0\|1`; Step 6a **20/20 files (183/183 tests)**; Step 6b **6/6 files (61/61 tests)**; Step 8 live `:3010` **PASSED**; Step 9 Playwright **39 passed, 2 skipped, 0 failed** (`48.5s`) |
++
++*(Note: An intermediate guarded run `20261120T223752Z_57102` failed at `VitestDiscoveryContract.test.js` (`68` vs `67`) before R2/R3 tests were consolidated into `screeningCompleteBehavior.test.js` and `AuthPage.test.jsx`; `20261120T224638Z_59395` passed with zero failures.)*
++
++---
++
++## 3. Excluded / Skipped / `NOT VERIFIED` Boundaries
++
++- **Playwright Skips (`2/41`):** `EmployerDay3Assertions.test.js:439` (`Test E`) and `EmployerDay4Assertions.test.js:306` (`Scenario 14`), both pre-existing UI skips (`DocumentDropzone / intake-handoff-notice removed from /employer/intake in current UI`).
++- **Not Verified Locally:** Live SMTP transport, live external AI/sourcing providers, persistent Python Context Engine (`:8011` / Temporal `:7233` / BGE weights), and hosted staging (`StagingRemoteRuntimeValidation.test.js`).
+--- /dev/null
++++ b/STEP_FAILURE_REPAIRS_REPORT.md
+@@ -0,0 +1,71 @@
++# workBYLiNE Genome — Failure Repairs Report (`R2` & `R3`)
++
++**Date:** 2026-11-21  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Candidate:** `WorkByLine_Parth_Local_Review_v5.zip` (`9ab195880aed49a7eda94155829f46dfb4765cf7afee07e34eda340d9bc449ff`)  
++**New Candidate:** `WorkByLine_Parth_Local_Review_v6.zip` (see `STEP_FAILURE_REPAIRS_EVIDENCE.md` for SHA-256 and manifest)
++
++---
++
++## 1. Executive Summary
++
++Both independently reproduced failure paths (`R2` and `R3`) from `WorkByLine_v5_Repository_Review_20261120.zip` were reproduced on frozen v5 via `audit_probes.mjs`, repaired with minimal bounded changes, verified across Vitest, ESLint, Next.js production build (`51/51` routes), root contract/PGlite/overlay/v5-replay suites, and the guarded disposable harness (`Run ID: 20261120T224638Z_59395`, `PASSED`).
++
++- **R1 (GitHub Repository Divergence):** Remains an external Git-branch synchronization / Founder-authorized push decision; remote `main` was not touched.
++- **R2 (Screening Answer-Read Failure):** Repaired and `TEST-VERIFIED` locally.
++- **R3 (Signup Verification-Email Delivery Failure):** Repaired and `TEST-VERIFIED` locally (with mocked SMTP / dry-run boundaries; live SMTP remains `NOT VERIFIED`).
++
++---
++
++## 2. Defect Reproduction, Root Cause & Before/After Behavior
++
++### R2 — Screening Completion After `screening_answers` Query Failure
++- **Reproduced on Frozen v5:** Yes (`audit_probes.mjs`: `screening_answers_query_failure` returned `status: 200`, `generation_calls: 1`, `persistence_calls: 1`, `question_count: 0`).
++- **Root Cause:** `apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js:86` destructured only `{ data: qas }`, ignoring `error`, and coerced `null` into `qaContext = []`, allowing `generateChat()` and `complete_screening_session_transactional` to run without loaded answers.
++- **User Impact:** A transient or permission database failure could persist AI-generated screening scores for an empty answer payload.
++- **Before / After:**
++  - **Before:** DB error or `null`/empty answers -> `generateChat()` + RPC persisted scores -> `200 OK`.
++  - **After:**
++    - DB error or non-array `qas` -> `503` `SCREENING_ANSWERS_UNAVAILABLE` with **0** `generateChat` calls and **0** RPC writes.
++    - Non-empty rows lacking valid `answer_text` -> `422` `SCREENING_ANSWERS_INVALID` with **0** generation/writes.
++    - Legitimate empty answers (`[]`) -> `422` `INSUFFICIENT_SCREENING_ANSWERS` with **0** generation/writes.
++    - Valid answers -> normal `generateChat` + `complete_screening_session_transactional` (`200`).
++    - Completed-session replay & unauthorized `403` checks preserved unchanged.
++
++### R3 — Signup Reporting Success After Verification-Email Delivery Failure
++- **Reproduced on Frozen v5:** Yes (`audit_probes.mjs`: `signup_email_failure` returned `status: 200` and `"Signup successful! Please check your email to verify your account."` after `sendSMTPEmail` threw).
++- **Root Cause:** `apps/web/app/api/auth/signup/route.js:76-84` caught and swallowed SMTP exceptions inside `try/catch`, and unconditionally returned `200` with `"check your email"` for both failed delivery and dry-run suppression.
++- **User Impact:** Users were instructed to check their inbox when no verification email was sent, with no UI resend recovery path.
++- **Before / After:**
++  - **Before:** `sendSMTPEmail` throws or dry-run suppresses -> `200` `"Signup successful! Please check your email..."`.
++  - **After:**
++    - Extracted shared helper `apps/web/lib/verificationEmail.js` (`deliverVerificationEmail`) without exposing tokens/links or raw SMTP errors.
++    - `POST /api/auth/signup`:
++      - Delivery succeeded (`!dryRun`) -> `200`, `delivery_status: 'sent'`, `email_sent: true`, `account_created: true`.
++      - Dry-run active (`CAREERTWIN_DRY_RUN_EMAIL !== 'false'`) -> `200`, `delivery_status: 'suppressed_dry_run'`, `email_sent: false` (explicitly states dry-run suppression).
++      - Link generation failed -> `500` `VERIFICATION_LINK_FAILED`, `account_created: true`, `delivery_status: 'not_attempted'`, `retry_supported: true`.
++      - SMTP delivery failed -> `503` `VERIFICATION_EMAIL_DELIVERY_FAILED`, `account_created: true`, `delivery_status: 'failed'`, `email_sent: false`, `retry_supported: true` (never tells user to check email).
++    - Added bounded recovery endpoint `POST /api/auth/resend-verification` (`apps/web/app/api/auth/resend-verification/route.js`) with `60s` per-email cooldown (`429 RATE_LIMITED`), existing-unconfirmed user check (`listUsers`, zero `createUser` calls), and non-enumerating response for missing/already-confirmed emails.
++    - Updated `apps/web/lib/auth.js` and `apps/web/app/auth/page.jsx` to display truthful dry-run/failure notices and a **Resend verification email** button (`resend-verification-btn`) on partial-success delivery failure.
++
++---
++
++## 3. Exact Files Changed
++
++1. `apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js` — Fail-closed `screening_answers` error/malformed/empty handling before generation/RPC.
++2. `apps/web/lib/verificationEmail.js` — Shared verification-link + dry-run/SMTP dispatch helper.
++3. `apps/web/app/api/auth/signup/route.js` — Honest `delivery_status` / `account_created` / `retry_supported` responses (`503` on delivery failure, `500` on link failure, `200` `suppressed_dry_run` on dry-run).
++4. `apps/web/app/api/auth/resend-verification/route.js` — Bounded, rate-limited verification resend without account recreation.
++5. `apps/web/lib/auth.js` — Preserves `delivery_status`, `account_created`, and `retry_supported` metadata in `register()`.
++6. `apps/web/app/auth/page.jsx` — Truthful toast/banner states and resend recovery UI.
++7. `apps/web/__tests__/api/screeningCompleteBehavior.test.js` — Added `R2` regression test covering DB error, null/malformed rows, and empty answers.
++8. `apps/web/__tests__/pages/AuthPage.test.jsx` — Added `R3` API + UI regression tests covering `sent`, `503 failed`, `suppressed_dry_run`, duplicate/link errors, `429` resend recovery, and `AuthPage` UI state.
++9. `docs/handoff/DATA_AND_API_CONTRACTS.md` — Documented `/api/auth/resend-verification` and R2/R3 contract codes.
++
++---
++
++## 4. Rollback & Remaining Gates
++
++- **Rollback:** Retain frozen `WorkByLine_Parth_Local_Review_v5.zip` (`9ab195880aed49a7eda94155829f46dfb4765cf7afee07e34eda340d9bc449ff`) as comparison reference (note: v5 exhibits R2/R3; do not deploy v5 without these repairs). Zero SQL migrations were added in v6, so no DB rollback is needed.
++- **Awaiting Independent Review:** `R2`/`R3` repairs, v6 patch (`evidence/v6/V6_REPAIR_DIFF.patch`), and `Run ID: 20261120T224638Z_59395`.
++- **Remaining `NOT VERIFIED` / Blocked Scope:** Live SMTP delivery, live AI/sourcing providers, persistent Python Context Engine (`:8011` / Temporal `:7233` / BGE weights), and hosted staging/production.
+--- a/apps/web/__tests__/api/screeningCompleteBehavior.test.js
++++ b/apps/web/__tests__/api/screeningCompleteBehavior.test.js
+@@ -200,4 +200,76 @@
+     expect(replayJson.replayed).toBe(true);
+     expect(replayJson.summary).toEqual(okJson.summary);
+   });
++
++  it('R2: fails closed (503) with zero generation and zero persistence on answer-read error, malformed rows (422), or empty answers (422)', async () => {
++    const makeAnswersClient = (answersResult, rpcSpy) => ({
++      from: (table) => {
++        if (table === 'screening_sessions') {
++          return {
++            select: () => ({
++              eq: () => ({
++                maybeSingle: () => Promise.resolve({
++                  data: {
++                    id: sessionId,
++                    candidate_id: 'cand-1',
++                    status: 'in_progress',
++                    candidate_profiles: { email: 'cand@acme.com' },
++                    hiring_runs: { org_id: orgId, role_title: 'Infra Lead' },
++                  },
++                  error: null,
++                }),
++              }),
++            }),
++          };
++        }
++        if (table === 'screening_answers') {
++          return { select: () => ({ eq: () => Promise.resolve(answersResult) }) };
++        }
++        throw new Error(`Unexpected table ${table}`);
++      },
++      rpc: rpcSpy,
++    });
++
++    mockRequireUser.mockResolvedValue({ user: { id: 'cand-1', email: 'cand@acme.com' }, supabase: {} });
++
++    // 1. DB error on screening_answers
++    const rpcSpy1 = vi.fn();
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(
++      makeAnswersClient({ data: null, error: { message: 'DB read timeout' } }, rpcSpy1)
++    );
++    const errRes = await POST(new Request(`http://localhost:3010/api/candidate/screening-sessions/${sessionId}/complete`, { method: 'POST' }), {
++      params: Promise.resolve({ sessionId }),
++    });
++    expect(errRes.status).toBe(503);
++    expect((await errRes.json()).error).toBe('SCREENING_ANSWERS_UNAVAILABLE');
++    expect(mockGenerateChat).not.toHaveBeenCalled();
++    expect(rpcSpy1).not.toHaveBeenCalled();
++
++    // 2. Null non-array payload
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(makeAnswersClient({ data: null, error: null }, rpcSpy1));
++    const nullRes = await POST(new Request(`http://localhost:3010/api/candidate/screening-sessions/${sessionId}/complete`, { method: 'POST' }), {
++      params: Promise.resolve({ sessionId }),
++    });
++    expect(nullRes.status).toBe(503);
++
++    // 3. Malformed answer rows (blank answer_text)
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(
++      makeAnswersClient({ data: [{ question_index: 0, answer_text: '   ' }], error: null }, rpcSpy1)
++    );
++    const malformedRes = await POST(new Request(`http://localhost:3010/api/candidate/screening-sessions/${sessionId}/complete`, { method: 'POST' }), {
++      params: Promise.resolve({ sessionId }),
++    });
++    expect(malformedRes.status).toBe(422);
++    expect((await malformedRes.json()).error).toBe('SCREENING_ANSWERS_INVALID');
++
++    // 4. Legitimate empty answers
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(makeAnswersClient({ data: [], error: null }, rpcSpy1));
++    const emptyRes = await POST(new Request(`http://localhost:3010/api/candidate/screening-sessions/${sessionId}/complete`, { method: 'POST' }), {
++      params: Promise.resolve({ sessionId }),
++    });
++    expect(emptyRes.status).toBe(422);
++    expect((await emptyRes.json()).error).toBe('INSUFFICIENT_SCREENING_ANSWERS');
++    expect(mockGenerateChat).not.toHaveBeenCalled();
++    expect(rpcSpy1).not.toHaveBeenCalled();
++  });
+ });
+--- a/apps/web/__tests__/pages/AuthPage.test.jsx
++++ b/apps/web/__tests__/pages/AuthPage.test.jsx
+@@ -1,10 +1,16 @@
+-import { render, screen, waitFor } from '@testing-library/react';
++import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+ import AuthPage from '@/app/auth/page';
+ import { useAuth } from '@/lib/auth';
+-import { useRouter } from 'next/navigation';
+-import { vi, describe, it, expect, beforeEach } from 'vitest';
+-
+-// Mock useAuth and useRouter
++import { useRouter, useSearchParams } from 'next/navigation';
++import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
++
++const mockCreateSupabaseServerClient = vi.fn();
++const mockSendSMTPEmail = vi.fn();
++const mockApiPost = vi.fn();
++const mockToastInfo = vi.fn();
++const mockToastSuccess = vi.fn();
++const mockToastError = vi.fn();
++
+ vi.mock('@/lib/auth', () => ({
+   useAuth: vi.fn(),
+ }));
+@@ -14,17 +20,51 @@
+   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams()),
+ }));
+ 
++vi.mock('@/lib/supabaseServer', () => ({
++  createSupabaseServerClient: (...args) => mockCreateSupabaseServerClient(...args),
++}));
++
++vi.mock('@/lib/smtp', () => ({
++  sendSMTPEmail: (...args) => mockSendSMTPEmail(...args),
++}));
++
++vi.mock('@/lib/api', () => ({
++  default: { post: (...args) => mockApiPost(...args) },
++}));
++
++vi.mock('sonner', () => ({
++  toast: {
++    info: (...args) => mockToastInfo(...args),
++    success: (...args) => mockToastSuccess(...args),
++    error: (...args) => mockToastError(...args),
++  },
++}));
++
++import { POST as signupPOST } from '@/app/api/auth/signup/route';
++import { POST as resendPOST, __resetResendCooldownForTests } from '@/app/api/auth/resend-verification/route';
++
+ describe('AuthPage', () => {
+   const mockReplace = vi.fn();
++  const origDryRun = process.env.CAREERTWIN_DRY_RUN_EMAIL;
++  const origPublicUrl = process.env.NEXT_PUBLIC_URL;
+ 
+   beforeEach(() => {
+     vi.clearAllMocks();
++    __resetResendCooldownForTests();
++    process.env.CAREERTWIN_DRY_RUN_EMAIL = 'false';
++    process.env.NEXT_PUBLIC_URL = 'https://synthetic.example.invalid';
++    useSearchParams.mockReturnValue(new URLSearchParams());
+     useRouter.mockReturnValue({
+       replace: mockReplace,
+       push: vi.fn(),
+     });
+   });
+ 
++  afterEach(() => {
++    process.env.CAREERTWIN_DRY_RUN_EMAIL = origDryRun;
++    process.env.NEXT_PUBLIC_URL = origPublicUrl;
++  });
++
+   it('redirects to /employer if user is an employer', async () => {
+     useAuth.mockReturnValue({ user: { role: 'employer' }, loading: false, login: vi.fn(), register: vi.fn(), loginWithProvider: vi.fn() });
+     render(<AuthPage />);
+@@ -47,4 +87,152 @@
+     expect(screen.getByTestId('auth-page')).toBeInTheDocument();
+     expect(screen.getByText(/welcome back/i)).toBeInTheDocument();
+   });
++
++  it('R3 API: reports sent, failed (503 without inbox lie), dry-run suppression, createUser/link errors, and rate-limited resend recovery', async () => {
++    // 1. Successful delivery
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          createUser: vi.fn().mockResolvedValue({ data: { user: { id: 'u1', email: 'a@example.invalid' } }, error: null }),
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'secret-token-hash' } }, error: null }),
++        },
++      },
++    });
++    mockSendSMTPEmail.mockResolvedValueOnce({ messageId: 'msg-1' });
++    const okRes = await signupPOST(new Request('http://localhost/api/auth/signup', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'a@example.invalid', password: 'Password123!' }),
++    }));
++    const okBody = await okRes.json();
++    expect(okRes.status).toBe(200);
++    expect(okBody.delivery_status).toBe('sent');
++    expect(okBody.email_sent).toBe(true);
++    expect(JSON.stringify(okBody)).not.toContain('secret-token-hash');
++
++    // 2. SMTP failure -> 503 with account_created=true, no inbox instruction, no leaked token/error
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          createUser: vi.fn().mockResolvedValue({ data: { user: { id: 'u1', email: 'a@example.invalid' } }, error: null }),
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'secret-token-hash' } }, error: null }),
++        },
++      },
++    });
++    mockSendSMTPEmail.mockRejectedValueOnce(new Error('SMTP ECONNREFUSED internal-host:587'));
++    const failRes = await signupPOST(new Request('http://localhost/api/auth/signup', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'a@example.invalid', password: 'Password123!' }),
++    }));
++    const failBody = await failRes.json();
++    expect(failRes.status).toBe(503);
++    expect(failBody.error).toBe('VERIFICATION_EMAIL_DELIVERY_FAILED');
++    expect(failBody.account_created).toBe(true);
++    expect(failBody.delivery_status).toBe('failed');
++    expect(failBody.email_sent).toBe(false);
++    expect(failBody.retry_supported).toBe(true);
++    expect(failBody.message).not.toMatch(/check your email/i);
++    expect(JSON.stringify(failBody)).not.toContain('secret-token-hash');
++    expect(JSON.stringify(failBody)).not.toContain('ECONNREFUSED');
++
++    // 3. Dry-run suppression
++    process.env.CAREERTWIN_DRY_RUN_EMAIL = 'true';
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          createUser: vi.fn().mockResolvedValue({ data: { user: { id: 'u1', email: 'a@example.invalid' } }, error: null }),
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'secret-token-hash' } }, error: null }),
++        },
++      },
++    });
++    const dryRes = await signupPOST(new Request('http://localhost/api/auth/signup', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'a@example.invalid', password: 'Password123!' }),
++    }));
++    const dryBody = await dryRes.json();
++    expect(dryRes.status).toBe(200);
++    expect(dryBody.delivery_status).toBe('suppressed_dry_run');
++    expect(dryBody.email_sent).toBe(false);
++    process.env.CAREERTWIN_DRY_RUN_EMAIL = 'false';
++
++    // 4. Duplicate createUser (400) & generateLink failure (500)
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: { admin: { createUser: vi.fn().mockResolvedValue({ data: null, error: { message: 'User already registered' } }) } },
++    });
++    expect((await signupPOST(new Request('http://localhost/api/auth/signup', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'dup@example.invalid', password: 'Password123!' }),
++    }))).status).toBe(400);
++
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          createUser: vi.fn().mockResolvedValue({ data: { user: { id: 'u2' } }, error: null }),
++          generateLink: vi.fn().mockResolvedValue({ data: null, error: { message: 'Link failure' } }),
++        },
++      },
++    });
++    expect((await signupPOST(new Request('http://localhost/api/auth/signup', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'linkfail@example.invalid', password: 'Password123!' }),
++    }))).status).toBe(500);
++
++    // 5. Resend verification without createUser + 429 cooldown
++    const createUserSpy = vi.fn();
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          createUser: createUserSpy,
++          listUsers: vi.fn().mockResolvedValue({
++            data: { users: [{ id: 'u1', email: 'retry@example.invalid', email_confirmed_at: null }] },
++            error: null,
++          }),
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'retry-hash' } }, error: null }),
++        },
++      },
++    });
++    mockSendSMTPEmail.mockResolvedValueOnce({ messageId: 'msg-retry' });
++    const resend1 = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'retry@example.invalid' }),
++    }));
++    expect(resend1.status).toBe(200);
++    expect((await resend1.json()).delivery_status).toBe('sent');
++    expect(createUserSpy).not.toHaveBeenCalled();
++
++    const resend2 = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'retry@example.invalid' }),
++    }));
++    expect(resend2.status).toBe(429);
++  });
++
++  it('R3 UI: renders delivery failure notice and resends verification without re-calling register', async () => {
++    useSearchParams.mockReturnValue(new URLSearchParams('tab=register'));
++    const err = new Error('Account was created, but we could not send the verification email. Please retry sending the verification email.');
++    err.accountCreated = true;
++    err.deliveryStatus = 'failed';
++    err.retrySupported = true;
++    const mockRegister = vi.fn().mockRejectedValueOnce(err);
++    useAuth.mockReturnValue({ user: null, loading: false, login: vi.fn(), register: mockRegister, loginWithProvider: vi.fn() });
++    mockApiPost.mockResolvedValueOnce({
++      data: { delivery_status: 'sent', email_sent: true, message: 'Verification email sent! Please check your email to verify your account.' },
++    });
++
++    render(<AuthPage />);
++    fireEvent.change(screen.getByTestId('name-input'), { target: { value: 'Alice' } });
++    fireEvent.change(screen.getByTestId('email-input'), { target: { value: 'alice@acme.invalid' } });
++    fireEvent.change(screen.getByTestId('password-input'), { target: { value: 'Password123!' } });
++    fireEvent.click(screen.getByTestId('register-btn'));
++
++    await waitFor(() => {
++      expect(screen.getByTestId('signup-delivery-notice').textContent).toContain('could not send the verification email');
++    });
++    expect(mockToastSuccess).not.toHaveBeenCalled();
++
++    fireEvent.click(screen.getByTestId('resend-verification-btn'));
++    await waitFor(() => {
++      expect(mockApiPost).toHaveBeenCalledWith('/auth/resend-verification', { email: 'alice@acme.invalid' });
++    });
++    expect(mockRegister).toHaveBeenCalledTimes(1);
++  });
+ });
+--- /dev/null
++++ b/apps/web/app/api/auth/resend-verification/route.js
+@@ -0,0 +1,71 @@
++import { NextResponse } from 'next/server';
++import { createSupabaseServerClient } from '@/lib/supabaseServer';
++import { deliverVerificationEmail } from '@/lib/verificationEmail';
++
++const RESEND_COOLDOWN_MS = 60_000;
++const recentResendByEmail = new Map();
++
++export function __resetResendCooldownForTests() {
++  recentResendByEmail.clear();
++}
++
++export async function POST(request) {
++  try {
++    const body = await request.json();
++    const email = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : '';
++
++    if (!email || !email.includes('@')) {
++      return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
++    }
++
++    const now = Date.now();
++    const lastAttempt = recentResendByEmail.get(email);
++    if (lastAttempt && now - lastAttempt < RESEND_COOLDOWN_MS) {
++      return NextResponse.json(
++        {
++          error: 'RATE_LIMITED',
++          retry_after_seconds: Math.ceil((RESEND_COOLDOWN_MS - (now - lastAttempt)) / 1000),
++          message: 'Please wait before requesting another verification email.',
++        },
++        { status: 429 }
++      );
++    }
++
++    const supabase = await createSupabaseServerClient(null, true);
++
++    // Prevent blindly recreating accounts; verify existing unconfirmed user when listUsers is available
++    if (typeof supabase.auth?.admin?.listUsers === 'function') {
++      const { data: listData, error: listErr } = await supabase.auth.admin.listUsers({ perPage: 1000 });
++      if (listErr) {
++        return NextResponse.json({ error: 'Verification lookup unavailable' }, { status: 503 });
++      }
++      const existing = (listData?.users || []).find(
++        (u) => typeof u?.email === 'string' && u.email.toLowerCase() === email
++      );
++      if (!existing || existing.email_confirmed_at) {
++        return NextResponse.json({
++          delivery_status: 'ignored_or_already_verified',
++          email_sent: false,
++          message: 'If an unverified account exists for this email, a verification email will be sent.',
++        });
++      }
++    }
++
++    recentResendByEmail.set(email, now);
++    const delivery = await deliverVerificationEmail({ supabase, email, isResend: true });
++
++    return NextResponse.json(
++      {
++        delivery_status: delivery.delivery_status,
++        email_sent: delivery.email_sent,
++        retry_supported: delivery.retry_supported,
++        message: delivery.message,
++        ...(delivery.error ? { error: delivery.error } : {}),
++      },
++      { status: delivery.status }
++    );
++  } catch (error) {
++    console.error('[API Resend Verification] Unexpected error:', error?.message || error);
++    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
++  }
++}
+--- a/apps/web/app/api/auth/signup/route.js
++++ b/apps/web/app/api/auth/signup/route.js
+@@ -1,12 +1,15 @@
+ import { NextResponse } from 'next/server';
+ import { createSupabaseServerClient } from '@/lib/supabaseServer';
++import { deliverVerificationEmail } from '@/lib/verificationEmail';
+ 
+ export async function POST(request) {
+   try {
+     const body = await request.json();
+-    const { email, password, data } = body;
++    const rawEmail = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : '';
++    const password = body?.password;
++    const data = body?.data;
+ 
+-    if (!email || !password) {
++    if (!rawEmail || !password) {
+       return NextResponse.json(
+         { error: 'Email and password are required' },
+         { status: 400 }
+@@ -16,74 +19,38 @@
+     // 1. Initialize Supabase with Service Role
+     const supabase = await createSupabaseServerClient(null, true);
+ 
+-    console.log(`[API Signup] Creating unconfirmed user: ${email}`);
++    console.log(`[API Signup] Creating unconfirmed user: ${rawEmail}`);
+ 
+     // 2. Create the user (unconfirmed by default)
+     const { data: authData, error: createError } = await supabase.auth.admin.createUser({
+-      email,
++      email: rawEmail,
+       password,
+       email_confirm: false,
+       user_metadata: data || {},
+     });
+ 
+     if (createError) {
+-      console.error('[API Signup] Creation Error:', createError);
++      console.error('[API Signup] Creation Error:', createError.message);
+       return NextResponse.json({ error: createError.message }, { status: 400 });
+     }
+ 
+-    // 3. Generate the verification link/token
+-    const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+-      type: 'signup',
+-      email,
+-      options: {
+-        redirectTo: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/dashboard`,
+-      }
+-    });
++    // 3. Generate verification link & deliver email without swallowing failures
++    const delivery = await deliverVerificationEmail({ supabase, email: rawEmail, isResend: false });
+ 
+-    if (linkError) {
+-      console.error('[API Signup] Link Gen Error:', linkError);
+-      return NextResponse.json({ error: 'Failed to generate verification link' }, { status: 500 });
+-    }
++    const payload = {
++      user: authData.user,
++      account_created: true,
++      verification_required: true,
++      delivery_status: delivery.delivery_status,
++      email_sent: delivery.email_sent,
++      retry_supported: delivery.retry_supported,
++      message: delivery.message,
++      ...(delivery.error ? { error: delivery.error } : {}),
++    };
+ 
+-    // 4. Extract the hashed token for our custom URL
+-    const tokenHash = linkData.properties.hashed_token;
+-    const nextPath = '/employer';
+-    const verificationUrl = `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/auth/confirm?token_hash=${tokenHash}&type=signup&next=${nextPath}`;
+-
+-    // 5. Send custom email via our SMTP (Strict Fail-Closed Dry-Run Guard)
+-    const isDryRun = process.env.CAREERTWIN_DRY_RUN_EMAIL !== 'false';
+-    if (isDryRun) {
+-      console.log(`[API Signup] Dry run active: verification email to ${email} suppressed for demo safety.`);
+-    } else {
+-      const { sendSMTPEmail } = await import('@/lib/smtp');
+-      try {
+-        await sendSMTPEmail({
+-          to: email,
+-          subject: 'Verify your workBYLiNE account',
+-          body: `
+-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+-              <h2 style="color: #333;">Welcome to workBYLiNE!</h2>
+-              <p>Thank you for signing up. Please click the button below to verify your email address and get started.</p>
+-              <div style="text-align: center; margin: 30px 0;">
+-                <a href="${verificationUrl}" style="background-color: #0070f3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Email Address</a>
+-              </div>
+-              <p style="color: #666; font-size: 14px;">If the button doesn't work, copy and paste this link into your browser:</p>
+-              <p style="color: #0070f3; font-size: 12px; word-break: break-all;">${verificationUrl}</p>
+-            </div>
+-          `
+-        });
+-        console.log(`[API Signup] Verification email sent to: ${email}`);
+-      } catch (emailErr) {
+-        console.error('[API Signup] Email Send Error:', emailErr);
+-      }
+-    }
+-
+-    return NextResponse.json({
+-      user: authData.user,
+-      message: 'Signup successful! Please check your email to verify your account.'
+-    });
++    return NextResponse.json(payload, { status: delivery.status });
+   } catch (error) {
+-    console.error('[API Signup] Unexpected error:', error);
++    console.error('[API Signup] Unexpected error:', error?.message || error);
+     return NextResponse.json(
+       { error: 'Internal server error' },
+       { status: 500 }
+--- a/apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js
++++ b/apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js
+@@ -83,16 +83,40 @@
+             }
+         }
+ 
+-        const { data: qas } = await adminClient
++        const { data: qas, error: qasErr } = await adminClient
+             .from('screening_answers')
+             .select('*')
+             .eq('session_id', sessionId);
+ 
+-        // 2. Prepare AI Prompt
+-        const qaContext = qas?.map(qa => ({
+-            question_index: qa.question_index,
+-            answer: qa.answer_text
+-        })) || [];
++        if (qasErr || !Array.isArray(qas)) {
++            console.error('Failed to load screening answers:', qasErr?.message || 'Malformed screening_answers payload');
++            return NextResponse.json(
++                { error: 'SCREENING_ANSWERS_UNAVAILABLE', details: 'Failed to load screening answers; no evaluation or completion performed.' },
++                { status: 503 }
++            );
++        }
++
++        // 2. Prepare AI Prompt from validated, non-empty screening answers
++        const qaContext = qas
++            .filter(qa => qa && typeof qa.answer_text === 'string' && qa.answer_text.trim().length > 0)
++            .map(qa => ({
++                question_index: qa.question_index,
++                answer: qa.answer_text.trim()
++            }));
++
++        if (qas.length > 0 && qaContext.length === 0) {
++            return NextResponse.json(
++                { error: 'SCREENING_ANSWERS_INVALID', details: 'Screening answers are malformed or empty; no evaluation or completion performed.' },
++                { status: 422 }
++            );
++        }
++
++        if (qaContext.length === 0) {
++            return NextResponse.json(
++                { error: 'INSUFFICIENT_SCREENING_ANSWERS', details: 'Cannot complete screening evaluation without submitted screening answers.' },
++                { status: 422 }
++            );
++        }
+ 
+         const systemPrompt = "You are a technical screening evaluator for workBYLiNE. Analyze screening responses and provide a structured assessment. Respond with valid JSON only.";
+         const userPrompt = `Evaluate this screening session.
+--- a/apps/web/app/auth/page.jsx
++++ b/apps/web/app/auth/page.jsx
+@@ -3,6 +3,7 @@
+ import { useState, useEffect, useCallback, Suspense } from "react";
+ import { useRouter, useSearchParams } from "next/navigation";
+ import { useAuth } from "@/lib/auth";
++import api from "@/lib/api";
+ import { Input } from "@/components/ui/input";
+ import { Label } from "@/components/ui/label";
+ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+@@ -32,6 +33,9 @@
+   const [loading, setLoading] = useState(false);
+   const [recoveryMode, setRecoveryMode] = useState(urlTab === "recovery");
+   const [recoverySent, setRecoverySent] = useState(false);
++  const [pendingVerificationEmail, setPendingVerificationEmail] = useState(null);
++  const [verificationStatusMessage, setVerificationStatusMessage] = useState(null);
++  const [resendingVerification, setResendingVerification] = useState(false);
+ 
+   const { login, register, loginWithProvider, user } = useAuth();
+ 
+@@ -98,15 +102,49 @@
+           }
+           if (domain) company = domain.split(".")[0].replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+         }
+-        await register(email, password, name, role, company);
+-        toast.success(inviteToken ? "Account created and invitation accepted!" : "Account created! Please check your email for verification.");
++        const regResult = await register(email, password, name, role, company);
++        setPendingVerificationEmail(null);
++        setVerificationStatusMessage(null);
++        if (regResult?.delivery_status === "suppressed_dry_run") {
++          const msg = regResult.message || "Account created (dry-run mode: verification email delivery suppressed).";
++          setVerificationStatusMessage(msg);
++          toast.info(msg);
++        } else {
++          toast.success(inviteToken ? "Account created and invitation accepted!" : (regResult?.message || "Account created! Please check your email for verification."));
++        }
+         if (redirectTo) {
+           router.push(getSafeRedirect({ role }));
+         }
+       }
+     } catch (err) {
++      if (err?.accountCreated && err?.retrySupported) {
++        setPendingVerificationEmail(email.trim().toLowerCase());
++        setVerificationStatusMessage(err.message);
++      }
+       toast.error(err.message || "Something went wrong");
+     } finally { setLoading(false); }
++  };
++
++  const handleResendVerification = async () => {
++    if (!pendingVerificationEmail || resendingVerification) return;
++    setResendingVerification(true);
++    try {
++      const res = await api.post("/auth/resend-verification", { email: pendingVerificationEmail });
++      const data = res.data || {};
++      setVerificationStatusMessage(data.message || "Verification email sent.");
++      if (data.delivery_status === "suppressed_dry_run") {
++        toast.info(data.message);
++      } else {
++        setPendingVerificationEmail(null);
++        toast.success(data.message || "Verification email sent! Please check your email.");
++      }
++    } catch (err) {
++      const msg = err.response?.data?.message || err.response?.data?.error || "Could not resend verification email.";
++      setVerificationStatusMessage(msg);
++      toast.error(msg);
++    } finally {
++      setResendingVerification(false);
++    }
+   };
+ 
+   return (
+@@ -392,6 +430,26 @@
+                         {!loading && <ArrowRight className="h-4 w-4 ml-1" />}
+                       </button>
+ 
++                      {verificationStatusMessage && (
++                        <div
++                          className="mt-4 rounded-xl border border-white/[0.12] bg-white/[0.04] p-3 text-[12px] text-white/80"
++                          data-testid="signup-delivery-notice"
++                        >
++                          <p>{verificationStatusMessage}</p>
++                          {pendingVerificationEmail && (
++                            <button
++                              type="button"
++                              onClick={handleResendVerification}
++                              disabled={resendingVerification}
++                              data-testid="resend-verification-btn"
++                              className="mt-2 inline-flex items-center gap-1.5 text-[12px] font-medium text-[#00D604] hover:underline disabled:opacity-50"
++                            >
++                              {resendingVerification ? "Resending…" : "Resend verification email"}
++                            </button>
++                          )}
++                        </div>
++                      )}
++
+                       <p className="text-[11px] text-white/30 text-center leading-relaxed mt-4 px-4">
+                         By creating an account you agree to our <a href="/terms" className="text-white/60 hover:text-white underline decoration-white/20">Terms</a> and <a href="/privacy" className="text-white/60 hover:text-white underline decoration-white/20">Privacy Policy</a>.
+                       </p>
+--- a/apps/web/lib/auth.js
++++ b/apps/web/lib/auth.js
+@@ -212,7 +212,7 @@
+         }
+       });
+       
+-      const { user, session } = res.data;
++      const { user, session, account_created, delivery_status, email_sent, retry_supported, message } = res.data;
+ 
+       if (typeof window !== 'undefined') {
+         sessionStorage.setItem('isFreshSignUp', 'true');
+@@ -222,11 +222,16 @@
+         }
+       }
+       
+-      return user;
++      return { user, account_created, delivery_status, email_sent, retry_supported, message };
+     } catch (err) {
+       console.error("Registration error:", err);
+-      const errorMessage = err.response?.data?.error || err.message || "Failed to register";
+-      throw new Error(errorMessage);
++      const data = err.response?.data || {};
++      const errorMessage = data.message || data.error || err.message || "Failed to register";
++      const wrapped = new Error(errorMessage);
++      wrapped.accountCreated = Boolean(data.account_created);
++      wrapped.deliveryStatus = data.delivery_status || null;
++      wrapped.retrySupported = Boolean(data.retry_supported);
++      throw wrapped;
+     }
+   }, [syncTokenToCookie]);
+ 
+--- /dev/null
++++ b/apps/web/lib/verificationEmail.js
+@@ -0,0 +1,86 @@
++export async function deliverVerificationEmail({ supabase, email, isResend = false }) {
++  const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
++  const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
++    type: 'signup',
++    email,
++    options: {
++      redirectTo: `${baseUrl}/dashboard`,
++    },
++  });
++
++  if (linkError || !linkData?.properties?.hashed_token) {
++    console.error('[API Auth] Link generation failed for verification email.');
++    return {
++      ok: false,
++      status: 500,
++      error: 'VERIFICATION_LINK_FAILED',
++      delivery_status: 'not_attempted',
++      email_sent: false,
++      retry_supported: true,
++      message: isResend
++        ? 'Could not generate a verification link. Please try again.'
++        : 'Account created, but verification link generation failed. Please retry sending the verification email.',
++    };
++  }
++
++  const tokenHash = linkData.properties.hashed_token;
++  const verificationUrl = `${baseUrl}/api/auth/confirm?token_hash=${tokenHash}&type=signup&next=/employer`;
++  const isDryRun = process.env.CAREERTWIN_DRY_RUN_EMAIL !== 'false';
++
++  if (isDryRun) {
++    console.log(`[API Auth] Dry run active: verification email for ${email} suppressed.`);
++    return {
++      ok: true,
++      status: 200,
++      delivery_status: 'suppressed_dry_run',
++      email_sent: false,
++      retry_supported: false,
++      message: isResend
++        ? 'Verification email suppressed (dry-run mode active).'
++        : 'Account created (dry-run mode: verification email delivery suppressed).',
++    };
++  }
++
++  const { sendSMTPEmail } = await import('@/lib/smtp');
++  try {
++    await sendSMTPEmail({
++      to: email,
++      subject: 'Verify your workBYLiNE account',
++      body: `
++        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
++          <h2 style="color: #333;">Welcome to workBYLiNE!</h2>
++          <p>Thank you for signing up. Please click the button below to verify your email address and get started.</p>
++          <div style="text-align: center; margin: 30px 0;">
++            <a href="${verificationUrl}" style="background-color: #0070f3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Email Address</a>
++          </div>
++          <p style="color: #666; font-size: 14px;">If the button doesn't work, copy and paste this link into your browser:</p>
++          <p style="color: #0070f3; font-size: 12px; word-break: break-all;">${verificationUrl}</p>
++        </div>
++      `,
++    });
++    console.log(`[API Auth] Verification email delivered to: ${email}`);
++    return {
++      ok: true,
++      status: 200,
++      delivery_status: 'sent',
++      email_sent: true,
++      retry_supported: false,
++      message: isResend
++        ? 'Verification email sent! Please check your email to verify your account.'
++        : 'Signup successful! Please check your email to verify your account.',
++    };
++  } catch (err) {
++    console.error(`[API Auth] Verification email delivery failed for ${email}: ${err?.name || 'DeliveryError'}`);
++    return {
++      ok: false,
++      status: 503,
++      error: 'VERIFICATION_EMAIL_DELIVERY_FAILED',
++      delivery_status: 'failed',
++      email_sent: false,
++      retry_supported: true,
++      message: isResend
++        ? 'We still could not send the verification email. Please try again later.'
++        : 'Account was created, but we could not send the verification email. Please retry sending the verification email.',
++    };
++  }
++}
+--- a/docs/handoff/DATA_AND_API_CONTRACTS.md
++++ b/docs/handoff/DATA_AND_API_CONTRACTS.md
+@@ -41,8 +41,11 @@
+ 
+ ## 3. Next.js API Route Surface (`apps/web/app/api/**` — 50 routes)
+ 
+-- **Auth:** `/api/auth/{confirm,me,signin,signup}`, `/api/health`, `/api/search`.
++- **Auth:** `/api/auth/{confirm,me,signin,signup,resend-verification}`, `/api/health`, `/api/search`.
++  - `POST /api/auth/signup` returns `delivery_status` (`'sent' | 'suppressed_dry_run' | 'failed' | 'not_attempted'`), `account_created`, `email_sent`, and `retry_supported` (`503 VERIFICATION_EMAIL_DELIVERY_FAILED` on SMTP failure; `500 VERIFICATION_LINK_FAILED` on link error).
++  - `POST /api/auth/resend-verification` provides rate-limited (`429`) verification email retry for existing unconfirmed accounts without recreating the user.
+ - **Candidate:** `/api/candidate/profile`, `/api/candidate/status/[candidateId]`, `/api/candidate/proof-profile/[candidateId]` (`POST /generate`), `/api/candidate/screening-sessions/[sessionId]` (`POST /start`, `POST /answer`, `POST /complete`).
++  - `POST /api/candidate/screening-sessions/[sessionId]/complete` fails closed on `screening_answers` read/malformed errors (`503 SCREENING_ANSWERS_UNAVAILABLE` / `422 SCREENING_ANSWERS_INVALID`) and empty answers (`422 INSUFFICIENT_SCREENING_ANSWERS`) before generation or RPC writes.
+ - **Employer Briefs & Packets:** `/api/employer/hiring-runs` (`POST /suggest`), `/api/employer/brief/[id]` (`POST /approve`), `/api/employer/candidate-documents/upload`, `/api/employer/candidate-documents/[documentId]/download`, `/api/employer/packets/[extractionId]` (`POST /generate`, `POST /action`), `/api/employer/shortlist/[roleId]`.
+ - **Employer Context & Chat:** `/api/employer/chat`, `/api/employer/research-qa`, `/api/employer/context-sources` (`POST /upload`, `POST /ask`, `GET /search`, `GET /related`, `[sourceId]`, `[sourceId]/evidence`, `[sourceId]/retry`).
+ - **Employer Sourcing & Orgs:** `/api/employer/sourcing-sessions` (`[id]`, `[id]/auto-source`), `/api/employer/sourcing/{account,lookup,search,shortlist}`, `/api/employer/organizations` (`POST /invite`, `POST /accept-invite`), `/api/employer/integrations/ashby`, `/api/employer/analytics`, `/api/employer/screening-sessions`.

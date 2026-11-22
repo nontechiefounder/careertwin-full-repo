@@ -1,0 +1,133 @@
+diff --git a/supabase/migrations/20260817000001_core09_transactional_decisions_and_storage.sql b/supabase/migrations/20260817000001_core09_transactional_decisions_and_storage.sql
+index 058d154..5818492 100644
+--- a/supabase/migrations/20260817000001_core09_transactional_decisions_and_storage.sql
++++ b/supabase/migrations/20260817000001_core09_transactional_decisions_and_storage.sql
+@@ -33,6 +33,7 @@ ALTER TABLE public.candidate_profiles
+   ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ 
+ -- 3. TRANSACTIONAL REVISION-AWARE HUMAN DECISION RPC (OBJECTIVE 1)
++DROP FUNCTION IF EXISTS public.record_human_decision_transactional(UUID, UUID, TEXT, UUID, TEXT, TEXT, INTEGER, TEXT);
+ CREATE OR REPLACE FUNCTION public.record_human_decision_transactional(
+   p_candidate_id uuid,
+   p_actor_id uuid,
+@@ -40,8 +41,8 @@ CREATE OR REPLACE FUNCTION public.record_human_decision_transactional(
+   p_org_id uuid,
+   p_action text,
+   p_rationale text,
+-  p_expected_ledger_revision integer DEFAULT NULL,
+-  p_expected_rubric_version text DEFAULT NULL
++  p_expected_ledger_revision integer,
++  p_expected_rubric_version text
+ )
+ RETURNS TABLE (
+   candidate_id uuid,
+@@ -78,6 +79,14 @@ BEGIN
+     RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Non-empty decision rationale is required';
+   END IF;
+ 
++  IF p_expected_ledger_revision IS NULL OR p_expected_ledger_revision <= 0 THEN
++    RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Missing or invalid expected_ledger_revision. Must be a positive integer.';
++  END IF;
++
++  IF p_expected_rubric_version IS NULL OR length(trim(p_expected_rubric_version)) = 0 THEN
++    RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Missing or invalid expected_rubric_version. Must be a non-empty string.';
++  END IF;
++
+   v_db_status := CASE p_action
+     WHEN 'advance' THEN 'shortlisted'
+     WHEN 'hold' THEN 'hold'
+@@ -116,9 +125,13 @@ BEGIN
+     RAISE EXCEPTION 'RPC_AUTHORIZATION_ERROR: Candidate % does not belong to organization %', p_candidate_id, p_org_id;
+   END IF;
+ 
+-  -- 5. Revision & Rubric Optimistic Concurrency Check
++  -- 5. Revision & Rubric Optimistic Concurrency Check (Fail-closed on missing packet metadata)
++  IF v_cand_rec.decision_packet IS NULL THEN
++    RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Candidate decision packet is missing';
++  END IF;
++
+   v_current_rev := NULL;
+-  IF v_cand_rec.decision_packet IS NOT NULL AND (v_cand_rec.decision_packet->>'ledger_revision') IS NOT NULL THEN
++  IF (v_cand_rec.decision_packet->>'ledger_revision') IS NOT NULL THEN
+     BEGIN
+       v_current_rev := (v_cand_rec.decision_packet->>'ledger_revision')::integer;
+     EXCEPTION WHEN OTHERS THEN
+@@ -126,21 +139,25 @@ BEGIN
+     END;
+   END IF;
+ 
++  IF v_current_rev IS NULL THEN
++    RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Candidate packet lacks valid ledger_revision';
++  END IF;
++
+   v_current_rubric := v_cand_rec.decision_packet->>'rubric_version';
++  IF v_current_rubric IS NULL OR length(trim(v_current_rubric)) = 0 THEN
++    RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Candidate packet lacks valid rubric_version';
++  END IF;
++
+   v_current_doc_id := v_cand_rec.decision_packet->>'candidate_document_id';
+ 
+-  IF p_expected_ledger_revision IS NOT NULL THEN
+-    IF v_current_rev IS NOT NULL AND v_current_rev != p_expected_ledger_revision THEN
+-      RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Expected ledger revision % does not match current packet revision %',
+-        p_expected_ledger_revision, v_current_rev;
+-    END IF;
++  IF v_current_rev != p_expected_ledger_revision THEN
++    RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Expected ledger revision % does not match current packet revision %',
++      p_expected_ledger_revision, v_current_rev;
+   END IF;
+ 
+-  IF p_expected_rubric_version IS NOT NULL THEN
+-    IF v_current_rubric IS NOT NULL AND v_current_rubric != p_expected_rubric_version THEN
+-      RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Expected rubric version % does not match current packet rubric %',
+-        p_expected_rubric_version, v_current_rubric;
+-    END IF;
++  IF v_current_rubric != p_expected_rubric_version THEN
++    RAISE EXCEPTION 'REVIEW_REVISION_CONFLICT: Expected rubric version % does not match current packet rubric %',
++      p_expected_rubric_version, v_current_rubric;
+   END IF;
+ 
+   -- 6. Extract Existing Decision History & Append New Event
+@@ -323,11 +340,11 @@ BEGIN
+             RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Edge missing claim_id or evidence_id: %', v_edge_item;
+         END IF;
+ 
+-        IF NOT (SELECT bool_or((c->>'id') = v_edge_claim_id) FROM jsonb_array_elements(p_claims) c) THEN
++        IF NOT EXISTS (SELECT 1 FROM jsonb_array_elements(p_claims) c WHERE (c->>'id') = v_edge_claim_id) THEN
+             RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Claim edge references nonexistent claim id %', v_edge_claim_id;
+         END IF;
+ 
+-        IF NOT (SELECT bool_or((e->>'id') = v_edge_ev_id) FROM jsonb_array_elements(p_evidence_refs) e) THEN
++        IF NOT EXISTS (SELECT 1 FROM jsonb_array_elements(p_evidence_refs) e WHERE (e->>'id') = v_edge_ev_id) THEN
+             RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Claim edge references nonexistent evidence id %', v_edge_ev_id;
+         END IF;
+     END LOOP;
+@@ -347,13 +364,27 @@ BEGIN
+         RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Hiring run organization tenant mismatch (expected %, found %)', p_org_id, v_run_rec.org_id;
+     END IF;
+ 
++    -- Require explicit rubric approval (contract_approved = true)
++    IF COALESCE((v_run_rec.brief_json->>'contract_approved')::boolean, false) IS NOT TRUE THEN
++        RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Rubric has not been explicitly approved for hiring run %', p_hiring_run_id;
++    END IF;
++
+     -- Require explicit approved_rubric_version (contract_version fallback prohibited)
+     v_approved_version := (v_run_rec.brief_json->>'approved_rubric_version');
+ 
+-    IF v_approved_version IS NULL OR v_approved_version = '' THEN
++    IF v_approved_version IS NULL OR v_approved_version = '' OR v_approved_version = 'null' THEN
+         RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Missing explicit approved_rubric_version on hiring run % (contract_version fallback prohibited)', p_hiring_run_id;
+     END IF;
+ 
++    -- Require explicit approval metadata: approved_by and approved_at
++    IF v_run_rec.brief_json->>'approved_by' IS NULL OR length(trim(v_run_rec.brief_json->>'approved_by')) = 0 THEN
++        RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Missing rubric approval metadata approved_by for hiring run %', p_hiring_run_id;
++    END IF;
++
++    IF v_run_rec.brief_json->>'approved_at' IS NULL OR length(trim(v_run_rec.brief_json->>'approved_at')) = 0 THEN
++        RAISE EXCEPTION 'RPC_VALIDATION_ERROR: Missing rubric approval metadata approved_at for hiring run %', p_hiring_run_id;
++    END IF;
++
+     -- Validate evaluated rubric version strictly matches authoritative approved rubric version
+     v_eval_rubric_version := p_evaluation_output->>'rubric_version';
+     IF v_eval_rubric_version IS NULL OR v_eval_rubric_version != v_approved_version THEN

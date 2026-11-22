@@ -1,0 +1,164 @@
+# Step 4B1.1 Corrected Frontend Copy File Manifest & Verification
+# Source: /Users/darshilparmar/Desktop/CareerTWiN Private Pilot Build/live-mvp-readonly
+# Destination: /Users/darshilparmar/Desktop/CareerTWiN Private Pilot Build/careertwin-monorepo/apps/web
+# Total Retained & 100% SHA-256 Matched Application Files: 144
+# Destination-Modified Governance Files: 1
+# Intentionally Excluded Obsolete/Unsafe/PII Items: 6
+
+## 1. Retained Application Files (100% SHA-256 Hash Matched)
+MATCH | AGENTS.md | 327 bytes | SHA256:e3447d84251880fb34cfae09131cb4c57471529bbfe60976a3245793cf621627
+MATCH | CLAUDE.md | 11 bytes | SHA256:336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49
+MATCH | README.md | 1458 bytes | SHA256:e54d573f70711f7c45c6f2ee5cfbaac78596406a741e4c8ad025f7e9dd810cbb
+MATCH | __tests__/api/candidate.test.js | 2216 bytes | SHA256:864c66978e411ffeaed65f5ca5c2e98754ac40ee5b321c01009f7fdf86a2cc08
+MATCH | __tests__/api/employer.test.js | 1680 bytes | SHA256:e9151c56a22244d707f03854727b5b1e60d26f7b39723f188cdedcae9da34a47
+MATCH | __tests__/components/ProtectedRoute.test.js | 2017 bytes | SHA256:d8e621e58f7b85e1ae559792fcae33469164abed8765a089cd794bae266e245b
+MATCH | __tests__/pages/AuthPage.test.js | 1572 bytes | SHA256:8aeca82a2f949ad5f4ba31ae272e71d69ea9ff68dd3188e802bbf25579e297e8
+MATCH | __tests__/setup.js | 951 bytes | SHA256:873d4c3ebee26ee9f7ced999652760f31ef786652b0aee1c1913adada69c5188
+MATCH | app/about/page.jsx | 1239 bytes | SHA256:e1bdbe2bcf295f5b2178e3c167161f090ee5056a9168df09aef84f11c94aa31d
+MATCH | app/api/auth/confirm/route.js | 1103 bytes | SHA256:a4b2a0adc5bfccc83cdbaccd3fe0c4fa51a4da0a92c8e70163c88b94b7647155
+MATCH | app/api/auth/me/route.js | 1194 bytes | SHA256:fb51ef2dcbb9f64c576517b0bc732128fa9e2bb308a22bebb20c9d4bba87184a
+MATCH | app/api/auth/signin/route.js | 2074 bytes | SHA256:d98307a087e5cad4bab9cb2de17f2e7722d70100e46f4601c65a01d5a00c7e7f
+MATCH | app/api/auth/signup/route.js | 3481 bytes | SHA256:b62d77970e0dd83f593898eb1739085f82ce8b98123d9b5897336f9a3e1406e1
+MATCH | app/api/candidate/profile/route.js | 2477 bytes | SHA256:a8725a52db67c2e128b77775863b7103c0d8aa068ac648f0cc22de74d155ff12
+MATCH | app/api/candidate/proof-profile/[candidateId]/generate/route.js | 3578 bytes | SHA256:914fbc9e36486f0a6a6ece3b50e0302eba474e124ea9606ffc85bae529ce101c
+MATCH | app/api/candidate/proof-profile/[candidateId]/route.js | 2170 bytes | SHA256:599e22d2bfa2054282f0f798c97c800121d262ade57027bd27bcb42dd9a7bfe4
+MATCH | app/api/candidate/screening-sessions/[sessionId]/answer/route.js | 949 bytes | SHA256:ac5035e5dfeaf890e24033e29c4af83cec77638eb5a26e693445b08ef848a25d
+MATCH | app/api/candidate/screening-sessions/[sessionId]/complete/route.js | 3179 bytes | SHA256:0560eaa871b48d91030730d32c629c857cc5df30f420b37599a4477fdc0f1c31
+MATCH | app/api/candidate/screening-sessions/[sessionId]/route.js | 2377 bytes | SHA256:a7dd8ac0ab5566466f719ca7158634b16bc14f507aa347caa42083804ef69327
+MATCH | app/api/candidate/screening-sessions/[sessionId]/start/route.js | 841 bytes | SHA256:c83613f33fec1286ae68f0dabdefece73eac89deccb6d9e4eca9ec6cb7ec3a46
+MATCH | app/api/candidate/status/[candidateId]/route.js | 2390 bytes | SHA256:a07db97f557613b9772f49aa68b7ba23a88e070704d758b1f3563660c23cee25
+MATCH | app/api/employer/analytics/route.js | 3119 bytes | SHA256:4c80476ff995c310be6b84c454be330fac0c0046cb0a67996d00f5f12a531dd3
+MATCH | app/api/employer/brief/[id]/route.js | 3535 bytes | SHA256:9deaf79bc4024d1a36bc0f3d32c470503cef4be38d7c42c54e34a993c62839cf
+MATCH | app/api/employer/candidate-extractions/route.js | 2631 bytes | SHA256:66a88bd006c74e25fff3c92d07926f7521365c4fd9e2c34f970cdb69e0ba76b1
+MATCH | app/api/employer/chat/route.js | 2321 bytes | SHA256:249b1048830354eb390869a852a52f98a9388975e15dd070e3e0d8805502d0af
+MATCH | app/api/employer/hiring-runs/route.js | 2461 bytes | SHA256:3c7e8b0df8c1d2f9b3569b88257a2c8eaa8fdcda1c02fc6e854dd5d598b90c2f
+MATCH | app/api/employer/hiring-runs/suggest/route.js | 4061 bytes | SHA256:ea57d48e19d51f904793cee7910a21c8923f899129e0323f13a69c2464d34a61
+MATCH | app/api/employer/packets/[extractionId]/action/route.js | 7318 bytes | SHA256:4d549133886125df5e7ec7a4d029e82b131defb51a6b01fa4ff998eb372108b3
+MATCH | app/api/employer/packets/[extractionId]/generate/route.js | 4069 bytes | SHA256:0e27d97474ace04440c482affa4af2d6806b506cebede2f16b4dc34113d63d11
+MATCH | app/api/employer/packets/[extractionId]/route.js | 2295 bytes | SHA256:ac23824d1e971c7c543a29b6b8fedeb7ebd8c20a5cb7ef004a2208640dbb1487
+MATCH | app/api/employer/shortlist/[roleId]/route.js | 1477 bytes | SHA256:9c0be9f3f1aae558f3398edb5a44e18f3e946eafb5d19d8f959019bdc2317157
+MATCH | app/api/employer/sourcing-sessions/[id]/auto-source/route.js | 1516 bytes | SHA256:ead4f4bf74b623add67448612507bd6d446fcf5a7819389b9782437eda92fb3d
+MATCH | app/api/employer/sourcing-sessions/[id]/route.js | 1833 bytes | SHA256:2027a631a14c7333e982d2244b1085a4e13cbf126aa809c73e11ed2c50010f6d
+MATCH | app/api/employer/sourcing-sessions/route.js | 2127 bytes | SHA256:60ac197b39d3415d6975b64987b60e4a299609953be2506cc898c83397022584
+MATCH | app/api/integrations/gmail/callback/route.js | 1877 bytes | SHA256:1d040e009bfc6e8fd4eacedd5e3d70a7986d05820179b7170d425217c4e0405b
+MATCH | app/api/integrations/gmail/connect/route.js | 1253 bytes | SHA256:93c73f8239a692b20cd4aa1f951f6b1fe40274817cbcba00bf631bee346efdef
+MATCH | app/api/search/route.js | 1862 bytes | SHA256:92e92a054a58c532c34db7be3443ae5f1802ab2ba7e2b04c50c28dfff71770d8
+MATCH | app/auth/page.jsx | 17207 bytes | SHA256:734d1484770b873a3137d632a1a10543cb8b4f38ad8ead8294520bb1c54db6ad
+MATCH | app/candidate/onboarding/page.jsx | 9210 bytes | SHA256:127d19699117f7148ea6c68aee6b98cffaf4be3dc80bde6572d3cccc2a427cc5
+MATCH | app/candidate/proof-profile/[candidateId]/page.jsx | 10088 bytes | SHA256:2317a322353d5c9914911f8ac1d27a1b082b848314809d3c750907e74ebc1685
+MATCH | app/candidate/screen/[sessionId]/page.jsx | 10211 bytes | SHA256:b6c459e195143619be3d4f4f8e735ed7d39e1d3d0190ec875c84d847d1197f67
+MATCH | app/candidate/status/[candidateId]/page.jsx | 7688 bytes | SHA256:78f188687bb5c4f0f6ced22f8ef273746ae6fec1f749cdf567d7d2b3aa5a7016
+MATCH | app/compare/page.jsx | 13607 bytes | SHA256:19daed4e81a8148e5054f74f7831164eb16f69817671e32db37814225358a1fc
+MATCH | app/contact/page.jsx | 1452 bytes | SHA256:f3055b8bb4b7d9fba8edb1c5d14a6593c11f24077285f672768892e6a544377f
+MATCH | app/employer/brief/[id]/page.jsx | 12212 bytes | SHA256:857ae06a59900dedbf45084dbd62bad64f44321aee2904376e8802c846633fa2
+MATCH | app/employer/chat/page.jsx | 26845 bytes | SHA256:9b2fe093010e102ead95d35072b245fc8f5c3074325b87cd7f520dcbf8f039df
+MATCH | app/employer/intake/page.jsx | 23089 bytes | SHA256:f807f097331fbd6f9ce32b309b6cdac1f36ac64fe466ef5e30ed5fda3db0c28f
+MATCH | app/employer/integrations/page.jsx | 16307 bytes | SHA256:2390a55ec2398b8894005e02517358e3e75e83897437db1f0a16039414935300
+MATCH | app/employer/layout.jsx | 230 bytes | SHA256:31e5afcf6346b65709e7e67f8ab9f80360e7a9cefb016cb71a6fc6e4b820d4f0
+MATCH | app/employer/packet/[extractionId]/page.jsx | 25328 bytes | SHA256:6929ee35c0245814ee6a2e93350dedefbaa2e7c1302158863fc82368c64d1751
+MATCH | app/employer/page.jsx | 27806 bytes | SHA256:fed8c44a71ae69d16dadf9288ce3238b973d8ae47b448c7a0f978408d47c8ff4
+MATCH | app/employer/profile/page.jsx | 10704 bytes | SHA256:e15d52d494034e64cd7648ea0de4773684de58ca7da96abe8943bd97c9de5d59
+MATCH | app/employer/shortlist/[roleId]/page.jsx | 16030 bytes | SHA256:712fecf3f39800886512f595d7a3993f10659951af2196aeac6b582e13d343dd
+MATCH | app/employer/sourcing-session/[id]/page.jsx | 29619 bytes | SHA256:1655fb128f01f80e23d9ae97b517f39e087d18e53f41cb0d69832d19bb6877dc
+MATCH | app/favicon.ico | 25931 bytes | SHA256:2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932
+MATCH | app/globals.css | 8217 bytes | SHA256:44d14d64fa2c4d42143d0cfdabd76a222333a3d9de292417decce30cb601720c
+MATCH | app/layout.js | 909 bytes | SHA256:5eca536aeaac345a52784707669a73a50c539cc8873a5c9530cea489119b8333
+MATCH | app/page.jsx | 14705 bytes | SHA256:f4f4a328f555e98c93118f0239b33e1d6dd036fc04a0ab80bb56329285b85636
+MATCH | app/pricing/page.jsx | 12755 bytes | SHA256:8c698839d7cebd290e2f8e34f8b61bdc342280c7f9d1c993d9cd22b466c01130
+MATCH | app/privacy/page.jsx | 1755 bytes | SHA256:aafc8e10ca7d3dd9164025b1d529d6caa83bedbafd403502f4424c21c0599a49
+MATCH | app/terms/page.jsx | 1573 bytes | SHA256:38e8da2249c710a9e03ad21684ed0e3254a2a9162987c4e5e4d9a2d07d270c05
+MATCH | components/CommandPalette.jsx | 5850 bytes | SHA256:dffe040f3ee061dab3deb3911ec88d3afd32d5c5ff46d7b40963dd805a7f1f4a
+MATCH | components/NaiveShell.jsx | 8895 bytes | SHA256:cb0c266369ad6b0cddc71d915529302f11b80400af939fc7a4eed72178d6c239
+MATCH | components/ProtectedRoute.jsx | 898 bytes | SHA256:61712dec415f54e749ba10132b7ea9ff1134a4b8256fd49268720698d689db6d
+MATCH | components/Providers.jsx | 412 bytes | SHA256:f09ede2458f9e516244258e91048cf89f615180b988b922f5e9ca377db958f3e
+MATCH | components/TechIcon.jsx | 1166 bytes | SHA256:a1502eb4143999d624185cec3ef820924b893bc6695f0294ded335a5959293c3
+MATCH | components/marketing/BackgroundBeams.jsx | 2536 bytes | SHA256:2ea7d993bfb3d5b7325e0b351c7b95c5a82afd8af9ef903d694df480e774961c
+MATCH | components/marketing/BentoGrid.jsx | 1920 bytes | SHA256:dbd5e49e19fa7c220999317e5b92a0554e80c4f4fc95c750f2675a0c9c2c8f3f
+MATCH | components/marketing/MarketingFooter.jsx | 2879 bytes | SHA256:d675873e569204594e27ec58d3c33a3ec2c5ffcf4145c30b24e35560d76de2f0
+MATCH | components/marketing/MarketingNav.jsx | 4712 bytes | SHA256:0f0609121f0043f227fc20e62305ccdb1f8d8e3256fe09f9dd60423a69b21670
+MATCH | components/marketing/MovingBorder.jsx | 1202 bytes | SHA256:0cd22231d15b6b707cd2781c2773435c626bc61ef6e57df5c24a225f397e1c73
+MATCH | components/marketing/SpotlightCard.jsx | 1284 bytes | SHA256:c2c8e2266dceac857a5de8ed1051afcb48b3a9c3857e9861046b8f0c98a457c1
+MATCH | components/marketing/TypewriterEffect.jsx | 2112 bytes | SHA256:c5895cc5f0c34d868fbfb09322ad6cacdc23d5cb1de5291bd17329ff5f410c29
+MATCH | components/ui/accordion.jsx | 1615 bytes | SHA256:b47533b3783b8149550b8481e4ae93d54bdcbc51d434793c176b0aec5558ee1c
+MATCH | components/ui/alert-dialog.jsx | 3461 bytes | SHA256:a20098cdc2eb2b5915575d3f0fb7a3e8e6c1035c7eef77144f3fc389e0fdbda0
+MATCH | components/ui/alert.jsx | 1335 bytes | SHA256:c5baf27fb6a4bf130236fa0f336c21084fee192e8215bb6b20c87436c27f3b38
+MATCH | components/ui/aspect-ratio.jsx | 140 bytes | SHA256:08b0aa0b05efc573c7d63363c03e83d4b101bfeb54140764e96ddea30659cfcc
+MATCH | components/ui/avatar.jsx | 1029 bytes | SHA256:dc91f6b15da007904343e580ceeccc58fba37f8c207e12b1edd3057820805475
+MATCH | components/ui/badge.jsx | 990 bytes | SHA256:380dcda78ff8fdd80c82b89cb7dd38ffd84c355735fc8f16300ff647e15988aa
+MATCH | components/ui/breadcrumb.jsx | 2269 bytes | SHA256:bb43d4d07119e0cf1a458feac2c9cfb3946b33813b12e11e576d9eb7dcddf189
+MATCH | components/ui/button.jsx | 1662 bytes | SHA256:e933a3f77c7ed8bf7186ca1fc049b940bd1e80e75b34eb9853dbb9fae7af9a47
+MATCH | components/ui/calendar.jsx | 2849 bytes | SHA256:235b31ac855e8a373d683c1175f14afb065ee3f00a0f4b19e89311665e0934ea
+MATCH | components/ui/card.jsx | 1440 bytes | SHA256:8ab6f42e722e9c51752ce2f14aabb2696bddc0b6818041fb8f313f670955c2c4
+MATCH | components/ui/carousel.jsx | 4811 bytes | SHA256:62842d0a01459ffd8d9a83b0e5a34b8cc639eb2d06a7076c8488b7ac56864cdd
+MATCH | components/ui/checkbox.jsx | 880 bytes | SHA256:b0260cb7767493d8273f5def1b7d32e844d068db5f5760258d333ae6ad88f0d8
+MATCH | components/ui/collapsible.jsx | 330 bytes | SHA256:bcfbf480fd471fba12b72ec9dedfb65afa7dd141a0d3bc111361357e7d012963
+MATCH | components/ui/command.jsx | 3893 bytes | SHA256:c1cc8d4ba2b7cc890ffa45c4e5bfc8a1e647f6dd859e9057cb7fedd6621a5e1d
+MATCH | components/ui/context-menu.jsx | 6175 bytes | SHA256:46884050ac738ba6f7324425fa491f9b79140d27571318cf4473ddedcdc7b8c6
+MATCH | components/ui/dialog.jsx | 3229 bytes | SHA256:b73bd1fe25e01687ccb3453885c1d7dc2e780645b6576454f942b78f5f2c033a
+MATCH | components/ui/drawer.jsx | 2345 bytes | SHA256:ad946a1e3d6976f5da19f6fbdaa8a65dc96c6cbce926d1a60889ef5ec449e44c
+MATCH | components/ui/dropdown-menu.jsx | 6360 bytes | SHA256:301bb66ff2a83483edbfaec53e59c09ea37530c4eb6b291ea16e73bae9bba6d3
+MATCH | components/ui/form.jsx | 3121 bytes | SHA256:68379f589cf2c031104cc39fd944713d611e31e26213be78074eb853e19dbcdf
+MATCH | components/ui/hover-card.jsx | 1109 bytes | SHA256:d72f4c6169a6cd06b18d279ae31e73b790f7aba6a38c61442952c01e04cc32af
+MATCH | components/ui/input-otp.jsx | 1809 bytes | SHA256:485ea4a1a4ad29e68ab3671eaccaa7b972b47d266e87f767c6137ccdd0f2d0b7
+MATCH | components/ui/input.jsx | 688 bytes | SHA256:7c9f0c756530ae1dbe3b1424f09e32e3f54323826b2f2d817b13c865f96309ad
+MATCH | components/ui/label.jsx | 525 bytes | SHA256:37c6425d2a5c798ade4e60f89f86054d703433a8977e12d796de2b5bb4e3d0b7
+MATCH | components/ui/menubar.jsx | 6874 bytes | SHA256:9d170686eb1c56b5981e7108d6108498009fd55abffa1ae4b89d38b44292788b
+MATCH | components/ui/navigation-menu.jsx | 4299 bytes | SHA256:5e4efd6acb3836f19205aeca1373da81cf48c35be6fedd62326d704c2ee2a921
+MATCH | components/ui/pagination.jsx | 2322 bytes | SHA256:1d519fc3ba1c8c6cf7f2d30c98739ecba2fa7af35cbc024d6793785e7a6d65c8
+MATCH | components/ui/popover.jsx | 1231 bytes | SHA256:839b7fd0af79246e2f6cd749e218e5857371339852d7bd7be8da18022d42e291
+MATCH | components/ui/progress.jsx | 653 bytes | SHA256:2d074c6026cd5ca44ef44b9027f267612c39877a7d2eb4a3faa387594c3eb37a
+MATCH | components/ui/radio-group.jsx | 1133 bytes | SHA256:4e1e8860ca64733614431a9aa1694d430538478e1fa6859b1e6f65348152876b
+MATCH | components/ui/resizable.jsx | 1556 bytes | SHA256:eec5a9ea2861a3946063586f101d4b3d6615cd8e0a00f2834f80aed3bf0cb2c5
+MATCH | components/ui/scroll-area.jsx | 1362 bytes | SHA256:3de4bed34be51a940243b0fbf8c6d9324ecb416a91a919d65ca18d15a7ba32a1
+MATCH | components/ui/select.jsx | 4784 bytes | SHA256:933963eed5180dd148b8f360b95a648763b31250699914c2bcdc9acfe3ac33cd
+MATCH | components/ui/separator.jsx | 600 bytes | SHA256:2c82247abd573d0f4a93eb259166e3b778365b58c0d18921b4739d5ba4b29e7e
+MATCH | components/ui/sheet.jsx | 3535 bytes | SHA256:8d2cc6801dd7a47fbacbe2bc78ed6b564dfe12adf188af111bc03a78e5efe2d8
+MATCH | components/ui/skeleton.jsx | 225 bytes | SHA256:78dad1ec71e4fc2c0060dd244ee68b2f9e7fc42ae680dab4f310e2ad8f17b741
+MATCH | components/ui/slider.jsx | 914 bytes | SHA256:1761bfaa0a06480b76b31511e4a5c24903b407732e027fc11ad615dd3d93a562
+MATCH | components/ui/sonner.jsx | 760 bytes | SHA256:03fb8bf1306c570a3629d031233b9c4afc5751f79e36bf5ac5842a36710e2acd
+MATCH | components/ui/switch.jsx | 1025 bytes | SHA256:880e95637cc1d90ef4476f79114afd2fa7b5f6e5da1f49a70e0efc1f84aa0c8a
+MATCH | components/ui/table.jsx | 2231 bytes | SHA256:301509bb8337184f1b299cb15b8d4f8ec8f0d3bbc17a2ffdf33ff58f7eaa444e
+MATCH | components/ui/tabs.jsx | 1544 bytes | SHA256:06774b38d7e2af270cd9611166278de3f35128682505bccedf9ebf87e18aa4c9
+MATCH | components/ui/textarea.jsx | 585 bytes | SHA256:6b2c6dd8023a32be3b52af960d7615018488c5601fb05cec97ed76d1141ae2f4
+MATCH | components/ui/toast.jsx | 3829 bytes | SHA256:1865542d8648bb1207bdf3020393387f0a42ca1f5f9f5a8ffab4bb35598c1c5e
+MATCH | components/ui/toaster.jsx | 774 bytes | SHA256:7dd63e25d99c02b93b3868eef5b0c261ecc63b5f5542c4bf7155731ec234ef5d
+MATCH | components/ui/toggle-group.jsx | 1268 bytes | SHA256:f40062b4037c151c9bba1b5de1ce60c60ce5b4dc6dc24f8efab85b382a3129fb
+MATCH | components/ui/toggle.jsx | 1324 bytes | SHA256:8c563045f231bfa2ca8cde62085f00c0600fa558a60d8c14ea3a1cb5c9c644c5
+MATCH | components/ui/tooltip.jsx | 1142 bytes | SHA256:bf796766679731a2e649e699b052c811447b65035bb950c6c5ec8fe3d8f36e64
+MATCH | eslint.config.mjs | 400 bytes | SHA256:d1257bff0b0aa0cb73034a730f33405d4de7d440678564d0183c5ca1244bb639
+MATCH | hooks/use-toast.js | 3085 bytes | SHA256:767e0227c5c9406b5d00e25a57c6d01e9f6e083d36e803ccb0a5e260992a5225
+MATCH | jsconfig.json | 73 bytes | SHA256:9c9b5e733ed51575e8d9910dc65bd9e7b994b42b3c93237b7ae4489ebfecacfc
+MATCH | lib/ai.js | 5505 bytes | SHA256:568dbd8c6851188dd9d604734990bb54721cc48c7fc170d6dfb1b4a954fb16ed
+MATCH | lib/api.js | 1140 bytes | SHA256:4859b19ebb228ad5b8bc9ef0c5bd92f606f1dc0e51543a7acbc55f33fd3376ed
+MATCH | lib/auth.js | 8988 bytes | SHA256:918551f81bca37493a2cd2590c2097462963638666b844564dadb761c8dd9352
+MATCH | lib/gmail.js | 1942 bytes | SHA256:450c084684ef67b34f7bafbe73efe24f634833e191e979520fa6b23c3469cd11
+MATCH | lib/mcp/crustdata_tools.js | 3889 bytes | SHA256:308b94f9c13f9ad97fa84d36bf6a34e07caf8619e453175970543507ffcfabec
+MATCH | lib/smtp.js | 928 bytes | SHA256:b5e2a922652ccc7a4729aca815a207ac16aca808f503efff05f24cc194ad4dbc
+MATCH | lib/sourcing/agent.js | 12174 bytes | SHA256:27dfa958090a292f6708ba64df4221544741aa8e0f861c7364c5ffcaf32c7cf8
+MATCH | lib/sourcing/crustdata.js | 5499 bytes | SHA256:364aa190953bc6725bf91f7d35fed3289c3f55f684799da02ac2109a73db8812
+MATCH | lib/supabase.js | 468 bytes | SHA256:50f39677f1762a31a840bb200255d41a635512c585d1a36532dd4c1968d78e17
+MATCH | lib/supabaseServer.js | 3321 bytes | SHA256:8ff910676ec2b73234d45c6bba0712de3f25fd51a82da77a1aaa2a5476005369
+MATCH | lib/utils.js | 137 bytes | SHA256:5ba0ae526d768600bbfb4a4d345c47f6208cb941adbf456de80804a4cf938350
+MATCH | next.config.mjs | 144 bytes | SHA256:592cfb5a2e554469c2af6d2c04a81edeea1018de289aeec0b05ce38d51818532
+MATCH | package-lock.json | 932038 bytes | SHA256:acbcc7bb7c0d569830b3112d0d987f96c00f08f0635c6fb134ca227c96eaa5b6
+MATCH | package.json | 2712 bytes | SHA256:0079745c23d8b690b1d228959c478f0bf980f52957470e79fd363e831e013842
+MATCH | postcss.config.mjs | 94 bytes | SHA256:dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde
+MATCH | public/file.svg | 391 bytes | SHA256:2b67812c325c199a02536cdbeea0c593a72f707d323b72ee3e08dbab06753bd4
+MATCH | public/globe.svg | 1035 bytes | SHA256:b614b9bf183925957661ac851498fe1d8029fd43a62fbfed86f9e2624a57e7cf
+MATCH | public/logo.svg | 4688 bytes | SHA256:bda8dad2627e62bdc8f012ef9d3e172fc40c801b75245c25476553fccda96c8f
+MATCH | public/next.svg | 1375 bytes | SHA256:55995dfad6ecb4945a1e856ddca03c5e16aa5bf13fd21b4df6a74ae79357bcfc
+MATCH | public/vercel.svg | 128 bytes | SHA256:f081337b2fee635b455b63275406a3e7f39d6a014e25ad90dab5a67e62a12ac4
+MATCH | public/window.svg | 385 bytes | SHA256:644768c4aaeb4767bce293344eeb0c125fb804a94d801440424072202d85e3a1
+MATCH | vitest.config.mjs | 382 bytes | SHA256:6ba600c09bae22773531d53c3cac71762532abf20a80d5d32f700ec6614efa53
+
+## 2. Specific Item Decision Log
+COPIED   | components/NaiveShell.jsx | Audited & copied unchanged (SHA256: cb0c2663...)
+REMOVED  | data/talent_vault.json | Classified as REAL_OR_PUBLIC_PERSON_DATA & purged
+REMOVED  | scripts/mass_seed.js | Unneeded operational script purged
+EXCLUDED | app/api/dev/* | Obsolete developer test API routes excluded
+EXCLUDED | test-ai.js | Obsolete root test script excluded
+
+## 3. Destination-Only Governance Modifications & Created Assets
+MODIFIED | apps/web/.gitignore | Updated with explicit dataset & secret ignore rules
+CREATED  | apps/web/.env.example | Structural template (blank values only)
+REMOVED  | apps/web/.gitkeep | Placeholder removed upon copying directory

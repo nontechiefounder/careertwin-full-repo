@@ -1,0 +1,14 @@
+# Apps Web Git Ignore Rules
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+.vercel/
+dist/
+build/
+coverage/
+data/talent_vault.json
+data/private/
+candidate_exports/
+candidate_datasets/

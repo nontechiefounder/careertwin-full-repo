@@ -1,0 +1,778 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── workBYLiNE Brand Fonts (Self-Hosted WBL Geist Family) ── */
+@font-face {
+  font-family: "WBL Geist";
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "WBL Geist";
+  src: url("/fonts/Geist-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "WBL Geist";
+  src: url("/fonts/Geist-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "WBL Geist";
+  src: url("/fonts/Geist-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "WBL Geist Mono";
+  src: url("/fonts/GeistMono-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "WBL Geist Pixel Square";
+  src: url("/fonts/GeistPixel-Square.woff2") format("woff2"),
+       url("/fonts/GeistPixel-Square.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'WBL Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'WBL Geist Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-display: 'WBL Geist Pixel Square', 'WBL Geist', system-ui, sans-serif;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+@layer base {
+  /* ── DARK THEME (DEFAULT): workBYLiNE Enterprise Design System v2.0.0 ── */
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Canonical Semantic Tokens (Dark Theme) */
+    --bg-canvas: #030303;
+    --bg-sidebar: #0A0A0A;
+    --bg-surface: #121212;
+    --bg-raised: #181818;
+    --bg-hover: #181818;
+    --bg-selected: #222222;
+    --bg-interlude: #0E0E0E;
+    --text-primary: #E1E1E5;
+    --text-secondary: #8D8D8D;
+    --text-muted: #8D8D8D;
+    --text-disabled: #666666;
+    --border-subtle: rgba(225, 225, 229, 0.08);
+    --border-default: rgba(225, 225, 229, 0.12);
+    --border-strong: rgba(225, 225, 229, 0.20);
+    --border-control: #8D8D8D;
+    --action-primary-bg: #E1E1E5;
+    --action-primary-fg: #030303;
+    --action-primary-hover: #FFFFFF;
+    --accent-brand: #00D604;
+    --accent-fg: #00D604;
+    --accent-soft: #0F2F10;
+    --accent-outline: rgba(0, 214, 4, 0.30);
+    --success-fg: #00D604;
+    --success-soft: #0F2F10;
+    --warning-fg: #F59E0B;
+    --warning-soft: #281C08;
+    --danger-fg: #EF4444;
+    --danger-soft: #2B1010;
+    --info-fg: #60A5FA;
+    --info-soft: #101B2B;
+    --category-fg: #E1E1E5;
+    --category-soft: #222222;
+    --focus-ring: #E1E1E5;
+    --chart-neutral: #E1E1E5;
+    --chart-secondary: #8D8D8D;
+    --overlay: rgba(3, 3, 3, 0.72);
+
+    /* Immutable Brand Anchors */
+    --brand-black: #030303;
+    --brand-paper: #E1E1E5;
+    --brand-grey: #8D8D8D;
+    --brand-green: #00D604;
+    --utility-white: #FFFFFF;
+
+    /* Radix / shadcn/ui Component Bridge Tokens */
+    --background: 0 0% 1.2%;            /* #030303 Brand Black */
+    --foreground: 240 7% 89%;           /* #E1E1E5 Brand Paper */
+    --card: 0 0% 7.1%;                  /* #121212 Deep Grey Surface */
+    --card-foreground: 240 7% 89%;      /* #E1E1E5 */
+    --popover: 0 0% 7.1%;               /* #121212 */
+    --popover-foreground: 240 7% 89%;   /* #E1E1E5 */
+    --primary: 240 7% 89%;              /* #E1E1E5 Primary Paper Fill */
+    --primary-foreground: 0 0% 1.2%;    /* #030303 Text on Primary */
+    --secondary: 0 0% 13.3%;            /* #222222 Graphite */
+    --secondary-foreground: 240 7% 89%; /* #E1E1E5 */
+    --muted: 0 0% 9.4%;                 /* #181818 Charcoal */
+    --muted-foreground: 0 0% 55.3%;     /* #8D8D8D Brand Supporting Grey */
+    --accent: 0 0% 9.4%;                /* #181818 Hover Neutral */
+    --accent-foreground: 240 7% 89%;    /* #E1E1E5 */
+    --destructive: 350 89% 60%;
+    --destructive-foreground: 240 7% 89%;
+    --border: 0 0% 18.8%;               /* Subtle Borders */
+    --input: 0 0% 13.3%;                /* #222222 Graphite Inputs */
+    --ring: 240 7% 89%;                 /* Neutral Focus Ring per Spec */
+    --radius: 0.75rem;
+    --chart-1: 240 7% 89%;
+    --chart-2: 121 100% 42%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 217 91% 60%;
+    --chart-5: 350 89% 60%;
+    --sidebar: 0 0% 3.9%;               /* #0A0A0A Deep Sidebar */
+    --sidebar-border: 0 0% 18.8%;
+
+    /* Codebase Backwards-Compatibility Aliases */
+    --wbl-shell-bg: var(--bg-sidebar);
+    --wbl-canvas-bg: var(--bg-canvas);
+    --wbl-header-bg: rgba(3, 3, 3, 0.92);
+    --wbl-frame-bg: var(--bg-sidebar);
+    --wbl-frame-border: var(--border-default);
+    --wbl-panel-bg: var(--bg-surface);
+    --wbl-panel-border: var(--border-subtle);
+    --wbl-border-strong: var(--border-strong);
+    --wbl-input-bg: var(--bg-raised);
+    --wbl-hover-bg: var(--bg-hover);
+    --wbl-nav-active-bg: var(--bg-selected);
+    --wbl-nav-active-fg: var(--text-primary);
+    --wbl-panel-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(225, 225, 229, 0.04);
+    --wbl-primary-bg: var(--action-primary-bg);
+    --wbl-primary-fg: var(--action-primary-fg);
+    --wbl-emerald: var(--accent-brand);
+    --wbl-emerald-text: var(--accent-fg);
+    --wbl-emerald-soft: var(--accent-soft);
+    --wbl-emerald-border: var(--accent-outline);
+    --wbl-text-main: var(--text-primary);
+    --wbl-text-muted: var(--text-secondary);
+    --wbl-text-subtle: var(--text-muted);
+    --frame-radius: 1rem;
+    --frame-p: 0.375rem;
+    --frame-px: 0.375rem;
+    --frame-py: 0.375rem;
+  }
+
+  /* ── LIGHT THEME: workBYLiNE Enterprise Design System v2.0.0 ── */
+  :root[data-theme="light"],
+  html.theme-whiter,
+  [data-theme="whiter"] {
+    color-scheme: light;
+
+    /* Canonical Semantic Tokens (Light Theme) */
+    --bg-canvas: #FFFFFF;
+    --bg-sidebar: #F5F5F5;
+    --bg-surface: #FAFAFA;
+    --bg-raised: #FFFFFF;
+    --bg-hover: #F0F0F0;
+    --bg-selected: #E1E1E5;
+    --bg-interlude: #0E0E0E;
+    --text-primary: #030303;
+    --text-secondary: #525252;
+    --text-muted: #606060;
+    --text-disabled: #8D8D8D;
+    --border-subtle: rgba(3, 3, 3, 0.08);
+    --border-default: rgba(3, 3, 3, 0.12);
+    --border-strong: rgba(3, 3, 3, 0.20);
+    --border-control: #767676;
+    --action-primary-bg: #030303;
+    --action-primary-fg: #E1E1E5;
+    --action-primary-hover: #222222;
+    --accent-brand: #00D604;
+    --accent-fg: #006B02;
+    --accent-soft: #EAF7EA;
+    --accent-outline: #006B02;
+    --success-fg: #006B02;
+    --success-soft: #EAF7EA;
+    --warning-fg: #8A4B00;
+    --warning-soft: #FFF4DC;
+    --danger-fg: #B42332;
+    --danger-soft: #FFF0F1;
+    --info-fg: #185BA6;
+    --info-soft: #EAF3FF;
+    --category-fg: #030303;
+    --category-soft: #E1E1E5;
+    --focus-ring: #030303;
+    --chart-neutral: #030303;
+    --chart-secondary: #525252;
+    --overlay: rgba(3, 3, 3, 0.40);
+
+    /* Radix / shadcn/ui Component Bridge Tokens */
+    --background: 0 0% 100%;            /* #FFFFFF */
+    --foreground: 0 0% 1.2%;            /* #030303 */
+    --card: 0 0% 98%;                   /* #FAFAFA */
+    --card-foreground: 0 0% 1.2%;       /* #030303 */
+    --popover: 0 0% 100%;               /* #FFFFFF */
+    --popover-foreground: 0 0% 1.2%;    /* #030303 */
+    --primary: 0 0% 1.2%;               /* #030303 */
+    --primary-foreground: 240 7% 89%;   /* #E1E1E5 */
+    --secondary: 0 0% 96.1%;            /* #F5F5F5 */
+    --secondary-foreground: 0 0% 1.2%;  /* #030303 */
+    --muted: 0 0% 94.1%;                /* #F0F0F0 */
+    --muted-foreground: 0 0% 38.4%;     /* #525252 */
+    --accent: 0 0% 94.1%;               /* #F0F0F0 */
+    --accent-foreground: 0 0% 1.2%;     /* #030303 */
+    --destructive: 347 77% 50%;
+    --destructive-foreground: 240 7% 89%;
+    --border: 0 0% 88%;
+    --input: 0 0% 94.1%;
+    --ring: 0 0% 1.2%;
+    --sidebar: 0 0% 96.1%;
+    --sidebar-border: 0 0% 88%;
+
+    /* Codebase Backwards-Compatibility Aliases (Light) */
+    --wbl-shell-bg: var(--bg-sidebar);
+    --wbl-canvas-bg: var(--bg-canvas);
+    --wbl-header-bg: rgba(255, 255, 255, 0.92);
+    --wbl-frame-bg: var(--bg-sidebar);
+    --wbl-frame-border: var(--border-default);
+    --wbl-panel-bg: var(--bg-surface);
+    --wbl-panel-border: var(--border-subtle);
+    --wbl-border-strong: var(--border-strong);
+    --wbl-input-bg: var(--bg-raised);
+    --wbl-hover-bg: var(--bg-hover);
+    --wbl-nav-active-bg: var(--bg-selected);
+    --wbl-nav-active-fg: var(--text-primary);
+    --wbl-panel-shadow: 0 1px 2px rgba(3, 3, 3, 0.04);
+    --wbl-primary-bg: var(--action-primary-bg);
+    --wbl-primary-fg: var(--action-primary-fg);
+    --wbl-emerald: var(--accent-brand);
+    --wbl-emerald-text: var(--accent-fg);
+    --wbl-emerald-soft: var(--accent-soft);
+    --wbl-emerald-border: var(--accent-outline);
+    --wbl-text-main: var(--text-primary);
+    --wbl-text-muted: var(--text-secondary);
+    --wbl-text-subtle: var(--text-muted);
+  }
+
+  * {
+    border-color: var(--wbl-frame-border);
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--wbl-canvas-bg);
+    color: var(--wbl-text-main);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5714;
+    letter-spacing: -0.006em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+
+  code, .font-mono, kbd {
+    font-family: var(--font-mono);
+    font-feature-settings: "liga" 0;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .glass {
+    background: var(--wbl-panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--wbl-frame-border);
+  }
+
+  /* ── Concentric Frame + FramePanel System ── */
+  .wbl-frame {
+    --frame-radius: 0.875rem;
+    --frame-p: 0.375rem;
+    --frame-px: 0.375rem;
+    --frame-py: 0.375rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--wbl-frame-bg);
+    border: 1px solid var(--wbl-frame-border);
+    border-radius: var(--frame-radius);
+    padding: var(--frame-py) var(--frame-px);
+    gap: 0.375rem;
+    background-clip: padding-box;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .wbl-frame-dense {
+    --frame-p: 0px;
+    --frame-px: 0px;
+    --frame-py: 0px;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .wbl-frame-ghost {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .wbl-frame-panel {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--wbl-panel-bg);
+    border: 1px solid var(--wbl-panel-border);
+    border-radius: calc(var(--frame-radius) - var(--frame-px) - 1px);
+    box-shadow: var(--wbl-panel-shadow);
+    padding: 1rem;
+    transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .wbl-frame-panel:hover {
+    border-color: var(--wbl-border-strong);
+  }
+
+  /* ── 45-degree Diagonal Hatched Progress Bar ── */
+  .wbl-hatched-track {
+    background-color: var(--wbl-input-bg);
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      rgba(225, 225, 229, 0.08) 3px,
+      rgba(225, 225, 229, 0.08) 6px
+    );
+  }
+  html.theme-whiter .wbl-hatched-track {
+    background-color: var(--wbl-input-bg);
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      rgba(3, 3, 3, 0.07) 3px,
+      rgba(3, 3, 3, 0.07) 6px
+    );
+  }
+
+  /* ── Sidebar Navigation Items (Charcoal #181818 -> Active #030303 | Light #F0F0F0 -> Active #E1E1E5) ── */
+  .nav-item {
+    @apply w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-150 text-left relative;
+  }
+  .nav-item-active {
+    background-color: var(--wbl-nav-active-bg);
+    color: var(--wbl-nav-active-fg);
+    border: 1px solid var(--wbl-frame-border);
+    font-weight: 600;
+  }
+  .nav-item-default {
+    color: var(--wbl-text-muted);
+    border: 1px solid transparent;
+  }
+  .nav-item-default:hover {
+    color: var(--wbl-text-main);
+    background-color: var(--wbl-hover-bg);
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--wbl-text-muted);
+  }
+
+  .naive-input {
+    background-color: var(--wbl-input-bg);
+    border: 1px solid var(--wbl-frame-border);
+    color: var(--wbl-text-main);
+    @apply rounded-xl text-[12px] outline-none transition-all duration-150;
+  }
+  .naive-input::placeholder {
+    color: var(--wbl-text-muted);
+  }
+  .naive-input:hover {
+    border-color: var(--wbl-border-strong);
+  }
+  .naive-input:focus {
+    border-color: var(--wbl-emerald);
+    box-shadow: 0 0 0 2px var(--wbl-emerald-soft);
+  }
+
+  .stat-card {
+    background-color: var(--wbl-panel-bg);
+    border: 1px solid var(--wbl-panel-border);
+    box-shadow: var(--wbl-panel-shadow);
+    @apply rounded-2xl p-4 transition-all duration-150;
+  }
+  .stat-card:hover {
+    border-color: var(--wbl-border-strong);
+  }
+
+  .wbl-card {
+    background-color: var(--wbl-panel-bg);
+    border: 1px solid var(--wbl-panel-border);
+    box-shadow: var(--wbl-panel-shadow);
+    @apply rounded-2xl transition-all duration-200;
+  }
+
+  .wbl-loader-bar {
+    background: linear-gradient(90deg, transparent 0%, #00D604 40%, var(--wbl-primary-bg) 70%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 0.95s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* Primary Button: #E1E1E5 fill + #030303 text in Dark | #030303 fill + #E1E1E5 text in White */
+  .btn-white {
+    background-color: var(--wbl-primary-bg);
+    color: var(--wbl-primary-fg);
+    border: 1px solid transparent;
+    @apply flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12px] font-semibold
+           hover:opacity-90 active:scale-[0.98] transition-all duration-150 shadow-xs;
+  }
+
+  /* Secondary / Raised Control Button: #222222 -> #292929 hover in Dark | #F5F5F5 -> #E8E8E8 hover in White */
+  .btn-ghost {
+    background-color: var(--wbl-input-bg);
+    border: 1px solid var(--wbl-frame-border);
+    color: var(--wbl-text-main);
+    @apply flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium
+           transition-all duration-150;
+  }
+  .btn-ghost:hover {
+    background-color: var(--wbl-hover-bg);
+    border-color: var(--wbl-border-strong);
+  }
+
+  .animate-fade-in    { animation: fade-in 0.28s ease-out forwards; }
+  .animate-slide-in   { animation: slide-in-right 0.25s ease-out forwards; }
+  .animate-slide-up   { animation: slide-up 0.28s ease-out forwards; }
+  .animate-scale-in   { animation: scale-in 0.2s ease-out forwards; }
+  .animate-pulse-dot  { animation: pulse-dot 1.6s ease-in-out infinite; }
+  .animate-shimmer    { animation: shimmer 1.8s linear infinite; background-size: 200% 100%; }
+
+  /* ── Design System v2.0.0 Utility Primitives ── */
+  .wbl-claim-highlight {
+    color: var(--text-primary);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-outline);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .wbl-dot {
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--accent-fg);
+    flex: none;
+  }
+  .wbl-interlude {
+    background: var(--bg-interlude);
+    color: var(--brand-paper);
+  }
+  .wbl-meaningful-path {
+    stroke: var(--text-secondary);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .wbl-connector-decoration {
+    stroke: var(--border-strong);
+    fill: none;
+  }
+  .wbl-button[data-variant=accent] {
+    background: var(--action-primary-bg);
+    color: var(--action-primary-fg);
+  }
+  .wbl-marketing-pill {
+    border-radius: 9999px;
+    min-height: 48px;
+  }
+}
+
+/* ── Accessibility: Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── Global Brand Palette Harmonization across Dark and Light ── */
+.wbl-app-shell {
+  background-color: var(--wbl-shell-bg);
+  color: var(--wbl-text-main);
+}
+
+/* Map legacy green classes to Canonical Brand Green (#00D604 on Dark, #006B02 on Light) */
+[class*="text-[#00D604]"],
+.wbl-app-shell [class*="text-[#00D604]"],
+.wbl-app-shell [class*="text-[#00D604]"] {
+  color: var(--accent-fg) !important;
+}
+[class*="bg-[#00D604]"]:not([class*="bg-[#00D604]/"]),
+.wbl-app-shell [class*="bg-[#00D604]"]:not([class*="bg-[#00D604]/"]),
+.wbl-app-shell [class*="bg-[#00D604]"]:not([class*="bg-[#00D604]/"]) {
+  background-color: var(--accent-brand) !important;
+}
+[class*="bg-[#00D604]/"],
+.wbl-app-shell [class*="bg-[#00D604]/"],
+.wbl-app-shell [class*="bg-[#00D604]/"] {
+  background-color: var(--accent-soft) !important;
+}
+[class*="border-[#00D604]"],
+.wbl-app-shell [class*="border-[#00D604]"],
+.wbl-app-shell [class*="border-[#00D604]"] {
+  border-color: var(--accent-outline) !important;
+}
+
+/* White Theme (`html.theme-whiter`) Surface & Text Remapping */
+html.theme-whiter .wbl-app-shell {
+  background-color: #F0F0F0 !important;
+  color: #030303 !important;
+}
+html.theme-whiter .wbl-app-shell aside {
+  background-color: #F0F0F0 !important;
+  border-color: #DADADA !important;
+}
+html.theme-whiter .wbl-app-shell [class*="bg-[#030303]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#070709]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#09090b]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0B0C10]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0b0b0e]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0E0E0E]"] {
+  background-color: #FAFAFA !important;
+}
+html.theme-whiter .wbl-app-shell [class*="bg-[#181818]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#09090c]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0b0b0d]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0c0c0e]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0d0d0d]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#0e0e12]"] {
+  background-color: #F0F0F0 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="bg-[#121212]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#101014]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#111111]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#111114]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#111115]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#141414]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#141418]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#171920]"] {
+  background-color: #FFFFFF !important;
+}
+html.theme-whiter .wbl-app-shell [class*="bg-[#222222]"],
+html.theme-whiter .wbl-app-shell [class*="bg-[#1A1A1A]"],
+html.theme-whiter .wbl-app-shell [class*="bg-black/"],
+html.theme-whiter .wbl-app-shell [class*="bg-white/[0.0"] {
+  background-color: #F5F5F5 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="hover:bg-[#292929]"]:hover,
+html.theme-whiter .wbl-app-shell [class*="hover:bg-white/"]:hover {
+  background-color: #E8E8E8 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="text-white"],
+html.theme-whiter .wbl-app-shell [class*="text-[#E1E1E5]"],
+html.theme-whiter .wbl-app-shell [class*="text-[#F2F2F2]"] {
+  color: #030303 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="text-[#8D8D8D]"],
+html.theme-whiter .wbl-app-shell [class*="text-[#A3A3A3]"],
+html.theme-whiter .wbl-app-shell [class*="text-white/6"],
+html.theme-whiter .wbl-app-shell [class*="text-white/5"],
+html.theme-whiter .wbl-app-shell [class*="text-white/4"],
+html.theme-whiter .wbl-app-shell [class*="text-white/3"],
+html.theme-whiter .wbl-app-shell [class*="text-white/2"] {
+  color: #626262 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="border-[#303030]"],
+html.theme-whiter .wbl-app-shell [class*="border-[#343434]"],
+html.theme-whiter .wbl-app-shell [class*="border-white/"] {
+  border-color: #DADADA !important;
+}
+html.theme-whiter .wbl-app-shell [class*="border-[#484848]"] {
+  border-color: #A3A3A3 !important;
+}
+html.theme-whiter .wbl-app-shell [class*="divide-white/"] > :not([hidden]) ~ :not([hidden]),
+html.theme-whiter .wbl-app-shell [class*="divide-[#303030]"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: #DADADA !important;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Landing Page Specific */
+@keyframes pixel-pulse {
+  0%, 100% { opacity: var(--dot-opacity, 0.3); transform: scale(1); }
+  50%       { opacity: calc(var(--dot-opacity, 0.3) * 0.25); transform: scale(0.8); }
+}
+
+.pixel-pulse {
+  animation: pixel-pulse 3s ease-in-out infinite;
+}
+
+.fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cta-primary {
+  background-color: var(--wbl-primary-bg);
+  color: var(--wbl-primary-fg);
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl
+         text-[14px] font-semibold hover:opacity-90 active:scale-[0.98]
+         transition-all duration-150;
+}
+
+.cta-secondary {
+  background-color: var(--wbl-input-bg);
+  border: 1px solid var(--wbl-frame-border);
+  color: var(--wbl-text-muted);
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl
+         text-[14px] hover:bg-[#292929] active:scale-[0.98] transition-all duration-150;
+}
+
+.landing-grid-bg {
+  background-image:
+    linear-gradient(rgba(225,225,229,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(225,225,229,0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── Tag Chips (6px radius per spec) ── */
+.tag-chip {
+  @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[12px] font-medium border transition-all duration-150 whitespace-nowrap;
+}
+.tag-chip-must {
+  background-color: var(--wbl-input-bg);
+  border-color: var(--wbl-frame-border);
+  color: var(--wbl-text-main);
+}
+.tag-chip-nice {
+  background-color: var(--wbl-emerald-soft);
+  border-color: var(--wbl-emerald-border);
+  color: var(--wbl-emerald-text);
+}
+.tag-chip-disqualifier {
+  @apply bg-red-500/[0.06] border-red-500/[0.20] text-red-500;
+}
+
+/* ── Fit Score Progress Bars ── */
+.fit-score-bar {
+  background-color: var(--wbl-input-bg);
+  @apply h-1.5 rounded-full overflow-hidden;
+}
+.fit-score-fill {
+  @apply h-full rounded-full transition-transform duration-500;
+}
+
+/* ── Outline Table & Readiness ── */
+.outline-item {
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150;
+}
+.outline-item-active {
+  background-color: var(--wbl-nav-active-bg);
+  border: 1px solid var(--wbl-frame-border);
+  color: var(--wbl-nav-active-fg);
+}
+.outline-item-default {
+  color: var(--wbl-text-muted);
+}
+.outline-item-default:hover {
+  background-color: var(--wbl-hover-bg);
+  color: var(--wbl-text-main);
+}
+
+.trust-cell {
+  border-bottom: 1px solid var(--wbl-frame-border);
+  color: var(--wbl-text-muted);
+  @apply px-4 py-3 text-[11px] font-mono;
+}

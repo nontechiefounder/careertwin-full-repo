@@ -1,0 +1,193 @@
+{
+  "model_id": "BAAI/bge-small-en-v1.5",
+  "internal_model_id": "bge-small-en-v1.5",
+  "source_repository": "https://huggingface.co/BAAI/bge-small-en-v1.5",
+  "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+  "license": "MIT",
+  "dimensions": 384,
+  "pooling": "cls",
+  "normalize_embeddings": true,
+  "inference_backend": "sentence_transformers:6.2.0/torch:2.15.0/transformers:5.22.0/tokenizers:0.23.3",
+  "custom_fallback_removed": true,
+  "fail_closed_without_sentence_transformers": true,
+  "supported_language_scope": "en (English-primary BAAI/bge-small-en-v1.5; non-Latin tokenization preserved, multilingual retrieval quality not claimed)",
+  "local_weights_directory": "/tmp/workbyline_bge_small_en_v1_5",
+  "config_sha256": "094f8e891b932f2000c92cfc663bac4c62069f5d8af5b5278c4306aef3084750",
+  "composite_artifact_sha256": "5650b43c69a52dc94d243256be3a974a8836090b043531cec56ae64ac2fc3d0a",
+  "files": {
+    "1_Pooling/config.json": {
+      "sha256": "d1caf60c96f5fba2157c0c26b76d80818fad6cf0b8eb5e73ec372ff9818eba5c",
+      "bytes": 190
+    },
+    "config.json": {
+      "sha256": "094f8e891b932f2000c92cfc663bac4c62069f5d8af5b5278c4306aef3084750",
+      "bytes": 743
+    },
+    "model.safetensors": {
+      "sha256": "3c9f31665447c8911517620762200d2245a2518d6e7208acc78cd9db317e21ad",
+      "bytes": 133466304
+    },
+    "modules.json": {
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "bytes": 349
+    },
+    "special_tokens_map.json": {
+      "sha256": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "bytes": 125
+    },
+    "tokenizer.json": {
+      "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "bytes": 711396
+    },
+    "tokenizer_config.json": {
+      "sha256": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3",
+      "bytes": 366
+    },
+    "vocab.txt": {
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "bytes": 231508
+    }
+  },
+  "tokenization_and_reference_verification": [
+    {
+      "category": "english_prose",
+      "text": "Distributed consensus leadership in multi-region PostgreSQL and Kubernetes clusters.",
+      "token_count": 21,
+      "sample_tokens": [
+        "[CLS]",
+        "distributed",
+        "consensus",
+        "leadership",
+        "in",
+        "multi",
+        "-",
+        "region",
+        "post",
+        "##gre",
+        "##s",
+        "##q"
+      ],
+      "tokenizer_exact_match": true,
+      "reference_cosine_similarity": 1.0,
+      "reference_max_abs_diff": 0.0
+    },
+    {
+      "category": "technical_punctuation",
+      "text": "C++20 / Node.js v22.4.0 :: pgvector <=> cosine (SHA-256: 5650b43c69a5) @ O'Reilly & Co.",
+      "token_count": 50,
+      "sample_tokens": [
+        "[CLS]",
+        "c",
+        "+",
+        "+",
+        "20",
+        "/",
+        "node",
+        ".",
+        "j",
+        "##s",
+        "v",
+        "##22"
+      ],
+      "tokenizer_exact_match": true,
+      "reference_cosine_similarity": 1.0,
+      "reference_max_abs_diff": 0.0
+    },
+    {
+      "category": "accented_names",
+      "text": "S\u00f8ren Kierkegaard, Ren\u00e9e Dupr\u00e9, \u0141ukasz \u017b\u00f3\u0142\u0107, and Fran\u00e7ois M\u00fcller at Z\u00fcrich Caf\u00e9.",
+      "token_count": 29,
+      "sample_tokens": [
+        "[CLS]",
+        "s",
+        "##\u00f8",
+        "##ren",
+        "ki",
+        "##er",
+        "##ke",
+        "##gaard",
+        ",",
+        "renee",
+        "du",
+        "##pre"
+      ],
+      "tokenizer_exact_match": true,
+      "reference_cosine_similarity": 1.0,
+      "reference_max_abs_diff": 0.0
+    },
+    {
+      "category": "non_latin_chinese_multilingual",
+      "text": "\u5206\u5e03\u5f0f\u7cfb\u7edf\u67b6\u6784\u4e0e\u9ad8\u53ef\u7528\u6027\u8bbe\u8ba1 \u2014 \u6771\u4eac\u306e\u5206\u6563\u30b7\u30b9\u30c6\u30e0\u8a2d\u8a08 \u2014 \u041f\u0440\u0438\u0432\u0435\u0442 \u043c\u0438\u0440",
+      "token_count": 38,
+      "sample_tokens": [
+        "[CLS]",
+        "\u5206",
+        "[UNK]",
+        "[UNK]",
+        "[UNK]",
+        "[UNK]",
+        "[UNK]",
+        "[UNK]",
+        "[UNK]",
+        "\u9ad8",
+        "[UNK]",
+        "[UNK]"
+      ],
+      "tokenizer_exact_match": true,
+      "reference_cosine_similarity": 1.0,
+      "reference_max_abs_diff": 0.0
+    }
+  ],
+  "frozen_corpus_retrieval_benchmark": {
+    "corpus_size": 5,
+    "queries_tested": 4,
+    "top1_accuracy": 1.0,
+    "results": [
+      {
+        "query": "leader election and quorum protocols across data centers",
+        "query_type": "semantic_paraphrase_zero_lexical_overlap",
+        "expected_top_doc": "doc_consensus",
+        "actual_top_doc": "doc_consensus",
+        "top_cosine_score": 0.739194,
+        "runner_up_doc": "doc_security",
+        "runner_up_cosine_score": 0.684583,
+        "margin": 0.054611,
+        "passed": true
+      },
+      {
+        "query": "neural network accelerator latency and model compression",
+        "query_type": "semantic_paraphrase_zero_lexical_overlap",
+        "expected_top_doc": "doc_ml_infra",
+        "actual_top_doc": "doc_ml_infra",
+        "top_cosine_score": 0.749238,
+        "runner_up_doc": "doc_consensus",
+        "runner_up_cosine_score": 0.617133,
+        "margin": 0.132105,
+        "passed": true
+      },
+      {
+        "query": "user interface component library and wcag compliance",
+        "query_type": "semantic_paraphrase_zero_lexical_overlap",
+        "expected_top_doc": "doc_frontend",
+        "actual_top_doc": "doc_frontend",
+        "top_cosine_score": 0.691972,
+        "runner_up_doc": "doc_security",
+        "runner_up_cosine_score": 0.65883,
+        "margin": 0.033142,
+        "passed": true
+      },
+      {
+        "query": "INC-9482-OMEGA failover root cause",
+        "query_type": "exact_identifier_plus_context",
+        "expected_top_doc": "doc_incident_id",
+        "actual_top_doc": "doc_incident_id",
+        "top_cosine_score": 0.871811,
+        "runner_up_doc": "doc_consensus",
+        "runner_up_cosine_score": 0.603966,
+        "margin": 0.267845,
+        "passed": true
+      }
+    ]
+  },
+  "verified_at": "2026-10-29T16:33:21.800042+00:00"
+}

@@ -1,0 +1,4 @@
+temporalio==1.34.0
+langgraph==1.2.17
+graphiti-core[google-genai]==0.31.2
+pgvector==0.5.1

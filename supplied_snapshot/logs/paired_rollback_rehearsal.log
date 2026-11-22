@@ -1,0 +1,34 @@
+=== WORKBYLINE V2: PAIRED ROLLBACK REHEARSAL START ===
+Worktree root: /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree
+Current timestamp: 2026-10-23T12:36:53Z
+
+--- Check 1: Core-08 Archive Readability & Provenance Reconciliation ---
+  Archive Path: /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/rollback/careertwin_core08_app_archive.tar.gz
+  Archive Size: 3239959 bytes
+  Archive SHA256: 9b7278da65986fef9f87865963388af4d1f472f3135e31f791cdec8447de0682
+  -> [PASS] Archive readability verified (tar -tzf passed cleanly).
+  Reconciling Release Identity:
+    - Core-08 Release Baseline: 5f1b851 (Tree: 5d856f334b45a24fd1c5a73d763d197c353f98d0)
+    - UX-V2-D3-C4-R6 Final Commit: 3f098cad (Tag: ux-v2-d3-private-pilot-code-accepted)
+  -> [PASS] Archive provenance verified against Core-08 identity: 3f098cad0f14394f284d9b9b844988122bbb2f92 (tree: 5f1b851)
+
+--- Check 2: Disposable Directory Extraction & Build Readiness ---
+  -> [PASS] Extracted Core-08 package.json: 'twin-intake-next'
+  -> [PASS] Verified committed Core-08 package-lock.json exists.
+  -> [PASS] Disposable rehearsal extraction cleaned up successfully.
+
+--- Check 3: Live Database Rollback & Application Compatibility ---
+  Shared database active: supabase_db_careertwin-local-baseline (port 54332)
+  -> [BLOCKED] Destructive schema rollback on shared database is blocked to protect existing data.
+     Active DB contains 214 candidate records and 268 claim ledgers.
+     Per review instruction: 'Do not mutate the preserved release or a shared database for this test.'
+     To execute live rollback, provision an isolated disposable DB and supply DISPOSABLE_DATABASE_URL.
+
+=== PAIRED ROLLBACK REHEARSAL SUMMARY ===
+  Archive Readability:          PASS
+  Archive Provenance:           PASS (5f1b851 / 3f098cad reconciled)
+  Disposable Directory Check:   PASS
+  Database Schema Reversion:    BLOCKED (Shared DB mutation forbidden; requires DISPOSABLE_DATABASE_URL)
+  Application Boot Rehearsal:   BLOCKED (Awaiting disposable DB)
+  Data/Document Hash Check:     BLOCKED (Awaiting disposable DB)
+=== PAIRED ROLLBACK REHEARSAL COMPLETE ===

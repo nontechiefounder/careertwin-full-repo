@@ -1,0 +1,10 @@
+.env.example
+PARTH_HANDOFF.md
+STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md
+STEP_V12_REPAIRS_AND_AUTH0_REPORT.md
+apps/web/.env.example
+apps/web/__tests__/security/V11SecurityRepairs.test.js
+apps/web/app/api/search/route.js
+apps/web/lib/gmail.js
+docs/handoff/START_HERE.md
+evidence/v12/disposable_db_and_search_receipts.txt

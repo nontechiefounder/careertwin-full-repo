@@ -1,0 +1,520 @@
+========================================================================
+GENOME V3 TRACK 1: GUARDED DISPOSABLE VERIFICATION ENTRY POINT
+Run ID: 20261122T000858Z_78719
+Worktree (read-only source): /private/tmp/wbl-v10-candidate
+========================================================================
+[Step 1/9] Validating mandatory disposable identity variables... OK (host=127.0.0.1, host_port=54422, expected_internal_port=5432, expected_db=postgres, mode=docker)
+[Step 2/9] Enforcing protected exclusions, container/port identity, migration prereqs & read-only 4-way proof...
+  -> Docker host-port mapping verified: supabase_db_wbl-disposable-verify host:54422 -> container:5432/tcp
+  -> Read-only SQL identity confirmed: addr=172.19.0.10/32 internal_port=5432 db=postgres user=postgres
+  -> Four-way SQL <-> Auth <-> REST <-> Storage correspondence confirmed (Alpha UID a1111111-1111-4111-d2c0-000000000001).
+[Step 3/9] Creating sanitized isolated source directory & verifying link/secret boundaries... OK (/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T//wbl_isolated_verify.SXnpLZ)
+[Step 4/9] Runtime steps will execute under strict env -i allowlist (http://localhost:3010, CAREERTWIN_DRY_RUN_EMAIL=true).
+[Step 5/9] Applying forward migrations (Track 1, DataVertex privilege hardening, canonical fit_score scale, forward reconciliation)...
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+GRANT
+DO
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260820000001_track1_integrity_repairs.sql:49: NOTICE:  relation "uq_claim_ledgers_cand_run_rev" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+REVOKE
+GRANT
+REVOKE
+GRANT
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260820000001_track1_integrity_repairs.sql:443: NOTICE:  column "pre_evaluation_revision" of relation "candidates" already exists, skipping
+ALTER TABLE
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260820000001_track1_integrity_repairs.sql:445: NOTICE:  function public.record_pre_evaluation_decision_transactional(uuid,uuid,text,uuid,text,text,text) does not exist, skipping
+DROP FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+REVOKE
+GRANT
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+REVOKE
+GRANT
+REVOKE
+GRANT
+REVOKE
+GRANT
+REVOKE
+GRANT
+REVOKE
+GRANT
+UPDATE 0
+UPDATE 0
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+GRANT
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+GRANT
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260821000003_track1_forward_upgrade_reconciliation.sql:17: NOTICE:  relation "uq_claim_ledgers_cand_run_rev" already exists, skipping
+CREATE INDEX
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260821000003_track1_forward_upgrade_reconciliation.sql:20: NOTICE:  column "pre_evaluation_revision" of relation "candidates" already exists, skipping
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+REVOKE
+GRANT
+REVOKE
+GRANT
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260822000001_transactional_screening_completion.sql:7: NOTICE:  column "overall_score" of relation "screening_summaries" already exists, skipping
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260822000001_transactional_screening_completion.sql:7: NOTICE:  column "strengths" of relation "screening_summaries" already exists, skipping
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260822000001_transactional_screening_completion.sql:7: NOTICE:  column "concerns" of relation "screening_summaries" already exists, skipping
+psql:/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/supabase/migrations/20260822000001_transactional_screening_completion.sql:7: NOTICE:  column "recommended_next_step" of relation "screening_summaries" already exists, skipping
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+GRANT
+Migrations applied and post-migration invariants confirmed (pre_eval_col|8arg_rpc|anon_grants_15|ledger_untrusted_grants|fit_score_chk = 1|1|0|0|1).
+[Step 6/9] Running Vitest suites under strict allowlist (/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T//wbl_isolated_verify.SXnpLZ/apps/web)...
+  -> [6a] Unit & Mocked Contract Suites...
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+
+ RUN  v4.1.2 /private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web
+
+stderr | __tests__/api/screeningCompleteBehavior.test.js > Screening Session Transactional Completion & Auth (F01 / F07 / B4) > R2: fails closed (503) with zero generation and zero persistence on answer-read error, malformed rows (422), or empty answers (422)
+Failed to load screening answers: DB read timeout
+
+stderr | __tests__/api/screeningCompleteBehavior.test.js > Screening Session Transactional Completion & Auth (F01 / F07 / B4) > R2: fails closed (503) with zero generation and zero persistence on answer-read error, malformed rows (422), or empty answers (422)
+Failed to load screening answers: Malformed screening_answers payload
+
+ ✓ __tests__/api/screeningCompleteBehavior.test.js (3 tests) 9ms
+ ✓ __tests__/evals/SourceFaithfulClaimExtraction.test.js (18 tests) 21ms
+stderr | __tests__/evals/Track1IntegrityRepairs.test.js > Track 1 Integrity Repairs — Unit & Fail-Closed Contract Verification > B1: Fail-Closed Service-Role Client & SQL Migration Artifact > throws fail-closed error when service-role client requested without SUPABASE_SERVICE_ROLE_KEY
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B1: reads actual Python source_id/spans[].span_id fields and shipped SQL columns on 503 fallback
+[context client fetch]: CONTEXT_UNAVAILABLE
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B1: reads actual Python source_id/spans[].span_id fields and shipped SQL columns on 503 fallback
+[context client fetch]: CONTEXT_UNAVAILABLE
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B1: reads actual Python source_id/spans[].span_id fields and shipped SQL columns on 503 fallback
+[context client fetch]: CONTEXT_UNAVAILABLE
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B1: reads actual Python source_id/spans[].span_id fields and shipped SQL columns on 503 fallback
+[context client fetch]: CONTEXT_UNAVAILABLE
+
+stdout | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B7 / F06: documents WORKBYLINE_AI_PROVIDER as preference and enforces WORKBYLINE_AI_STRICT_PROVIDER
+AI: Attempting generation with Claude...
+
+stdout | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B7 / F06: documents WORKBYLINE_AI_PROVIDER as preference and enforces WORKBYLINE_AI_STRICT_PROVIDER
+AI: Attempting generation with Groq...
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B7 / F06: documents WORKBYLINE_AI_PROVIDER as preference and enforces WORKBYLINE_AI_STRICT_PROVIDER
+AI: Claude failed: claude error
+
+stdout | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B7 / F06: documents WORKBYLINE_AI_PROVIDER as preference and enforces WORKBYLINE_AI_STRICT_PROVIDER
+AI: Attempting generation with Claude...
+
+stderr | __tests__/evals/V3CloseoutBehavior.test.js > WorkByLine V3 Closeout Behavioral Suite (F01–F09 & Blockers 1–8) > B7 / F06: documents WORKBYLINE_AI_PROVIDER as preference and enforces WORKBYLINE_AI_STRICT_PROVIDER
+AI: Claude failed: claude strict error
+
+ ✓ __tests__/evals/V3CloseoutBehavior.test.js (8 tests) 26ms
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Signup] Creating unconfirmed user: a@example.invalid
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Auth] Verification email delivered to: a@example.invalid
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Signup] Creating unconfirmed user: a@example.invalid
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Auth] Verification email delivery failed for a@example.invalid: Error
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Signup] Creating unconfirmed user: a@example.invalid
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Auth] Dry run active: verification email for a@example.invalid suppressed.
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Signup] Creating unconfirmed user: retfail@example.invalid
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Auth] Link generation failed for verification email.
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Signup] Creating unconfirmed user: throw@example.invalid
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > R3 & V6-R4: handles sent, failed (503), dry-run, duplicate (400), returned link error (500), and thrown link exception (500 with account_created=true)
+[API Auth] Link generation threw for verification email: Error
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R1: admits at most 1 of 8 concurrent resend requests in a single instance and verifies adapter interface
+[API Auth] Verification email delivered to: race@example.invalid
+
+stdout | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Auth] Verification email delivered to: page21@example.invalid
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Auth] Verification email delivery failed for smtpfail@example.invalid: Error
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Private delivery failure: { stage: 'VERIFICATION_EMAIL_DELIVERY_FAILED', status: 503 }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Auth] Link generation threw for verification email: Error
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Private delivery failure: { stage: 'VERIFICATION_LINK_FAILED', status: 500 }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+stderr | __tests__/pages/AuthPage.test.jsx > AuthPage & V7 Auth Recovery Controls > V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches
+[API Resend Verification] Directory lookup failed or incomplete: { incomplete: true, error: 'Error' }
+
+ ✓ __tests__/pages/AuthPage.test.jsx (7 tests) 338ms
+ ✓ ../../packages/proof-engine/__tests__/proofEngine.test.ts (11 tests) 16ms
+ ✓ __tests__/evals/GoldenReleaseCandidateEvaluations.test.js (8 tests) 19ms
+ ✓ __tests__/evals/Core09RouteSecurityAndDecoupling.test.js (18 tests) 16ms
+ ✓ __tests__/evals/Track1IntegrityRepairs.test.js (9 tests) 955ms
+     ✓ action route enforces explicit pre-eval stale-decision contract (400 missing contract, 409 stale status/revision or packet race)  850ms
+stderr | __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx > CTW-V2-DEMO-CORE-09 Upload, RPC Integrity & Skill Classification Suite > 3. Original-Document Preservation & Cross-Tenant Download Retrieval > 3.3 genuine parser on fixtures/sarah_connor_lead_infra.pdf proves 2 pages and page_spans (C09-05)
+Warning: Cannot access the `require` function: "TypeError [ERR_INVALID_ARG_VALUE]: The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received 'http://localhost:3000/index.cjs'".
+Warning: Cannot polyfill `ImageData`, rendering may be broken.
+Warning: Cannot polyfill `Path2D`, rendering may be broken.
+
+ ✓ __tests__/evals/ScoreScaleAndEvidenceDedup.test.js (3 tests) 18ms
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > suppresses duplicate scheduled email sequences on repeated requests
+[Email] Sequence already fully initiated for candidate profile_dup_123; suppressing duplicate.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > direct sendSMTPEmail and sendGmailEmail invocations are strictly suppressed in dry-run mode
+[SMTP] Dry run active: external email to candidate@example.com suppressed for safety.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > direct sendSMTPEmail and sendGmailEmail invocations are strictly suppressed in dry-run mode
+[Gmail API] Dry run active: external email to candidate@example.com suppressed for safety.
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > atomically suppresses duplicate email sequence when concurrent request hits database unique constraint (23505)
+[Email] Atomic database constraint prevented duplicate Day 0 sequence for candidate profile_concurrent_1 (code 23505).
+
+stdout | __tests__/api/dryRunEmail.test.js > Dry-Run Email Safety & Zero-Send Suite (RC-C1.2 Condition 5) > handles concurrent requests from separate application instances safely without duplicate sequence creation
+[Email] Atomic database constraint prevented duplicate Day 0 sequence for candidate profile_multi_inst (code 23505).
+
+ ✓ __tests__/api/dryRunEmail.test.js (11 tests) 43ms
+ ✓ __tests__/evals/Core09UploadAndProvenanceIntegrity.test.jsx (21 tests) 1459ms
+ ✓ __tests__/evals/KubernetesMismatchProvenance.test.js (6 tests) 12ms
+ ✓ __tests__/sourcing/DataVertexRoutesAuth.test.js (6 tests) 13ms
+ ✓ __tests__/security/ProtectedDatabaseGuard.test.js (15 tests) 27ms
+ ✓ __tests__/security/SafeRedirectAndEntry.test.js (12 tests) 7ms
+ ✓ __tests__/device-policy/DeviceSupportUnit.test.jsx (4 tests) 63ms
+ ✓ __tests__/security/VitestDiscoveryContract.test.js (1 test) 9ms
+stdout | __tests__/components/ProtectedRoute.test.jsx > ProtectedRoute > redirects to / if role does not match
+Dev: Bypassing role check for employer
+
+ ✓ __tests__/components/ProtectedRoute.test.jsx (4 tests) 25ms
+ ✓ __tests__/intake/RoleIntakeUI.test.jsx (4 tests) 107ms
+stdout | __tests__/pages/EmployerChatGreeting.test.jsx > Employer Chat Greeting & Declarative Chips (ChatPage) > 13. Error-state navigation chips use the correct destinations
+[ChatPage] Error during chat submit caught: Network error
+
+ ✓ __tests__/pages/EmployerChatGreeting.test.jsx (16 tests) 663ms
+
+ Test Files  20 passed (20)
+      Tests  185 passed (185)
+   Start at  05:39:15
+   Duration  3.83s (transform 1.80s, setup 1.83s, import 5.10s, tests 3.85s, environment 12.07s)
+
+  -> [6b] Real Disposable Database & Concurrency Suites...
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+
+ RUN  v4.1.2 /private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web
+
+ ✓ __tests__/evals/Core09TransactionalDecisionsAndConcurrency.test.jsx (10 tests) 2724ms
+     ✓ A2. Two truly simultaneous reviewer actions block-and-serialize via row lock, retaining both accepted events  490ms
+     ✓ B. Deterministic overlapping regeneration vs. review concurrency preserves newer evaluation data and serializes safely (C09-06)  636ms
+     ✓ G. Competing pre-evaluation decisions serialize via FOR UPDATE, log activity_events atomically, and reject stale competitor  573ms
+     ✓ H. Packet generation racing against pre-evaluation decision serializes cleanly and rejects stale pre-eval write  511ms
+ ✓ __tests__/security/CreditLedgerPrivilegeSecurity.test.js (5 tests) 2114ms
+     ✓ rejects direct table access and all 5 credit ledger RPCs for authenticated same-org, cross-org, candidate, auditor, and revoked roles  1469ms
+stderr | __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx > CTW-V2-DEMO-CORE-07 — Ingestion, Provenance Integrity & Release Hardening Suite > 1. Genuine Document Parsing & Parser Provenance > 1.1 parses single-page synthetic resume with exact text and genuine parser metadata
+Warning: Cannot access the `require` function: "TypeError [ERR_INVALID_ARG_VALUE]: The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received 'http://localhost:3000/index.cjs'".
+Warning: Cannot polyfill `ImageData`, rendering may be broken.
+Warning: Cannot polyfill `Path2D`, rendering may be broken.
+
+ ✓ __tests__/evals/IngestionAndProvenanceIntegrity.test.jsx (10 tests) 320ms
+ ✓ __tests__/evals/Core08IntegrityAndAudit.test.jsx (8 tests) 310ms
+stderr | __tests__/security/TenantEvidenceSecurity.test.js > PART 2 — COMPLETE TENANT-SECURITY & RPC INTEGRITY SUITE
+GoTrueClient@sb-127-auth-token:1 (2.100.1) 2026-11-22T00:09:27.011Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ✓ __tests__/security/TenantEvidenceSecurity.test.js (18 tests) 505ms
+ ✓ __tests__/evals/ReleaseBlockerVerification.test.jsx (10 tests) 383ms
+
+ Test Files  6 passed (6)
+      Tests  61 passed (61)
+   Start at  05:39:19
+   Duration  8.83s (transform 160ms, setup 194ms, import 638ms, tests 6.36s, environment 1.25s)
+
+[Step 7/9] Running ESLint and Webpack production build under strict allowlist...
+
+> twin-intake-next@0.1.0 lint
+> eslint
+
+
+/private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web/components/NaiveShell.jsx
+  44:7  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web/components/marketing/MarketingFooter.jsx
+  25:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web/components/marketing/MarketingNav.jsx
+  57:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+✖ 3 problems (0 errors, 3 warnings)
+
+
+> twin-intake-next@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.2.1 (webpack)
+- Experiments (use with caution):
+  ✓ externalDir
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 18.3s
+  Running TypeScript ...
+  Finished TypeScript in 95ms ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/51) ...
+  Generating static pages using 7 workers (12/51) 
+  Generating static pages using 7 workers (25/51) 
+  Generating static pages using 7 workers (38/51) 
+✓ Generating static pages using 7 workers (51/51) in 405ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/confirm
+├ ƒ /api/auth/me
+├ ƒ /api/auth/resend-verification
+├ ƒ /api/auth/signin
+├ ƒ /api/auth/signup
+├ ƒ /api/candidate/profile
+├ ƒ /api/candidate/proof-profile/[candidateId]
+├ ƒ /api/candidate/proof-profile/[candidateId]/generate
+├ ƒ /api/candidate/screening-sessions/[sessionId]
+├ ƒ /api/candidate/screening-sessions/[sessionId]/answer
+├ ƒ /api/candidate/screening-sessions/[sessionId]/complete
+├ ƒ /api/candidate/screening-sessions/[sessionId]/start
+├ ƒ /api/candidate/status/[candidateId]
+├ ƒ /api/employer/analytics
+├ ƒ /api/employer/brief/[id]
+├ ƒ /api/employer/brief/[id]/approve
+├ ƒ /api/employer/candidate-documents/[documentId]/download
+├ ƒ /api/employer/candidate-documents/upload
+├ ƒ /api/employer/candidate-extractions
+├ ƒ /api/employer/chat
+├ ƒ /api/employer/context-sources
+├ ƒ /api/employer/context-sources/[sourceId]
+├ ƒ /api/employer/context-sources/[sourceId]/evidence
+├ ƒ /api/employer/context-sources/[sourceId]/retry
+├ ƒ /api/employer/context-sources/ask
+├ ƒ /api/employer/context-sources/related
+├ ƒ /api/employer/context-sources/search
+├ ƒ /api/employer/context-sources/upload
+├ ƒ /api/employer/hiring-runs
+├ ƒ /api/employer/hiring-runs/suggest
+├ ƒ /api/employer/integrations/ashby
+├ ƒ /api/employer/organizations
+├ ƒ /api/employer/organizations/accept-invite
+├ ƒ /api/employer/organizations/invite
+├ ƒ /api/employer/packets/[extractionId]
+├ ƒ /api/employer/packets/[extractionId]/action
+├ ƒ /api/employer/packets/[extractionId]/generate
+├ ƒ /api/employer/research-qa
+├ ƒ /api/employer/screening-sessions
+├ ƒ /api/employer/shortlist/[roleId]
+├ ƒ /api/employer/sourcing-sessions
+├ ƒ /api/employer/sourcing-sessions/[id]
+├ ƒ /api/employer/sourcing-sessions/[id]/auto-source
+├ ƒ /api/employer/sourcing/account
+├ ƒ /api/employer/sourcing/lookup
+├ ƒ /api/employer/sourcing/search
+├ ƒ /api/employer/sourcing/shortlist
+├ ƒ /api/health
+├ ƒ /api/integrations/gmail/callback
+├ ƒ /api/integrations/gmail/connect
+├ ƒ /api/search
+├ ○ /auth
+├ ○ /candidate/onboarding
+├ ƒ /candidate/proof-profile/[candidateId]
+├ ƒ /candidate/screen/[sessionId]
+├ ƒ /candidate/status/[candidateId]
+├ ○ /compare
+├ ○ /contact
+├ ○ /employer
+├ ƒ /employer/brief/[id]
+├ ƒ /employer/brief/[id]/research
+├ ○ /employer/chat
+├ ○ /employer/intake
+├ ○ /employer/integrations
+├ ƒ /employer/packet/[extractionId]
+├ ○ /employer/profile
+├ ƒ /employer/shortlist/[roleId]
+├ ○ /employer/sourcing-session
+├ ƒ /employer/sourcing-session/[id]
+├ ƒ /employer/sourcing/[id]
+├ ○ /icon.svg
+├ ○ /pricing
+├ ○ /privacy
+└ ○ /terms
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[Step 8/9] Starting isolated Next.js application server on port 3010...
+Waiting for http://localhost:3010 to become responsive...
+Application server responded on http://localhost:3010 (Launcher PID 86572)
+  -> Server ownership proven: listener=86622, ancestry=86622 -> 86573 -> 86572, cwd=/private/var/folders/kp/nsj4vcwn4cg2fytck39k_gf00000gn/T/wbl_isolated_verify.SXnpLZ/apps/web
+Running Real PDF Upload, HTTP Concurrency, Storage & Packet/Ledger Continuity suite...
+=== REAL HTTP CONCURRENCY, PDF UPLOAD/PARSER, STORAGE & CONTINUITY SUITE ===
+Target App URL: http://localhost:3010
+Target Database: postgresql://postgres:[REDACTED]@127.0.0.1:54422/postgres
+
+[1/6] Authenticating, verifying Storage isolation & provisioning approved-contract runs...
+  Authenticated (Alpha UID a1111111-1111-4111-d2c0-000000000001), verified Storage round-trip isolation, and created approved runs 0ae84cf5-b087-4bd5-9c65-b8f11995c1c2 + 8b0367e6-cc03-4047-b16e-a408e316bd23.
+
+[2/6] Testing Real PDF Upload, Parser, Download & Continuity Acceptance...
+  [PASS] Real PDF upload/parse/download/generate passed (pages=2, sha256=90ebc8dfa402..., digest=4ec96bdaf76e..., page2_ref=ev_b0fbd07f_638_720).
+
+[2B/6] Testing Contrasting PDFs, Determinism, Rubric Change, Spoof Rejection, Chat & Cross-Tenant...
+  [PASS] Contrasting inputs, determinism, rubric change, spoof rejection, live chat & cross-tenant isolation confirmed.
+
+[3/6] Testing Real HTTP Concurrency — Competing Packet Generations [synthetic SQL fixture]...
+  Allocated revisions from concurrent requests: [1, 2]
+  Database claim_ledgers persisted state (count|max): 2|2
+  [PASS] Concurrent HTTP packet generations serialized cleanly under advisory lock.
+
+[4/6] Testing Explicit Stale-Decision Contract & Competing Pre-Evaluation Decisions [synthetic SQL fixture]...
+  Competing pre-eval HTTP status codes: hold=200, reject=409
+  Recorded activity_events count in DB: 2 (observed initial winner=hold)
+  [PASS] Explicit stale-decision contract & competing pre-eval serialization passed without winner assumptions.
+
+[5/6] Testing Genuinely Overlapping Packet Generation vs Decision Races [synthetic SQL fixture]...
+  5a commit order: pre-eval committed first (rev 1) -> subsequent generate persisted rev 1 packet.
+  5b commit order: rev-1 action committed first -> rev-2 generate preserved audit decision & set requires_re_review=true.
+  [PASS] Genuinely overlapping generation and decision races maintained atomic consistency.
+
+[6/6] Testing Complete POST / Stored / GET / Ledger Continuity, Independent Digest & Audit History...
+  Rev 2 4-way continuity + independent digest verified (ledger=6121a7d4-3ab4-46ec-8da6-4bdee2c857e8, digest=ecbdd98c8395..., claims=3, refs=3, edges=3).
+  [PASS] Full POST/stored/GET/ledger continuity, independent calculation_digest, human audit history & requires_re_review confirmed.
+
+=== ALL REAL HTTP CONCURRENCY, PDF UPLOAD/PARSER, STORAGE & CONTINUITY ASSERTIONS PASSED ===
+[Step 9/9] Running Playwright browser assertion suites against http://localhost:3010...
+
+Running 41 tests using 1 worker
+
+[1/41] __tests__/chat/EmployerChatAssertions.test.js:32:3 › Employer Chat V2 Playwright Authenticated UAT Suite (UX-V2-D2-C3) › 1. Real Success-Path: Unintercepted POST Resolution, Exact JSON Equality & Layout Integrity
+[2/41] __tests__/chat/EmployerChatAssertions.test.js:131:3 › Employer Chat V2 Playwright Authenticated UAT Suite (UX-V2-D2-C3) › 2. Keyboard Behavior: Enter Submits & Shift+Enter Inserts Line Break
+[3/41] __tests__/chat/EmployerChatAssertions.test.js:156:3 › Employer Chat V2 Playwright Authenticated UAT Suite (UX-V2-D2-C3) › 3. Capability-Limited Path: Unsupported Prompt Returns Honest Live-Data Limitation
+[4/41] __tests__/chat/EmployerChatAssertions.test.js:178:3 › Employer Chat V2 Playwright Authenticated UAT Suite (UX-V2-D2-C3) › 4. Security Paths: 401 Unauthorized, 400 Malformed, 403 Forbidden, 404 Invalid Run Assertion
+[5/41] __tests__/chat/EmployerChatAssertions.test.js:213:3 › Employer Chat V2 Playwright Authenticated UAT Suite (UX-V2-D2-C3) › 5. Error & Retry Closure Path: Proves Failed Request Alert, Successful Retry Rendering, and Zero Duplicate Messages
+[6/41] __tests__/day3/EmployerDay3Assertions.test.js:36:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test A — Real Proof Contract API-to-UI exact field equality for live fixture: Role title, status, explicit requirements, disqualifiers, unavailable states, and governance notices
+[7/41] __tests__/day3/EmployerDay3Assertions.test.js:127:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test A2 — Intercepted fully populated brief contract variant: Coherent requirements, explicit, inferred, disqualifiers, verification_focus, company, location, and stage
+[8/41] __tests__/day3/EmployerDay3Assertions.test.js:187:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test A3 — Status vs Readiness Separation Matrix: active+complete, active+incomplete, draft+incomplete, absent, and unknown status
+[9/41] __tests__/day3/EmployerDay3Assertions.test.js:271:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test C — Shortlist Live Disposable Cohort Rendering, Count Labels, Controls, Filter Reset & Zero Raw JSON
+[10/41] __tests__/day3/EmployerDay3Assertions.test.js:334:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test D — Intercepted deterministic 3-card shortlist variant & Zero Evaluation terminology
+[11/41] __tests__/day3/EmployerDay3Assertions.test.js:387:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test D2 — Intercepted Path A 399-Candidate Zero-Evaluation Cohort Semantics & Pagination Equality
+[12/41] __tests__/day3/EmployerDay3Assertions.test.js:439:8 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test E — Path B local file selection in the real browser: PDF, DOCX, CSV, exact 10MB, oversized rejection, handoff notice, and zero upload requests [Skipped: DocumentDropzone / intake-handoff-notice removed from /employer/intake in current UI]
+[13/41] __tests__/day3/EmployerDay3Assertions.test.js:522:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test F — Non-polluting client submission and navigation contract test: Read-only hiring run count verification, form JSON payload check, and synthetic routing
+[14/41] __tests__/day3/EmployerDay3Assertions.test.js:570:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test G — Accessibility and keyboard behavior: Accessible names, keyboard tag addition, and tag removal focus
+[15/41] __tests__/day3/EmployerDay3Assertions.test.js:592:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test H — Real Browser-Executed Contrast Verification (Part 4): Evaluates computed styles via window.getComputedStyle() and walks ancestor tree
+__tests__/day3/EmployerDay3Assertions.test.js:592:3 › Employer Day 3 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D3-C4-R3) › Test H — Real Browser-Executed Contrast Verification (Part 4): Evaluates computed styles via window.getComputedStyle() and walks ancestor tree
+[WCAG CONTRAST AUDIT] Element: shortlist-subtitle | Fg: #a0a0a0 | Bg: #111111 | Size: 12px (400) | Ratio: 7.22:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: pagination-count-label | Fg: #a3a3a3 | Bg: #121212 | Size: 12px (400) | Ratio: 7.43:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: candidate-proof-strength-label | Fg: #00d604 | Bg: #0f2f10 | Size: 9px (500) | Ratio: 7.4:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: governance-notice-text | Fg: #a3a3a3 | Bg: #1a1a1a | Size: 10px (400) | Ratio: 6.9:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: readiness-filter-btn | Fg: #00d604 | Bg: #0f2f10 | Size: 10px (500) | Ratio: 7.4:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: prev-page-btn | Fg: #909092 | Bg: #161616 | Size: 11px (500) | Ratio: 5.68:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: candidate-search-input | Fg: #f2f2f2 | Bg: #1a1a1a | Size: 12px (400) | Ratio: 15.55:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: cohort-candidates-badge | Fg: #d1d1d1 | Bg: #1a1a1a | Size: 10px (500) | Ratio: 11.4:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: shortlist-header-title | Fg: #f3f3f3 | Bg: #111111 | Size: 18px (600) | Ratio: 17.02:1 (Min: 4.5:1) | Status: PASS
+
+[WCAG CONTRAST AUDIT] Element: packet-revision-note | Fg: #d1d1d1 | Bg: #1a1a1a | Size: 10px (500) | Ratio: 11.4:1 (Min: 4.5:1) | Status: PASS
+
+[16/41] __tests__/day4/EmployerDay4Assertions.test.js:34:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 1 — Employer workspace loads from authenticated org-scoped API
+[17/41] __tests__/day4/EmployerDay4Assertions.test.js:42:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 2 — AVG TTH and 2.1d are absent
+[18/41] __tests__/day4/EmployerDay4Assertions.test.js:51:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 3 — Unsupported tour claims are absent
+[19/41] __tests__/day4/EmployerDay4Assertions.test.js:62:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 4 — Every displayed workspace statistic equals exact API field
+[20/41] __tests__/day4/EmployerDay4Assertions.test.js:83:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 5 — Null metric values render as Not available (not false zero)
+[21/41] __tests__/day4/EmployerDay4Assertions.test.js:112:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 6 — Proof-contract readiness chip matches shared readiness logic
+[22/41] __tests__/day4/EmployerDay4Assertions.test.js:149:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 7 — Brief and pipeline navigation buttons resolve correct role IDs
+[23/41] __tests__/day4/EmployerDay4Assertions.test.js:178:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 8 — Complete brief navigates directly to shortlist
+[24/41] __tests__/day4/EmployerDay4Assertions.test.js:190:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 9 — Pipeline navigation sends zero POST requests to sourcing-sessions
+[25/41] __tests__/day4/EmployerDay4Assertions.test.js:210:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 10 — Incomplete brief blocks pipeline navigation
+[26/41] __tests__/day4/EmployerDay4Assertions.test.js:241:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 11 — Zero-cohort fixture renders handoff-guidance-panel
+[27/41] __tests__/day4/EmployerDay4Assertions.test.js:272:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 12 — Handoff guidance contains no email, phone or unbacked claim
+[28/41] __tests__/day4/EmployerDay4Assertions.test.js:296:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 13 — Shortlist response is organization- and hiring-run-scoped
+[29/41] __tests__/day4/EmployerDay4Assertions.test.js:306:8 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 14 — Intake states candidate files are not submitted through form [Skipped: DocumentDropzone / intake-handoff-notice removed from /employer/intake in current UI]
+[30/41] __tests__/day4/EmployerDay4Assertions.test.js:317:3 › Employer Day 4 UX-V2 Playwright Authenticated UAT Suite (UX-V2-D4-C1) › Scenario 15 — Mobile 375px overflow, device-support policy and keyboard focus checks pass
+[31/41] __tests__/device-policy/DeviceSupportPolicy.test.js:27:3 › Device-Support Policy End-to-End Verification › 1. Public, legal, support, and /auth pages (including recovery & invite) remain accessible on phone viewports
+[32/41] __tests__/device-policy/DeviceSupportPolicy.test.js:67:3 › Device-Support Policy End-to-End Verification › 2. Unauthenticated phone preserves intended destination without leaking tokens across /auth into dedicated device-support screen
+[33/41] __tests__/device-policy/DeviceSupportPolicy.test.js:124:3 › Device-Support Policy End-to-End Verification › 3. Portrait (375, 390, 430), landscape phone (844x390), and onboarding copy checks
+[34/41] __tests__/device-policy/DeviceSupportPolicy.test.js:163:3 › Device-Support Policy End-to-End Verification › 4. iPad (>= 768px portrait & landscape, including desktop-mode Macintosh UA) allows workspace; narrow iPad (< 768px) shows Make this window wider
+[35/41] __tests__/device-policy/DeviceSupportPolicy.test.js:195:3 › Device-Support Policy End-to-End Verification › 5. Desktop breakpoints (1024..1920) allow workspace and dynamic resize < 768px preserves unsaved form work
+[36/41] __tests__/packet/CandidateTrustPacketAssertions.test.js:52:3 › Candidate Trust Packet UX-V2-D1-C6 Assertion Suite › Live disposable unassessed candidate renders truthful pre-evaluation state without fabricated outputs
+[37/41] __tests__/packet/CandidateTrustPacketAssertions.test.js:90:3 › Candidate Trust Packet UX-V2-D1-C6 Assertion Suite › Intercepted evaluated packet verifies ClaimLedger provenance, EvidenceDrawer hashes, Escape focus restore, and governance notice
+[38/41] __tests__/packet/UninterceptedPacketJourneyE2E.test.js:129:3 › Unintercepted Packet Journey & Workspace Mapping E2E › 1. WORKBYLINE_ENGINE_MAPPINGS resolves mapped alpha run and rejects unmapped runs
+[39/41] __tests__/packet/UninterceptedPacketJourneyE2E.test.js:148:3 › Unintercepted Packet Journey & Workspace Mapping E2E › 2. Replacement shortlist upload rejects non-PDF uploads without creating candidate records
+[40/41] __tests__/packet/UninterceptedPacketJourneyE2E.test.js:172:3 › Unintercepted Packet Journey & Workspace Mapping E2E › 3. Unintercepted upload -> Generate Decision Packet -> Ledger & EvidenceDrawer -> API revision parity
+[41/41] __tests__/packet/UninterceptedPacketJourneyE2E.test.js:304:3 › Unintercepted Packet Journey & Workspace Mapping E2E › 4. Ordinary sparse resume journey: fit_score=null & gate_pass=false render truthfully with human review & chat working
+  2 skipped
+  39 passed (44.8s)
+Shutting down isolated application server (Launcher PID 86572)...
+========================================================================
+GUARDED DISPOSABLE VERIFICATION SEQUENCE COMPLETED WITH ZERO FAILURES
+========================================================================

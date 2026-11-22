@@ -1,0 +1,37 @@
+{
+  "scope": "isolated JavaScript contract probes; not Next.js runtime",
+  "checks": [
+    {
+      "check": "no_builtin_tenant_fallback",
+      "passed": true
+    },
+    {
+      "check": "unapproved_is_not_boolean_true",
+      "passed": true
+    },
+    {
+      "check": "fail_closed_GROUNDED",
+      "passed": true
+    },
+    {
+      "check": "fail_closed_AMBIGUOUS",
+      "passed": true
+    },
+    {
+      "check": "fail_closed_DISAGREEMENT",
+      "passed": true
+    },
+    {
+      "check": "fail_closed_UNVERIFIED_STATUS",
+      "passed": true
+    },
+    {
+      "check": "literal_boolean_contract",
+      "passed": true
+    },
+    {
+      "check": "fabricated_worker_is_disabled",
+      "passed": true
+    }
+  ]
+}

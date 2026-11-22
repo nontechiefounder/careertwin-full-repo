@@ -1,0 +1,11 @@
+A	STEP_FAILURE_REPAIRS_EVIDENCE.md
+A	STEP_FAILURE_REPAIRS_REPORT.md
+M	apps/web/__tests__/api/screeningCompleteBehavior.test.js
+M	apps/web/__tests__/pages/AuthPage.test.jsx
+A	apps/web/app/api/auth/resend-verification/route.js
+M	apps/web/app/api/auth/signup/route.js
+M	apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js
+M	apps/web/app/auth/page.jsx
+M	apps/web/lib/auth.js
+A	apps/web/lib/verificationEmail.js
+M	docs/handoff/DATA_AND_API_CONTRACTS.md

@@ -1,0 +1,377 @@
+--- /tmp/wbl-v9-clean/PARTH_HANDOFF.md	2026-11-22 05:42:24
++++ /tmp/wbl-v10-candidate/PARTH_HANDOFF.md	2026-11-22 05:40:22
+@@ -1,9 +1,9 @@
+ # workBYLiNE — Engineering Handoff Entry Point
+ 
+ **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+-**Latest Candidate:** `WorkByLine_Parth_Local_Review_v9.zip` (delta from frozen `v8`: `e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)
++**Latest Candidate:** `WorkByLine_Parth_Local_Review_v10.zip` (delta from frozen `v9`: `aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
+ 
+ - **Canonical Handoff:** [docs/handoff/PARTH_HANDOFF.md](./docs/handoff/PARTH_HANDOFF.md)
+ - **Canonical Documentation Index:** [docs/handoff/START_HERE.md](./docs/handoff/START_HERE.md)
+-- **Latest v9 Repair Report & Evidence:** [STEP_V9_REPAIRS_REPORT.md](./STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](./STEP_V9_REPAIRS_EVIDENCE.md)
+-- **Historical v8 / v7 / v6 / v4 Records:** [STEP_V8_REPAIRS_REPORT.md](./STEP_V8_REPAIRS_REPORT.md), [STEP_V7_REPAIRS_REPORT.md](./STEP_V7_REPAIRS_REPORT.md), [STEP_FAILURE_REPAIRS_REPORT.md](./STEP_FAILURE_REPAIRS_REPORT.md), [TRACK1_REPAIR_STATUS.md](./TRACK1_REPAIR_STATUS.md), [VERIFICATION_EVIDENCE.md](./VERIFICATION_EVIDENCE.md)
++- **Latest v10 Repair Report & Evidence:** [STEP_V10_REPAIRS_REPORT.md](./STEP_V10_REPAIRS_REPORT.md) and [STEP_V10_REPAIRS_EVIDENCE.md](./STEP_V10_REPAIRS_EVIDENCE.md)
++- **Historical Records:** [STEP_V9_REPAIRS_REPORT.md](./STEP_V9_REPAIRS_REPORT.md), [STEP_V8_REPAIRS_REPORT.md](./STEP_V8_REPAIRS_REPORT.md), [STEP_V7_REPAIRS_REPORT.md](./STEP_V7_REPAIRS_REPORT.md), [STEP_FAILURE_REPAIRS_REPORT.md](./STEP_FAILURE_REPAIRS_REPORT.md), [TRACK1_REPAIR_STATUS.md](./TRACK1_REPAIR_STATUS.md), [VERIFICATION_EVIDENCE.md](./VERIFICATION_EVIDENCE.md)
+--- /dev/null	2026-11-22 05:42:24
++++ /tmp/wbl-v10-candidate/STEP_V10_REPAIRS_EVIDENCE.md	2026-11-22 05:42:00
+@@ -0,0 +1,60 @@
++# workBYLiNE Genome — V10 Repairs Evidence
++
++- **Date:** 2026-11-22
++- **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v9.zip` (`19,930,164` bytes, SHA-256 `aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
++
++---
++
++## 1. Baseline Reproduction on Unchanged `v9`
++
++Extracted `WorkByLine_v9_Independent_Review_20261122.zip` to `/tmp/wbl-v9-review` and `WorkByLine_Parth_Local_Review_v9.zip` to `/tmp/wbl-v10-candidate`. Running `/tmp/wbl-v9-review/independent_v9_probes.mjs` against unchanged `v9` confirmed `TOTAL 20 / 20 external_attempts 0`, reproducing:
++- `V9-R1`: Eviction of active unexpired cooldown reservation under `maxEntries` capacity pressure.
++- `V9-R2`: `nextPage !== null` with missing `lastPage` returning `200` on page-1 match vs. `503` on absent email.
++- `V9-C1`: Directory budget exhaustion and cooldown interaction.
++
++---
++
++## 2. SDK Contract & Source Changes
++
++- **Installed SDK Contract:** Inspected `@supabase/auth-js` in `apps/web/node_modules/@supabase/auth-js/dist/module/`: `GoTrueAdminApi.listUsers` initializes `{ nextPage: null, lastPage: 0, total: 0 }` (`types.d.ts` `lastPage: number`, `nextPage: number | null`) and does not expose `getUserByEmail`.
++- **Modified Source Files:**
++  - `apps/web/app/api/auth/resend-verification/route.js`
++  - `apps/web/__tests__/pages/AuthPage.test.jsx`
++  - `PARTH_HANDOFF.md`
++  - `docs/handoff/START_HERE.md`
++  - `docs/handoff/PARTH_HANDOFF.md`
++  - `docs/handoff/DATA_AND_API_CONTRACTS.md`
++  - `STEP_V10_REPAIRS_REPORT.md`
++  - `STEP_V10_REPAIRS_EVIDENCE.md`
++  - `evidence/v10/V10_REPAIR_DIFF.patch`
++
++---
++
++## 3. Command & Test Receipts
++
++### 3.1 Locked Dependency Install
++- `npm ci --no-audit --no-fund` at repo root (`4` packages) -> exit `0`.
++- `npm ci --no-audit --no-fund` in `apps/web` (`936` packages) -> exit `0`.
++
++### 3.2 Focused Vitest, Lint & Build (Pre-Harness)
++- Focused Vitest (`AuthPage.test.jsx`, `screeningCompleteBehavior.test.js`, `dryRunEmail.test.js`, `ApiAuthorizationCharacterization.test.js`, `BrandingRegressionCheck.test.js`, `VitestDiscoveryContract.test.js`): **6/6 files, 50/50 tests passed** (exit `0`).
++- `npm run lint`: **0 errors**, `3` `<img>` warnings (`NaiveShell.jsx`, `MarketingFooter.jsx`, `MarketingNav.jsx`).
++- `npm run build` (`next build --webpack`): Compiled in `12.5s`, **51/51** static pages generated, exit `0`.
++
++### 3.3 Guarded Disposable Verification (`20261122T000858Z_78719`)
++Executed `scripts/guarded_disposable_verify.sh` against disposable `supabase_db_wbl-disposable-verify` (`127.0.0.1:54422`, Kong `54421`), isolated server on `http://localhost:3010`, `CAREERTWIN_DRY_RUN_EMAIL=true`, `WORKBYLINE_GENERATION_GATE=false`, and all third-party API keys blanked:
++- `summary.json`: `"status": "PASSED"`, `"exit_code": 0`, `"cleanup_status": "clean"`, `"listener_pid": null`.
++- **Step 6a (Unit & Mocked Contract Suites):** `20` test files passed, `185` tests passed.
++- **Step 6b (Security, Provenance & Release Blocker Suites):** `6` test files passed, `61` tests passed.
++- **Step 7 (ESLint & Webpack Build under strict allowlist):** ESLint `0` errors; Webpack compiled in `18.3s`, `51/51` static pages generated.
++- **Step 8 (Server Startup & Real-PDF / Pre-Eval Serialization):** Passed (`pages=2`, `sha256=90ebc8dfa402...`).
++- **Step 9 (Playwright Browser Assertions against `http://localhost:3010`):** `39` passed, `2` skipped (`41` total).
++
++---
++
++## 4. Non-Executed Checks Disclosure
++
++- **CodeRabbit / Static Security Scanners:** Not executed (`semgrep`, `codeql`, `coderabbit`, `gitleaks` are not installed locally; no GitHub branch push was performed).
++- **Live External Providers / SMTP:** Not executed (`CAREERTWIN_DRY_RUN_EMAIL=true`; all provider keys blanked).
++- **GitHub `origin/main`:** Unchanged at `cd5b85db99b3127abbb62d7e7182a744b836846c` (non-matching root layout; excluded from v10 coverage claims).
+--- /dev/null	2026-11-22 05:42:24
++++ /tmp/wbl-v10-candidate/STEP_V10_REPAIRS_REPORT.md	2026-11-22 05:41:54
+@@ -0,0 +1,51 @@
++# workBYLiNE Genome — V10 Repairs Report (Closing V9 Bounded Delta Findings)
++
++- **Date:** 2026-11-22
++- **Phase:** VERIFICATION
++- **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v9.zip` (`19,930,164` bytes, SHA-256 `aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
++- **Review Input:** `WorkByLine_v9_Independent_Review_20261122.zip`
++
++---
++
++## 1. Executive Summary
++
++This `v10` delta closes the bounded `v9` independent review findings (`V9-R1`, `V9-R2`, `V9-C1`) and records the source-to-review-branch gate and scanner disclosure without expanding scope into live external provider calls, deployments, or unrequested UI/KB/graph work.
++
++All repairs were implemented in `apps/web/app/api/auth/resend-verification/route.js` and covered in `apps/web/__tests__/pages/AuthPage.test.jsx`, then verified through focused Vitest, ESLint, Webpack production build, and the full guarded disposable verification harness (`Run ID: 20261122T000858Z_78719`, `exit_code: 0`).
++
++---
++
++## 2. Findings Addressed
++
++| Finding | Root Cause in `v9` | `v10` Repair | Status |
++|---|---|---|---|
++| **V9-R1** Active cooldown eviction under capacity pressure | `createResendCooldownStore` evicted the oldest FIFO entry when `map.size >= maxEntries`, deleting unexpired active cooldowns and allowing a second send before 60s. Also did not validate `maxEntries < 1`. | Validates `Number.isInteger(maxEntries) && maxEntries >= 1` (throws `RangeError` otherwise). Checks `existing > now` before capacity check. Prunes expired entries (`pruneExpired(now)`), and when `map.size >= maxEntries`, fails closed for new keys with `{ allowed: false, capacityLimited: true, retryAfterSeconds }` (`429`) without evicting active keys. | Repaired & verified (`AuthPage.test.jsx`) |
++| **V9-R2** Missing/invalid `lastPage` pagination status difference | Oversized-directory check (`lastPage > maxPages`) only ran when `typeof lastPage === 'number'`, so payloads with `nextPage !== null` and missing/invalid `lastPage` matched page-1 accounts (`200`) while absent accounts hit page-25 exhaustion (`503`). | Enforces `advertisesMore && (!Number.isInteger(lastPage) || lastPage < page || lastPage > maxPages)` -> `503 VERIFICATION_LOOKUP_UNAVAILABLE` **before** page-1 matching. Inspected `@supabase/auth-js` `GoTrueAdminApi.listUsers` contract (`nextPage: number \| null`, `lastPage: number`). | Repaired & verified (`AuthPage.test.jsx`) |
++| **V9-C1** Global 50-call budget availability tradeoff & cooldown churn | Directory call budget was only checked after reserving an email cooldown, and the single-instance 50-call/60s budget availability tradeoff needed explicit documentation. | Added `hasDirectoryCallBudget()` pre-check before reserving an email cooldown so budget-exhausted requests fail cleanly (`503`) without churning the per-email cooldown map. Documented the single-instance availability tradeoff and open `V6-R1` multi-instance requirement. | Repaired & documented |
++
++---
++
++## 3. Open Design & Hosting Gates (Unchanged from v6–v9)
++
++1. **`V6-R1` Multi-Instance Shared Cooldown & Budget Store:** The default in-memory `Map` stores enforce cooldowns and directory call budgets within a single Node.js process (`apps/web/app/api/auth/resend-verification/route.js`). Multi-instance public hosting requires wiring a shared store (e.g., Redis/database) via `createResendVerificationHandler({ cooldownStore, directoryBudgetStore })`, or running single-instance until wired.
++2. **Global Directory Call Budget (`V9-C1`):** The single-instance 50-call/60s `listUsers` budget prevents unbounded fan-out under distinct-email churn, which intentionally trades availability under sustained unauthenticated churn (`503`) for directory protection.
++3. **Live Provider / SMTP Verification:** All verification in `v10` ran with `CAREERTWIN_DRY_RUN_EMAIL=true`, `WORKBYLINE_GENERATION_GATE=false`, and blank third-party API keys. Live SMTP and real-company-data acceptance remain separate gates.
++
++---
++
++## 4. Source-to-Review-Branch Mapping & Scanner Disclosure
++
++- **GitHub `origin/main` Gate:** Public GitHub `origin/main` remains at `cd5b85db99b3127abbb62d7e7182a744b836846c` with a different root layout and does **not** contain the `v5`–`v10` codebase. Any automated review must target a dedicated review branch created from the `v10` archive (for example `review/workbyline-v10-candidate`), never `cd5b85db99b3127abbb62d7e7182a744b836846c`.
++- **CodeRabbit & Static Security Scanners:** CodeRabbit, `semgrep`, `codeql`, and `gitleaks` did **not** run locally (not installed in this environment, and no GitHub push was performed).
++
++---
++
++## 5. Verification Summary
++
++- **Focused Vitest (`apps/web`):** `6` test files, `50` tests passed (`0` failed).
++- **ESLint (`npm run lint`):** `0` errors (`3` pre-existing `<img>` warnings).
++- **Production Build (`npm run build`):** Compiled in `12.5s`, `51/51` static pages generated.
++- **Guarded Disposable Verification (`Run ID: 20261122T000858Z_78719`):** `status: "PASSED"`, `exit_code: 0`, `cleanup_status: "clean"` against disposable `supabase_db_wbl-disposable-verify` (`54422`) and isolated server (`3010`), including Step 6a (`20` files / `185` tests), Step 6b (`6` files / `61` tests), Step 7 (`lint` + `build` `18.3s`, `51/51` pages), Step 8 (real PDF upload/parse/download/generate + competing pre-eval serialization), and Step 9 Playwright (`39` passed, `2` skipped).
++
++See [STEP_V10_REPAIRS_EVIDENCE.md](./STEP_V10_REPAIRS_EVIDENCE.md) for exact receipts, file paths, and archive parity details.
+--- /tmp/wbl-v9-clean/apps/web/__tests__/pages/AuthPage.test.jsx	2026-11-22 05:42:24
++++ /tmp/wbl-v10-candidate/apps/web/__tests__/pages/AuthPage.test.jsx	2026-11-22 05:40:22
+@@ -358,29 +358,41 @@
+     }));
+     expect(malformedDirectRes.status).toBe(503);
+ 
+-    // 8. V8-R2: Oversized directory (lastPage: 1001) returns uniform 503 on BOTH page-1 match and absent address (1 call each)
+-    const oversizedDir = (emailMatch) => ({
++    // 8. V8-R2 & V9-R2: Oversized (lastPage: 1001) AND missing-lastPage (nextPage: 2 without lastPage) return uniform 503 on BOTH page-1 match and absent
++    const oversizedDir = (emailMatch, extra = { lastPage: 1001 }) => ({
+       auth: {
+         admin: {
+           listUsers: vi.fn().mockResolvedValue({
+-            data: { users: emailMatch ? [{ id: 'p1', email: emailMatch, email_confirmed_at: null }] : [], nextPage: 2, lastPage: 1001 },
++            data: { users: emailMatch ? [{ id: 'p1', email: emailMatch, email_confirmed_at: null }] : [], nextPage: 2, ...extra },
+             error: null,
+           }),
+         },
+       },
+     });
+-    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir('p1over@example.invalid'));
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir('p1over@example.invalid', { lastPage: 1001 }));
+     const overKnown = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+       method: 'POST',
+       body: JSON.stringify({ email: 'p1over@example.invalid' }),
+     }));
+-    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir(null));
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir(null, { lastPage: 1001 }));
+     const overAbsent = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+       method: 'POST',
+       body: JSON.stringify({ email: 'absentover@example.invalid' }),
+     }));
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir('p1nolast@example.invalid', {}));
++    const noLastKnown = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'p1nolast@example.invalid' }),
++    }));
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir(null, {}));
++    const noLastAbsent = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'absentnolast@example.invalid' }),
++    }));
+     expect(overKnown.status).toBe(503);
+     expect(overAbsent.status).toBe(503);
++    expect(noLastKnown.status).toBe(503);
++    expect(noLastAbsent.status).toBe(503);
+ 
+     // 9. V8-R1: Aggregate endpoint directory budget (50 calls) blocks distinct-address amplification with 429
+     __resetResendCooldownForTests();
+@@ -390,7 +402,7 @@
+         admin: {
+           listUsers: vi.fn().mockImplementation(async ({ page }) => {
+             totalLookups++;
+-            return { data: { users: firstPage, nextPage: page + 1 }, error: null };
++            return { data: { users: firstPage, nextPage: page + 1, lastPage: 25 }, error: null };
+           }),
+         },
+       },
+@@ -412,18 +424,24 @@
+     expect(rC.status).toBe(429);
+     expect(totalLookups).toBeLessThanOrEqual(50);
+ 
+-    // 10. V8-R3: Expired keys are evicted and map size stays strictly bounded
+-    const store = createMemoryCooldownStore({ maxEntries: 500 });
++    // 10. V8-R3 & V9-R1: Invalid capacity throws, expired keys are pruned, and active keys are NEVER evicted under capacity churn
++    expect(() => createMemoryCooldownStore({ maxEntries: 0 })).toThrow(RangeError);
++    const store = createMemoryCooldownStore({ maxEntries: 2 });
+     const realNow = Date.now;
+     let fakeNow = 1_000_000;
+     Date.now = () => fakeNow;
+     try {
+-      for (let i = 0; i < 400; i++) {
+-        store.tryReserve(`churn-${i}@example.invalid`, 10);
+-      }
+-      expect(store.size()).toBe(400);
+-      fakeNow += 50; // All 400 keys expired
+-      store.tryReserve('fresh@example.invalid', 60_000);
++      expect(store.tryReserve('a@example.invalid', 60_000).admitted).toBe(true);
++      expect(store.tryReserve('b@example.invalid', 60_000).admitted).toBe(true);
++      // C is rejected (capacity full) without evicting active A or B
++      const cRes = store.tryReserve('c@example.invalid', 60_000);
++      expect(cRes.admitted).toBe(false);
++      expect(cRes.capacityLimited).toBe(true);
++      // A is still blocked by its active cooldown
++      expect(store.tryReserve('a@example.invalid', 60_000).admitted).toBe(false);
++      // Advance past expiry -> expired keys are pruned and fresh key succeeds
++      fakeNow += 60_001;
++      expect(store.tryReserve('fresh@example.invalid', 60_000).admitted).toBe(true);
+       expect(store.size()).toBe(1);
+     } finally {
+       Date.now = realNow;
+--- /tmp/wbl-v9-clean/apps/web/app/api/auth/resend-verification/route.js	2026-11-22 05:42:24
++++ /tmp/wbl-v10-candidate/apps/web/app/api/auth/resend-verification/route.js	2026-11-22 05:40:22
+@@ -11,6 +11,9 @@
+ const GENERIC_PUBLIC_MESSAGE = 'If an unverified account exists for this email, a verification email will be sent.';
+ 
+ export function createMemoryCooldownStore({ maxEntries = DEFAULT_MAX_COOLDOWN_ENTRIES } = {}) {
++  if (!Number.isInteger(maxEntries) || maxEntries < 1) {
++    throw new RangeError('maxEntries must be a positive integer');
++  }
+   const map = new Map();
+ 
+   function pruneExpired(now) {
+@@ -25,6 +28,7 @@
+     tryReserve(key, ttlMs) {
+       const now = Date.now();
+       const existing = map.get(key);
++      // Always check existing reservation before capacity rejection
+       if (existing && existing > now) {
+         return { admitted: false, retryAfterSeconds: Math.max(1, Math.ceil((existing - now) / 1000)) };
+       }
+@@ -34,10 +38,9 @@
+       if (map.size >= 64 || map.size >= maxEntries) {
+         pruneExpired(now);
+       }
+-      while (map.size >= maxEntries) {
+-        const oldestKey = map.keys().next().value;
+-        if (oldestKey === undefined) break;
+-        map.delete(oldestKey);
++      // Fail closed for new keys at capacity instead of evicting unexpired active reservations
++      if (map.size >= maxEntries) {
++        return { admitted: false, capacityLimited: true, retryAfterSeconds: Math.max(1, Math.ceil(ttlMs / 1000)) };
+       }
+       map.set(key, now + ttlMs);
+       return { admitted: true, retryAfterSeconds: 0 };
+@@ -67,13 +70,17 @@
+   directoryWindowCalls = 0;
+ }
+ 
+-function consumeDirectoryCallBudget() {
++function hasDirectoryCallBudget() {
+   const now = Date.now();
+   if (now - directoryWindowStart >= DIRECTORY_BUDGET_WINDOW_MS) {
+     directoryWindowStart = now;
+     directoryWindowCalls = 0;
+   }
+-  if (directoryWindowCalls >= MAX_DIRECTORY_CALLS_PER_WINDOW) {
++  return directoryWindowCalls < MAX_DIRECTORY_CALLS_PER_WINDOW;
++}
++
++function consumeDirectoryCallBudget() {
++  if (!hasDirectoryCallBudget()) {
+     return false;
+   }
+   directoryWindowCalls += 1;
+@@ -117,18 +124,27 @@
+     if (!Array.isArray(listData?.users)) {
+       return { user: null, incomplete: true, error: new Error('Malformed admin user directory response') };
+     }
+-    // Fail uniformly before scanning page 1 if directory advertises more pages than the synchronous cap (prevents V8-R2 position leak)
+-    if (typeof listData?.lastPage === 'number' && listData.lastPage > maxPages) {
+-      return { user: null, incomplete: true, error: new Error('Admin user directory exceeds synchronous scan cap') };
+-    }
++
+     const users = listData.users;
++    const nextPage = listData?.nextPage ?? null;
++    const lastPage = listData?.lastPage;
++    const advertisesMore = nextPage !== null || users.length === LIST_USERS_PER_PAGE;
++
++    if (nextPage !== null && (!Number.isInteger(nextPage) || nextPage <= page)) {
++      return { user: null, incomplete: true, error: new Error('Invalid nextPage pagination metadata') };
++    }
++    if (advertisesMore && (!Number.isInteger(lastPage) || lastPage < page || lastPage > maxPages)) {
++      // Fail uniformly BEFORE scanning page 1 when lastPage is missing, invalid, or exceeds synchronous cap (closes V9-R2 & V8-R2)
++      return { user: null, incomplete: true, error: new Error('Admin user directory pagination missing valid bounded lastPage') };
++    }
++
+     const match = users.find(
+       (u) => typeof u?.email === 'string' && u.email.trim().toLowerCase() === normalizedEmail
+     );
+     if (match) {
+       return { user: match, incomplete: false, error: null };
+     }
+-    const hasMore = Boolean(listData?.nextPage) || (users.length === LIST_USERS_PER_PAGE && (!listData?.lastPage || page < listData.lastPage));
++    const hasMore = nextPage !== null || (users.length === LIST_USERS_PER_PAGE && Number.isInteger(lastPage) && page < lastPage);
+     if (!hasMore) {
+       return { user: null, incomplete: false, error: null };
+     }
+@@ -145,7 +161,19 @@
+       return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
+     }
+ 
+-    // Atomic per-email cooldown reservation with expired-entry pruning (single-process default; shared store required for multi-instance)
++    // Check global directory budget before churning the per-email cooldown store
++    if (!hasDirectoryCallBudget()) {
++      return NextResponse.json(
++        {
++          error: 'RATE_LIMITED',
++          retry_after_seconds: 60,
++          message: 'Too many verification requests. Please wait and try again.',
++        },
++        { status: 429 }
++      );
++    }
++
++    // Atomic per-email cooldown reservation with expired-entry pruning & fail-closed capacity (never evicts active keys)
+     const reservation = await activeCooldownStore.tryReserve(email, RESEND_COOLDOWN_MS);
+     if (!reservation?.admitted) {
+       return NextResponse.json(
+@@ -185,7 +213,6 @@
+       );
+     }
+ 
+-    // Uniform non-enumerating public acknowledgment for absent, confirmed, or unconfirmed accounts
+     if (!existing || existing.email_confirmed_at) {
+       return NextResponse.json({
+         delivery_status: 'accepted',
+--- /tmp/wbl-v9-clean/docs/handoff/DATA_AND_API_CONTRACTS.md	2026-11-22 05:42:25
++++ /tmp/wbl-v10-candidate/docs/handoff/DATA_AND_API_CONTRACTS.md	2026-11-22 05:40:22
+@@ -43,7 +43,7 @@
+ 
+ - **Auth:** `/api/auth/{confirm,me,signin,signup,resend-verification}`, `/api/health`, `/api/search`.
+   - `POST /api/auth/signup` returns `delivery_status` (`'sent' | 'suppressed_dry_run' | 'failed' | 'not_attempted'`), `account_created`, `email_sent`, and `retry_supported` (`503 VERIFICATION_EMAIL_DELIVERY_FAILED` on SMTP failure; `500 VERIFICATION_LINK_FAILED` on both returned errors and thrown link exceptions).
+-  - `POST /api/auth/resend-verification` enforces atomic pre-lookup cooldown reservation (`429 RATE_LIMITED`) with expired-entry pruning and bounded store cardinality (`DEFAULT_MAX_COOLDOWN_ENTRIES = 2000`), enforces an aggregate directory lookup budget (`MAX_DIRECTORY_CALLS_PER_WINDOW = 50` per 60s), caps synchronous `listUsers` fallback (`MAX_LIST_USERS_PAGES = 25`), validates `getUserByEmail` payload shape (`user` property required), fails uniformly (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on lookup error or oversized/incomplete/malformed directory responses, and returns a uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, unconfirmed-sent, and unconfirmed-delivery/link-failure branches without recreating users. Multi-instance hosting requires configuring an approved shared cooldown store via `setResendCooldownStore()`.
++  - `POST /api/auth/resend-verification` checks the aggregate directory budget (`MAX_DIRECTORY_CALLS_PER_WINDOW = 50` per `60s`, returning `429 RATE_LIMITED`) before reserving per-email cooldown; `createMemoryCooldownStore({ maxEntries = 2000 })` validates positive integer `maxEntries`, prunes expired keys, and fails closed (`429`) for new keys at capacity without evicting active reservations (`V9-R1`); `findUserByEmail` requires valid bounded numeric `lastPage <= 25` whenever `nextPage !== null` or `users.length === 1000`, failing uniformly (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) before page-1 matching when pagination metadata is missing/invalid/oversized (`V9-R2`). Returns uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, unconfirmed-sent, and unconfirmed-delivery/link-failure branches. Multi-instance hosting requires configuring an approved shared cooldown + budget store.
+ - **Candidate:** `/api/candidate/profile`, `/api/candidate/status/[candidateId]`, `/api/candidate/proof-profile/[candidateId]` (`POST /generate`), `/api/candidate/screening-sessions/[sessionId]` (`POST /start`, `POST /answer`, `POST /complete`).
+   - `POST /api/candidate/screening-sessions/[sessionId]/complete` fails closed on `screening_answers` read/malformed errors (`503 SCREENING_ANSWERS_UNAVAILABLE` / `422 SCREENING_ANSWERS_INVALID`) and empty answers (`422 INSUFFICIENT_SCREENING_ANSWERS`) before generation or RPC writes; when at least one valid non-empty answer row is present, blank/non-string rows are filtered out (`V6-C1`).
+ - **Employer Briefs & Packets:** `/api/employer/hiring-runs` (`POST /suggest`), `/api/employer/brief/[id]` (`POST /approve`), `/api/employer/candidate-documents/upload`, `/api/employer/candidate-documents/[documentId]/download`, `/api/employer/packets/[extractionId]` (`POST /generate`, `POST /action`), `/api/employer/shortlist/[roleId]`.
+--- /tmp/wbl-v9-clean/docs/handoff/PARTH_HANDOFF.md	2026-11-22 05:42:25
++++ /tmp/wbl-v10-candidate/docs/handoff/PARTH_HANDOFF.md	2026-11-22 05:40:22
+@@ -1,6 +1,6 @@
+ # workBYLiNE — Reproducible Engineering Handoff for Parth (`PARTH_HANDOFF.md`)
+ 
+-**v9 review candidate — local engineering review only.** This candidate builds on frozen v8 (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`) with bounded fixes for `V8-R1` (bounded directory scan + aggregate work budget), `V8-R2` (uniform oversized-directory `503`), `V8-R3` (expired-key pruning & bounded cooldown map), `V8-C1` (root handoff links), and `V8-C2` (strict `getUserByEmail` contract validation). Current v9 repair & evidence records: [STEP_V9_REPAIRS_REPORT.md](../../STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](../../STEP_V9_REPAIRS_EVIDENCE.md).
++**v10 review candidate — local engineering review only.** This candidate builds on frozen v9 (`aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`) with bounded fixes for `V9-R1` (fail-closed cooldown capacity without evicting active reservations), `V9-R2` (strict `lastPage`/`nextPage` pagination contract validation before page-1 matching), `V9-C1` (availability tradeoff documentation), and the source-to-review-branch synchronization plan. Current v10 repair & evidence records: [STEP_V10_REPAIRS_REPORT.md](../../STEP_V10_REPAIRS_REPORT.md) and [STEP_V10_REPAIRS_EVIDENCE.md](../../STEP_V10_REPAIRS_EVIDENCE.md).
+ 
+ **Date:** 2026-11-19  
+ **Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+--- /tmp/wbl-v9-clean/docs/handoff/START_HERE.md	2026-11-22 05:42:25
++++ /tmp/wbl-v10-candidate/docs/handoff/START_HERE.md	2026-11-22 05:40:22
+@@ -1,11 +1,11 @@
+ # workBYLiNE — Authoritative Engineering Handoff (`START_HERE.md`)
+ 
+-**v9 review candidate — local technical review only.** Current repair & evidence records: [STEP_V9_REPAIRS_REPORT.md](../../STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](../../STEP_V9_REPAIRS_EVIDENCE.md).
++**v10 review candidate — local technical review only.** Current repair & evidence records: [STEP_V10_REPAIRS_REPORT.md](../../STEP_V10_REPAIRS_REPORT.md) and [STEP_V10_REPAIRS_EVIDENCE.md](../../STEP_V10_REPAIRS_EVIDENCE.md).
+ 
+ - **Product / Project:** workBYLiNE (Genome V3 / CareerTwin Hiring Intelligence Platform)
+ - **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)
+-- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v9 is a versioned archive delta beyond historical base commit)
+-- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v8.zip` (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)
++- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v10 is a versioned archive delta beyond historical base commit)
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v9.zip` (`aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
+ 
+ > [!IMPORTANT]
+ > **Status Boundary:** Neither this documentation nor the passing disposable/mocked verification gates declare the system `APPROVED`, `PRODUCTION READY`, or `REAL-COMPANY DATA READY`. All findings remain `IMPLEMENTED PENDING INDEPENDENT REVIEW` outside the bounded v5 review. Deployment and real-provider authorization remain separate.

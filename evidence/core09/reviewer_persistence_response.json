@@ -1,0 +1,28 @@
+{
+  "action": "hold",
+  "status": "hold",
+  "actor_id": "00000000-0000-4000-a000-000000000001",
+  "rationale": "Candidate demonstrates verified multi-cluster Kubernetes production mastery. Hold pending final compensation and scheduling review.",
+  "timestamp": "2026-10-13 00:51:56.046524+00",
+  "actor_email": "synthetic.employer.alpha@example.invalid",
+  "recorded_at": "2026-10-13 00:51:56.046524+00",
+  "decision_history": [
+    {
+      "action": "hold",
+      "status": "hold",
+      "actor_id": "00000000-0000-4000-a000-000000000001",
+      "rationale": "Candidate demonstrates verified multi-cluster Kubernetes production mastery. Hold pending final compensation and scheduling review.",
+      "timestamp": "2026-10-13 00:51:56.046524+00",
+      "actor_email": "synthetic.employer.alpha@example.invalid",
+      "recorded_at": "2026-10-13 00:51:56.046524+00",
+      "requires_re_review": false,
+      "reviewed_document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+      "reviewed_rubric_version": "1.0.0",
+      "reviewed_ledger_revision": 1
+    }
+  ],
+  "requires_re_review": false,
+  "reviewed_document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+  "reviewed_rubric_version": "1.0.0",
+  "reviewed_ledger_revision": 1
+}
