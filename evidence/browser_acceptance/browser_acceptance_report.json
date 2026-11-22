@@ -1,0 +1,346 @@
+{
+  "verified_at": "2026-11-01T15:59:48.433Z",
+  "web_base": "http://127.0.0.1:3004",
+  "engine_base": "http://127.0.0.1:8011",
+  "assertions": {
+    "authentic_sign_in": {
+      "passed": true,
+      "email": "synthetic.employer.alpha@example.invalid",
+      "post_login_url": "http://127.0.0.1:3004/employer"
+    },
+    "hiring_run_navigation_and_disclaimer": {
+      "passed": true,
+      "hiring_run_id": "1bea003e-9466-4e4e-a185-6cc7cdd06ff1"
+    },
+    "txt_pdf_docx_upload": {
+      "passed": true,
+      "uploaded_files": [
+        "browser_journey_v1.txt",
+        "alex_chen_systems_resume.pdf",
+        "platform_architect_spec.docx"
+      ],
+      "completed_sources": 3
+    },
+    "same_filename_distinct_sources": {
+      "passed": true,
+      "filename": "duplicate_spec.txt",
+      "distinct_source_ids": [
+        "6a918305-2476-48e5-af3d-34890a43429a",
+        "d88aebae-11dd-4b2e-8d63-08f4d053b2c8"
+      ]
+    },
+    "explicit_revision_and_historical_inspection": {
+      "passed": true,
+      "v2_verified": true,
+      "v1_historical_verified": true,
+      "parsing_state": "completed",
+      "indexing_state": "indexed",
+      "projection_state": "disabled"
+    },
+    "multi_file_batch_partial_failure_and_retry": {
+      "passed": true,
+      "succeeded_preserved": "batch_valid_item.txt",
+      "failed_isolated_for_retry": "batch_invalid_utf8.txt",
+      "retry_submitted_files": [
+        "batch_invalid_utf8.txt"
+      ]
+    },
+    "lost_response_idempotent_retry": {
+      "passed": true,
+      "idempotency_key": "83f51067-5a4f-4679-b43a-454a36510a84",
+      "replayed": true,
+      "source_id": "d062d615-be12-411a-a917-8f15b88a919d",
+      "version": 1,
+      "duplicate_sources_created": 0
+    },
+    "subsystem_status_badges": {
+      "passed": true,
+      "parsing_state": "completed",
+      "indexing_state": "indexed",
+      "projection_state": "disabled"
+    },
+    "hybrid_retrieval_and_gated_modes": {
+      "passed": true,
+      "hybrid_search_returned_v2_with_rrf": true,
+      "related_mode_503_honest": "Graph retrieval is unavailable: local Graphiti backend is currently unprovisioned or disabled.",
+      "qa_mode_503_honest": "Generative Q&A is feature-gated until formal acceptance testing phase. Hybrid passage retrieval remains fully operational."
+    },
+    "revocation_and_retrieval_exclusion": {
+      "passed": true,
+      "revoked_source_id": "d062d615-be12-411a-a917-8f15b88a919d",
+      "timestamp_before_revoke": "2026-11-01T16:00:28.171Z",
+      "retrievable_before_revoke": true,
+      "removed_from_ui": true,
+      "excluded_from_current_search": true,
+      "excluded_from_historical_search": true
+    },
+    "in_flight_run_switching_isolation": {
+      "passed": true,
+      "from_run": "1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "to_run": "95709284-d21b-496e-bb7c-6c68d067c422",
+      "in_flight_request_triggered": true,
+      "cross_run_bleed": false
+    },
+    "multi_role_and_cross_tenant_isolation": {
+      "passed": true,
+      "auditor_ui_readonly_verified": true,
+      "auditor_write_blocked_status": 403,
+      "tenant_b_cross_tenant_statuses": {
+        "briefStatus": 404,
+        "sourcesStatus": 404,
+        "searchStatus": 404
+      }
+    }
+  },
+  "network_events": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/brief/1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/305625b2-e790-49fc-860f-94963492df4c/evidence?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1&version=2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/305625b2-e790-49fc-860f-94963492df4c/evidence?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1&version=1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/305625b2-e790-49fc-860f-94963492df4c/evidence?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1&version=2",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/upload",
+      "status": 202
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/search",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/related",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/ask",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/search",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/d062d615-be12-411a-a917-8f15b88a919d?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=1bea003e-9466-4e4e-a185-6cc7cdd06ff1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/search",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources/search",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/analytics",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/brief/95709284-d21b-496e-bb7c-6c68d067c422",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:3004/api/employer/context-sources?hiring_run_id=95709284-d21b-496e-bb7c-6c68d067c422",
+      "status": 200
+    }
+  ],
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "screenshots": [
+    "01_brief_page_loaded.png",
+    "02_version_revision_and_history.png",
+    "03_hybrid_search_results.png",
+    "04_run_switch_isolation.png",
+    "05_auditor_readonly_mode.png"
+  ]
+}

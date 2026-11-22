@@ -1,0 +1,505 @@
+diff --git a/.env.example b/.env.example
+index a593c52..647baa8 100644
+--- a/.env.example
++++ b/.env.example
+@@ -58,6 +58,7 @@ SYSTEM_EMAIL_PASS=
+ GOOGLE_CLIENT_ID=
+ GOOGLE_CLIENT_SECRET=
+ GOOGLE_REDIRECT_URI=
++GMAIL_OAUTH_STATE_SECRET=
+ GMAIL_CLIENT_ID=
+ GMAIL_CLIENT_SECRET=
+ GMAIL_REFRESH_TOKEN=
+diff --git a/PARTH_HANDOFF.md b/PARTH_HANDOFF.md
+index 1bd6b16..5f4c222 100644
+--- a/PARTH_HANDOFF.md
++++ b/PARTH_HANDOFF.md
+@@ -1,9 +1,9 @@
+ # workBYLiNE — Engineering Handoff Entry Point
+ 
+ **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+-**Latest Candidate:** `WorkByLine_Parth_Local_Review_v10.zip` (delta from frozen `v9`: `aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
++**Latest Candidate:** `WorkByLine_Parth_Local_Review_v12.zip` (delta from `v11` + `v10` `b46d2f354e45c1817623b984d88e9b673c6da814d30f549940afb9e6ab76966e`)
+ 
+ - **Canonical Handoff:** [docs/handoff/PARTH_HANDOFF.md](./docs/handoff/PARTH_HANDOFF.md)
+ - **Canonical Documentation Index:** [docs/handoff/START_HERE.md](./docs/handoff/START_HERE.md)
+-- **Latest v10 Repair Report & Evidence:** [STEP_V10_REPAIRS_REPORT.md](./STEP_V10_REPAIRS_REPORT.md) and [STEP_V10_REPAIRS_EVIDENCE.md](./STEP_V10_REPAIRS_EVIDENCE.md)
+-- **Historical Records:** [STEP_V9_REPAIRS_REPORT.md](./STEP_V9_REPAIRS_REPORT.md), [STEP_V8_REPAIRS_REPORT.md](./STEP_V8_REPAIRS_REPORT.md), [STEP_V7_REPAIRS_REPORT.md](./STEP_V7_REPAIRS_REPORT.md), [STEP_FAILURE_REPAIRS_REPORT.md](./STEP_FAILURE_REPAIRS_REPORT.md), [TRACK1_REPAIR_STATUS.md](./TRACK1_REPAIR_STATUS.md), [VERIFICATION_EVIDENCE.md](./VERIFICATION_EVIDENCE.md)
++- **Latest v12 Security & Auth0 Design Report & Evidence:** [STEP_V12_REPAIRS_AND_AUTH0_REPORT.md](./STEP_V12_REPAIRS_AND_AUTH0_REPORT.md) and [STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md](./STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md)
++- **Historical Records:** [STEP_V11_SECURITY_AND_AUTH0_REPORT.md](./STEP_V11_SECURITY_AND_AUTH0_REPORT.md), [STEP_V10_REPAIRS_REPORT.md](./STEP_V10_REPAIRS_REPORT.md), [STEP_V9_REPAIRS_REPORT.md](./STEP_V9_REPAIRS_REPORT.md), [STEP_V8_REPAIRS_REPORT.md](./STEP_V8_REPAIRS_REPORT.md), [STEP_V7_REPAIRS_REPORT.md](./STEP_V7_REPAIRS_REPORT.md), [STEP_FAILURE_REPAIRS_REPORT.md](./STEP_FAILURE_REPAIRS_REPORT.md), [TRACK1_REPAIR_STATUS.md](./TRACK1_REPAIR_STATUS.md), [VERIFICATION_EVIDENCE.md](./VERIFICATION_EVIDENCE.md)
+diff --git a/STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md b/STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md
+new file mode 100644
+index 0000000..adb39b5
+--- /dev/null
++++ b/STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md
+@@ -0,0 +1,56 @@
++# workBYLiNE Genome — V12 Repairs & Disposable Verification Evidence
++
++- **Date:** 2026-11-22
++- **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Pinned `v10` Baseline:** `review/workbyline-v10-candidate` (`005144e517265a9556d67df51d82139c335a7479`)
++- **Prior `v11` Commit:** `fix/v11-security-repairs` (`74f255f49670fe9409da9438966029d356ea6946`)
++- **Current `v12` Branch:** `fix/v12-security-repairs`
++
++---
++
++## 1. Changed Files (`v11` -> `v12`)
++
++- `apps/web/lib/gmail.js` (`createMemoryGmailNonceStore`, `setGmailNonceStore`, fail-closed at capacity, `now >= payload.exp` exact expiry rejection)
++- `apps/web/app/api/search/route.js` (preserve `'` & `.` in `sanitizeSearchQuery`, double-quoted `.or(...)` operands)
++- `apps/web/__tests__/security/V11SecurityRepairs.test.js` (expiry equality, fail-closed capacity, concurrent duplicate, punctuation preservation)
++- `PARTH_HANDOFF.md`, `docs/handoff/START_HERE.md`, `.env.example`, `apps/web/.env.example` (`V11-C1` handoff & `GMAIL_OAUTH_STATE_SECRET=` template)
++- `STEP_V12_REPAIRS_AND_AUTH0_REPORT.md`, `STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md`
++- `evidence/v12/disposable_db_and_search_receipts.txt`, `evidence/v12/V12_REPAIR_DIFF.patch`, `evidence/v12/V12_CHANGED_FILES.txt`
++
++---
++
++## 2. Raw Focused & Disposable DB / PostgREST Receipts
++
++### 2.1 Independent `v11` Probe Baseline Reproduction (`fix/v11-security-repairs`)
++Command: `node --no-warnings --experimental-vm-modules /tmp/wbl-v11-review/independent_v11_probes.mjs` (exit `0`, `TOTAL 19 / 19 external_attempts 0`), reproducing:
++- `LIMIT_capacity_eviction_allows_consumed_state_again` (`replay_accepted: true`)
++- `LIMIT_separate_instances_both_consume_same_state` (`both_instances_accepted: true`)
++- `LIMIT_expiry_boundary_is_inclusive` (`accepted_exactly_at_expiry: true`)
++- `LIMIT_legitimate_punctuation_is_changed` (`apostrophe: "O Reilly"`, `dot: "Node js"`)
++
++### 2.2 Focused Vitest (`v12`)
++Command: `cd apps/web && npx vitest run __tests__/security/V11SecurityRepairs.test.js __tests__/pages/AuthPage.test.jsx __tests__/security/ApiAuthorizationCharacterization.test.js`
++Result: **3 test files passed (3), 38 tests passed (38)**, exit `0`.
++
++### 2.3 Raw Disposable PostgreSQL (`54422`) & PostgREST (`54421`) Controls
++Saved verbatim in `evidence/v12/disposable_db_and_search_receipts.txt`:
++1. `SET LOCAL ROLE authenticated; SELECT gmail_refresh_token FROM public.profiles LIMIT 1;` -> `ERROR: permission denied for table profiles`
++2. `SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub = 'a1111111-1111-4111-d2c0-000000000001'; SELECT id, email, name, role, company, gmail_connected, gmail_email FROM public.profiles WHERE id = 'a1111111-1111-4111-d2c0-000000000001';` -> `1 row` (`Alpha Owner`)
++3. `SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub = 'a1111111-1111-4111-d2c0-000000000001'; SELECT id, email FROM public.profiles WHERE id <> 'a1111111-1111-4111-d2c0-000000000001';` -> `0 rows` (RLS cross-user denial)
++4. `SET LOCAL ROLE service_role; SELECT count(gmail_refresh_token) AS service_role_count FROM public.profiles;` -> `1 row` (`0`, exit `0`)
++5. PostgREST `GET http://127.0.0.1:54421/rest/v1/hiring_runs?select=id,role_title,company&or=...` for `O'Reilly`, `Node.js`, and `Staff id.neq.0` -> `status=200` for all 3.
++
++### 2.4 Guarded Disposable Verification (`20261122T124350Z_23172`)
++- `summary.json`: `"status": "PASSED"`, `"exit_code": 0`, `"cleanup_status": "clean"`, `disposable_target: 54422 / postgres / supabase_db_wbl-disposable-verify`, `listener_pid: null`.
++- Step 6a: `21` test files, `191` tests passed.
++- Step 6b: `6` test files, `61` tests passed.
++- Step 7: ESLint `0` errors; Webpack build `14.2s`, `51/51` static pages.
++- Step 8: Real PDF + pre-eval serialization passed.
++- Step 9 (Playwright): `39` passed, `2` skipped (`42.8s`).
++
++---
++
++## 3. Source-vs-Evidence Manifest Scope
++
++- `WorkByLine_Parth_Local_Review_v12.zip` `MANIFEST_SHA256.txt` covers **100% of included payload files** (excluding `node_modules/`, `.next/`, `.git/`, `test-results/`, `playwright-report/`, and historical `logs/guarded_verify_*` folders other than `20261122T124350Z_23172`).
++- `WorkByLine_v12_Candidate.bundle` tracks source/migration/test/report commits (`review/workbyline-v10-candidate`, `fix/v11-security-repairs`, `fix/v12-security-repairs`) without `logs/guarded_verify_*` runtime artifacts.
+diff --git a/STEP_V12_REPAIRS_AND_AUTH0_REPORT.md b/STEP_V12_REPAIRS_AND_AUTH0_REPORT.md
+new file mode 100644
+index 0000000..73d3856
+--- /dev/null
++++ b/STEP_V12_REPAIRS_AND_AUTH0_REPORT.md
+@@ -0,0 +1,56 @@
++# workBYLiNE Genome — V12 Security Repairs & Corrected Auth0 Design
++
++- **Date:** 2026-11-22
++- **Phase:** VERIFICATION
++- **Overall Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Preserved Frozen Archives:** `v10` (`b46d2f354e45c1817623b984d88e9b673c6da814d30f549940afb9e6ab76966e`) and `v11` (`dc01e311285cb3f4032154294b460c871862605044eb1babb0517d5e3014102b`) — **unchanged**
++- **Git Branches:** `review/workbyline-v10-candidate` (`005144e517265a9556d67df51d82139c335a7479`), `fix/v11-security-repairs` (`74f255f49670fe9409da9438966029d356ea6946`), `fix/v12-security-repairs` (exported in `WorkByLine_v12_Candidate.bundle`)
++
++---
++
++## 1. Findings Closed (`V11-R1`, `V11-C1`, `V11-C2`, `V11-C3`)
++
++| Finding | Root Cause in `v11` | `v12` Repair | Disposition |
++|---|---|---|---|
++| **V11-R1** Replay cache eviction & inclusive expiry boundary | `consumedNonces` evicted the oldest unexpired nonce at `MAX_TRACKED_NONCES` (2,000), and `now > payload.exp` allowed `now === exp`. Process-local map is not shared across instances. | Replaced FIFO eviction with `createMemoryGmailNonceStore({ maxEntries })` + `setGmailNonceStore(store)`: validates `maxEntries >= 1`, prunes expired entries (`<= now`), checks `has(nonce)`, and **fails closed** (`replay_store_full`) at capacity without evicting unexpired replay records. Changed expiry check to `now >= payload.exp` (rejecting exact expiry equality). Multi-instance/serverless deployment remains explicitly **single-process only** until an approved shared atomic store is wired. | **TEST-VERIFIED** (`V11SecurityRepairs.test.js`) |
++| **V11-C1** Handoff entry points & `GMAIL_OAUTH_STATE_SECRET` env docs | `PARTH_HANDOFF.md` and `docs/handoff/START_HERE.md` referenced `v10`; `.env.example` and `apps/web/.env.example` omitted `GMAIL_OAUTH_STATE_SECRET`. | Updated `PARTH_HANDOFF.md` and `docs/handoff/START_HERE.md` to reference `v12` (`v10` pinned as baseline); added blank `GMAIL_OAUTH_STATE_SECRET=` to both `.env.example` files and documented deliberate key selection/fallback in `apps/web/lib/gmail.js`. | **VERIFIED** |
++| **V11-C2** Stale committed manifest & source-vs-evidence divergence | `MANIFEST_SHA256.txt` in `fix/v11-security-repairs` was stale and Git retained prior run folders. | Regenerated `MANIFEST_SHA256.txt` cleanly for `v12` excluding `node_modules/`, `.next/`, `.git/`, `test-results/`, `playwright-report/`, and non-current `logs/` folders, and documented exact source-vs-evidence scope. | **VERIFIED** |
++| **V11-C3** Search punctuation & real DB/PostgREST verification | `sanitizeSearchQuery` stripped `'` and `.` (turning `O'Reilly` into `O Reilly` and `Node.js` into `Node js`), and lacked raw disposable DB/PostgREST receipts. | Updated `sanitizeSearchQuery()` to preserve `'` and `.` while stripping `,`, `(`, `)`, `*`, `"`, `\` and escaping `%`/`_`, using double-quoted PostgREST `.or(...)` operands (`role_title.ilike."%${query}%",company.ilike."%${query}%"`). Executed raw `psql` privilege controls (`SQLSTATE 42501` + safe-column + cross-user + `service_role`) and live disposable PostgREST (`54421`) queries for `O'Reilly`, `Node.js`, and `Staff id.neq.0`. | **TEST-VERIFIED** (`V11SecurityRepairs.test.js` + `disposable_db_and_search_receipts.txt`) |
++
++---
++
++## 2. Corrected Auth0 Migration Design (`V11-D1`, `V11-D2` & Review Corrections 1–7)
++
++*Design only — Auth0 is NOT implemented in `v12`.*
++
++1. **No Automatic Email-Only Linking (`V11-D1`):** Never link an incoming Auth0 login to an existing `profiles` row on `email_verified` alone. Per Auth0's account-linking guidance (`https://auth0.com/docs/manage-users/user-accounts/user-account-linking/link-user-accounts`), require **proof of control of both accounts** (authenticated re-verification of the existing Supabase credential) or an explicitly audited, founder-approved one-time migration/invite workflow.
++2. **Trusted `(issuer, subject)` Identity Binding (`V11-D1`):** Bind external accounts in `public.auth_identities (id UUID PRIMARY KEY, issuer TEXT NOT NULL, subject TEXT NOT NULL, user_id UUID NOT NULL, linked_at TIMESTAMPTZ, UNIQUE (issuer, subject))`, never a generic `provider = 'auth0'` label alone, preventing cross-tenant/issuer collisions (`https://supabase.com/docs/guides/auth/third-party/custom-oidc`).
++3. **Supported Supabase Integration & `auth.uid()` / `auth.users` Treatment (`V11-D2`):**
++   - Do **not** mint custom Supabase JWTs in application code or replace RLS with broad `service_role` queries.
++   - Because PostgreSQL `auth.uid()` derives a UUID from JWT `sub` (and Auth0 `sub` values are non-UUID strings like `auth0|...`), injecting an `app_user_id` claim alone does **not** change `auth.uid()`.
++   - Any Supabase Third-Party Auth (Auth0 `RS256` ID Token with Post-Login Action `role: 'authenticated'`) adoption requires an **audited SQL resolver/RLS migration** (e.g. `current_app_user_id()` mapping `(iss, sub)` via `auth_identities`) AND explicit migration of `profiles.id REFERENCES auth.users(id)` and `auth.users` email lookups (`20260803000001`, `20260804000001`). **Founder decision required** between: (A) Supabase Third-Party Auth + audited `current_app_user_id()` RLS migration, or (B) keeping Supabase Auth with `V6-R1` shared rate-limit backend.
++4. **Next.js 16.2.1 SDK Surface (`proxy.ts`):** Genome uses Next.js `16.2.1`, where current `@auth0/nextjs-auth0` (`https://auth0.github.io/nextjs-auth0/`) recommends `proxy.ts` rather than `middleware.ts`. Pin and verify the exact `@auth0/nextjs-auth0` + Next.js `16.2.1` behavior before implementation.
++5. **Exact Route & Matcher Enumeration:** `/auth` (page), `/auth/login` (Auth0 SDK default), and `/api/auth/signin` (API route) are distinct paths. Enumerate exact `matcher` rules and route paths rather than assuming prefix collisions; keep `/api/integrations/gmail/*` and API routes explicitly excluded from Auth0 login redirects so APIs return `401` JSON rather than `307` HTML redirects.
++6. **Scope of Auth0 Cutover:** Retiring `/api/auth/signup`, `/api/auth/resend-verification`, `/api/auth/confirm`, and `/api/auth/signin` removes those endpoints only when explicitly disabled. Auth0 cutover does **not** replace Gmail OAuth `state`/nonce replay protection (`gmail.js`), server-side `getVerifiedOrgMembership` authorization, or application-level rate limits.
++7. **Rollback & Data Treatment:** Retaining `auth.users` rows alone is insufficient for safe rollback. Define explicit handling for: (a) Auth0-created users who have no `auth.users` password/credential, (b) `organization_memberships` and pending `organization_invites` created during the pilot, (c) revoked/suspended accounts (`membership_status != 'active'`), and (d) active Auth0/Supabase sessions during reversal.
++8. **Required Environment Variable Names (values omitted):** `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_SECRET`, `APP_BASE_URL`, `AUTH0_AUDIENCE`.
++
++---
++
++## 3. Verification, Scanners & Readiness by Scope
++
++- **Guarded Disposable Verification (`Run ID: 20261122T124350Z_23172`):** `PASSED` (`exit_code: 0`, `cleanup_status: "clean"`, disposable DB `54422`, `:3010`, `CAREERTWIN_DRY_RUN_EMAIL=true`, `WORKBYLINE_GENERATION_GATE=false`):
++  - Step 6a: `21` test files, `191` tests passed.
++  - Step 6b: `6` test files, `61` tests passed.
++  - Step 7: ESLint `0` errors; Webpack build `14.2s`, `51/51` static pages.
++  - Step 8: Real PDF + pre-eval serialization passed.
++  - Step 9 (Playwright): `39` passed, `2` skipped (`42.8s`).
++- **Scanners (`NOT VERIFIED`):** `semgrep`, `codeql`, `coderabbit`, `gitleaks`, `trivy`, `osv-scanner`, `snyk`, `bandit` are not installed; `npm audit` failed offline (`ENOTFOUND registry.npmjs.org`).
++
++| Scope | Readiness | Blocking Gates |
++|---|---|---|
++| **V12 Bounded Security Repairs** | **TEST-VERIFIED** (controlled Vitest + disposable PostgreSQL/PostgREST) | Independent review of `v12` candidate |
++| **Local Synthetic Demo** | **VERIFIED** (`20261122T124350Z_23172`) | Live SMTP/providers gated (`CAREERTWIN_DRY_RUN_EMAIL=true`) |
++| **Hosted Demo / Design-Partner Pilot / Real-Company Data / Production** | **NOT VERIFIED** | Hosting topology, single- vs multi-instance Gmail/resend store, SAST/CodeRabbit scan, live provider/SMTP, Auth0 architecture decision |
++
++**Remaining Founder Decisions:** (1) Choose Auth0 architecture (`A` vs `B`) or retain Supabase Auth + shared `V6-R1` store; (2) Authorize remote branch push + CodeRabbit/SAST CI scan; (3) Approve single-instance restriction or shared Redis/DB nonce + cooldown store before multi-instance hosting.
+diff --git a/apps/web/.env.example b/apps/web/.env.example
+index 6ea6d8e..4aab40c 100644
+--- a/apps/web/.env.example
++++ b/apps/web/.env.example
+@@ -74,6 +74,7 @@ SYSTEM_EMAIL_PASS=
+ GOOGLE_CLIENT_ID=
+ GOOGLE_CLIENT_SECRET=
+ GOOGLE_REDIRECT_URI=
++GMAIL_OAUTH_STATE_SECRET=
+ GMAIL_CLIENT_ID=
+ GMAIL_CLIENT_SECRET=
+ GMAIL_REFRESH_TOKEN=
+diff --git a/apps/web/__tests__/security/V11SecurityRepairs.test.js b/apps/web/__tests__/security/V11SecurityRepairs.test.js
+index f671d6c..c2b718c 100644
+--- a/apps/web/__tests__/security/V11SecurityRepairs.test.js
++++ b/apps/web/__tests__/security/V11SecurityRepairs.test.js
+@@ -118,6 +118,76 @@ describe('V11 Bounded Security Repairs', () => {
+       expect(mockAdminFrom).toHaveBeenCalledTimes(1);
+     });
+ 
++    it('rejects exact expiry equality (now === exp), preserves consumed nonces at capacity, and admits at most 1 concurrent duplicate', async () => {
++      const {
++        createGmailOAuthState,
++        createMemoryGmailNonceStore,
++        setGmailNonceStore,
++        GMAIL_OAUTH_STATE_COOKIE,
++      } = await import('@/lib/gmail');
++      const { GET: callbackGET } = await import('@/app/api/integrations/gmail/callback/route');
++
++      expect(() => createMemoryGmailNonceStore({ maxEntries: 0 })).toThrow(RangeError);
++      setGmailNonceStore(createMemoryGmailNonceStore({ maxEntries: 2 }));
++
++      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-a' } }, error: null });
++
++      // Exact expiry equality: now === exp -> rejected
++      const now = 1_700_000_000_000;
++      const issued = createGmailOAuthState('user-a', now - 10 * 60 * 1000);
++      const spyNow = vi.spyOn(Date, 'now').mockReturnValue(now);
++      const resExactExp = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=c1&state=${encodeURIComponent(issued.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: issued.nonce } : undefined) },
++      });
++      spyNow.mockRestore();
++      expect(resExactExp.headers.get('location')).toContain('error=invalid_state');
++      expect(mockGetToken).not.toHaveBeenCalled();
++
++      // Concurrent duplicate consumption -> at most 1 exchange/write
++      const dup = createGmailOAuthState('user-a');
++      const [c1, c2] = await Promise.all([
++        callbackGET({
++          url: `http://localhost:3010/api/integrations/gmail/callback?code=c-dup&state=${encodeURIComponent(dup.state)}`,
++          cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: dup.nonce } : undefined) },
++        }),
++        callbackGET({
++          url: `http://localhost:3010/api/integrations/gmail/callback?code=c-dup&state=${encodeURIComponent(dup.state)}`,
++          cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: dup.nonce } : undefined) },
++        }),
++      ]);
++      const locs = [c1.headers.get('location'), c2.headers.get('location')];
++      expect(locs.filter((l) => l.includes('success=gmail_connected'))).toHaveLength(1);
++      expect(locs.filter((l) => l.includes('error=invalid_state'))).toHaveLength(1);
++      expect(mockGetToken).toHaveBeenCalledTimes(1);
++
++      // Fill second slot, then verify 3rd fails closed AND 1st (dup) is still blocked
++      const s2 = createGmailOAuthState('user-a');
++      const r2 = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=c2&state=${encodeURIComponent(s2.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: s2.nonce } : undefined) },
++      });
++      expect(r2.headers.get('location')).toContain('success=gmail_connected');
++
++      const s3 = createGmailOAuthState('user-a');
++      const r3 = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=c3&state=${encodeURIComponent(s3.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: s3.nonce } : undefined) },
++      });
++      expect(r3.headers.get('location')).toContain('error=invalid_state');
++
++      const rReplayDup = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=c-dup&state=${encodeURIComponent(dup.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: dup.nonce } : undefined) },
++      });
++      expect(rReplayDup.headers.get('location')).toContain('error=invalid_state');
++      expect(mockGetToken).toHaveBeenCalledTimes(2);
++      expect(mockAdminFrom).toHaveBeenCalledTimes(2);
++
++      // Restore default store for subsequent suites
++      setGmailNonceStore(createMemoryGmailNonceStore());
++    });
++
+     it('allowlists callback error query parameter', async () => {
+       const { GET: callbackGET } = await import('@/app/api/integrations/gmail/callback/route');
+       const res = await callbackGET({
+@@ -196,7 +266,9 @@ describe('V11 Bounded Security Repairs', () => {
+     it('sanitizes PostgREST metacharacters, scopes by employer_id, and fails closed on query error', async () => {
+       const { GET: searchGET, sanitizeSearchQuery } = await import('@/app/api/search/route');
+ 
+-      expect(sanitizeSearchQuery('Staff,id.neq.0)or(id.eq.1')).toBe('Staff id neq 0 or id eq 1');
++      expect(sanitizeSearchQuery('Staff,id.neq.0)or(id.eq.1')).toBe('Staff id.neq.0 or id.eq.1');
++      expect(sanitizeSearchQuery("O'Reilly")).toBe("O'Reilly");
++      expect(sanitizeSearchQuery('Node.js')).toBe('Node.js');
+       expect(sanitizeSearchQuery('100%_Engineer')).toBe('100\\%\\_Engineer');
+ 
+       // Unauthenticated -> 401
+@@ -248,7 +320,7 @@ describe('V11 Bounded Security Repairs', () => {
+       });
+       const r200 = await searchGET(new Request('http://localhost:3010/api/search?q=Staff,id.neq.0'));
+       expect(r200.status).toBe(200);
+-      expect(capturedOr).toBe('role_title.ilike.%Staff id neq 0%,company.ilike.%Staff id neq 0%');
++      expect(capturedOr).toBe('role_title.ilike."%Staff id.neq.0%",company.ilike."%Staff id.neq.0%"');
+       expect(capturedEmployerId).toBe('user-a');
+       const body200 = await r200.json();
+       expect(body200.results).toHaveLength(1);
+diff --git a/apps/web/app/api/search/route.js b/apps/web/app/api/search/route.js
+index d9d298c..6f78bba 100644
+--- a/apps/web/app/api/search/route.js
++++ b/apps/web/app/api/search/route.js
+@@ -4,14 +4,15 @@ import { NextResponse } from 'next/server';
+ const MAX_SEARCH_LENGTH = 100;
+ 
+ /**
+- * Strip PostgREST filter-syntax metacharacters and escape LIKE wildcards
+- * so user input cannot alter `.or(...)` boolean/operator structure.
++ * Strip PostgREST filter-syntax delimiters (commas, parens, quotes, backslashes, asterisks)
++ * and escape LIKE wildcards while preserving legitimate punctuation like apostrophes and dots
++ * (e.g. "O'Reilly", "Node.js") for double-quoted `.or(...)` operands.
+  */
+ export function sanitizeSearchQuery(rawQuery) {
+   if (typeof rawQuery !== 'string') return '';
+   const bounded = rawQuery.trim().slice(0, MAX_SEARCH_LENGTH);
+   return bounded
+-    .replace(/[\\,"'().*]/g, ' ')
++    .replace(/[\\,"()*]/g, ' ')
+     .replace(/[%_]/g, (ch) => `\\${ch}`)
+     .replace(/\s+/g, ' ')
+     .trim();
+@@ -20,7 +21,8 @@ export function sanitizeSearchQuery(rawQuery) {
+ export async function GET(request) {
+   try {
+     const { searchParams } = new URL(request.url);
+-    const query = sanitizeSearchQuery(searchParams.get('q'));
++    const rawQuery = searchParams.get('q');
++    const query = sanitizeSearchQuery(rawQuery);
+ 
+     if (!query) {
+       return NextResponse.json({ results: [] });
+@@ -37,7 +39,7 @@ export async function GET(request) {
+     const { data: runs, error: runsError } = await supabase
+       .from('hiring_runs')
+       .select('id, role_title, company, status, created_at')
+-      .or(`role_title.ilike.%${query}%,company.ilike.%${query}%`)
++      .or(`role_title.ilike."%${query}%",company.ilike."%${query}%"`)
+       .eq('employer_id', user.id)
+       .limit(10);
+ 
+@@ -46,7 +48,7 @@ export async function GET(request) {
+       return NextResponse.json({ error: 'Search query failed' }, { status: 500 });
+     }
+ 
+-    // 2. Search Candidate Profiles (governed by RLS)
++    // 2. Search Candidate Profiles (governed by RLS + org scope)
+     const { data: candidates, error: candError } = await supabase
+       .from('candidate_profiles')
+       .select('id, name, bio, location, linkedin_url')
+diff --git a/apps/web/lib/gmail.js b/apps/web/lib/gmail.js
+index 25fcb5f..55075dc 100644
+--- a/apps/web/lib/gmail.js
++++ b/apps/web/lib/gmail.js
+@@ -16,10 +16,56 @@ export const SCOPES = [
+ 
+ export const GMAIL_OAUTH_STATE_COOKIE = 'wbl_gmail_oauth_state';
+ const GMAIL_OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
+-const MAX_TRACKED_NONCES = 2000;
+-const consumedNonces = new Map();
++const DEFAULT_MAX_TRACKED_NONCES = 2000;
++
++export function createMemoryGmailNonceStore({ maxEntries = DEFAULT_MAX_TRACKED_NONCES } = {}) {
++  if (!Number.isInteger(maxEntries) || maxEntries < 1) {
++    throw new RangeError('maxEntries must be a positive integer >= 1');
++  }
++  const nonces = new Map();
++
++  function pruneExpired(now) {
++    for (const [nonce, expiresAt] of nonces.entries()) {
++      if (expiresAt <= now) {
++        nonces.delete(nonce);
++      }
++    }
++  }
++
++  return {
++    consume(nonce, expiresAt, now = Date.now()) {
++      pruneExpired(now);
++      if (nonces.has(nonce)) {
++        return { ok: false, reason: 'replayed_state' };
++      }
++      // Fail closed at capacity: never evict unexpired replay records
++      if (nonces.size >= maxEntries) {
++        return { ok: false, reason: 'replay_store_full' };
++      }
++      nonces.set(nonce, expiresAt);
++      return { ok: true };
++    },
++    size() {
++      return nonces.size;
++    },
++    clear() {
++      nonces.clear();
++    },
++  };
++}
++
++let activeNonceStore = createMemoryGmailNonceStore();
++
++export function setGmailNonceStore(store) {
++  if (!store || typeof store.consume !== 'function') {
++    throw new TypeError('Gmail nonce store must implement consume(nonce, expiresAt, now)');
++  }
++  activeNonceStore = store;
++}
+ 
+ function getOAuthStateSecret() {
++  // Dedicated GMAIL_OAUTH_STATE_SECRET is preferred for key isolation/rotation;
++  // falls back to SUPABASE_SERVICE_ROLE_KEY or GOOGLE_CLIENT_SECRET when unset.
+   const secret = (
+     process.env.GMAIL_OAUTH_STATE_SECRET ||
+     process.env.SUPABASE_SERVICE_ROLE_KEY ||
+@@ -32,14 +78,6 @@ function getOAuthStateSecret() {
+   return secret;
+ }
+ 
+-function pruneExpiredNonces(now) {
+-  for (const [nonce, expiresAt] of consumedNonces.entries()) {
+-    if (expiresAt <= now) {
+-      consumedNonces.delete(nonce);
+-    }
+-  }
+-}
+-
+ export function createGmailOAuthState(userId, now = Date.now()) {
+   if (!userId || typeof userId !== 'string') {
+     throw new Error('Authenticated userId is required for Gmail OAuth state');
+@@ -106,24 +144,21 @@ export function verifyAndConsumeGmailOAuthState({
+   if (nonceBuf.length !== cookieBuf.length || !crypto.timingSafeEqual(nonceBuf, cookieBuf)) {
+     return { ok: false, reason: 'cookie_mismatch' };
+   }
+-  if (now > payload.exp) {
++  if (now >= payload.exp) {
+     return { ok: false, reason: 'expired_state' };
+   }
+ 
+-  pruneExpiredNonces(now);
+-  if (consumedNonces.has(payload.nonce)) {
+-    return { ok: false, reason: 'replayed_state' };
++  const consumed = activeNonceStore.consume(payload.nonce, payload.exp, now);
++  if (!consumed.ok) {
++    return { ok: false, reason: consumed.reason || 'replayed_state' };
+   }
+-  if (consumedNonces.size >= MAX_TRACKED_NONCES) {
+-    const oldestKey = consumedNonces.keys().next().value;
+-    if (oldestKey) consumedNonces.delete(oldestKey);
+-  }
+-  consumedNonces.set(payload.nonce, payload.exp);
+   return { ok: true, sub: payload.sub };
+ }
+ 
+ export function clearConsumedGmailNoncesForTest() {
+-  consumedNonces.clear();
++  if (typeof activeNonceStore.clear === 'function') {
++    activeNonceStore.clear();
++  }
+ }
+ 
+ export function getAuthUrl(state) {
+diff --git a/docs/handoff/START_HERE.md b/docs/handoff/START_HERE.md
+index 8b3e3ca..04a6422 100644
+--- a/docs/handoff/START_HERE.md
++++ b/docs/handoff/START_HERE.md
+@@ -1,11 +1,11 @@
+ # workBYLiNE — Authoritative Engineering Handoff (`START_HERE.md`)
+ 
+-**v10 review candidate — local technical review only.** Current repair & evidence records: [STEP_V10_REPAIRS_REPORT.md](../../STEP_V10_REPAIRS_REPORT.md) and [STEP_V10_REPAIRS_EVIDENCE.md](../../STEP_V10_REPAIRS_EVIDENCE.md).
++**v12 review candidate — local technical review only.** Current repair & evidence records: [STEP_V12_REPAIRS_AND_AUTH0_REPORT.md](../../STEP_V12_REPAIRS_AND_AUTH0_REPORT.md) and [STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md](../../STEP_V12_REPAIRS_AND_AUTH0_EVIDENCE.md).
+ 
+ - **Product / Project:** workBYLiNE (Genome V3 / CareerTwin Hiring Intelligence Platform)
+ - **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)
+-- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v10 is a versioned archive delta beyond historical base commit)
+-- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v9.zip` (`aa0dcde22d5bd2119190ca5bf14e44134b54365f5ba67be665e2449eb6368720`)
++- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v12 is a versioned archive & Git bundle delta beyond historical base commit)
++- **Pinned v10 Baseline:** `WorkByLine_Parth_Local_Review_v10.zip` (`b46d2f354e45c1817623b984d88e9b673c6da814d30f549940afb9e6ab76966e`)
+ 
+ > [!IMPORTANT]
+ > **Status Boundary:** Neither this documentation nor the passing disposable/mocked verification gates declare the system `APPROVED`, `PRODUCTION READY`, or `REAL-COMPANY DATA READY`. All findings remain `IMPLEMENTED PENDING INDEPENDENT REVIEW` outside the bounded v5 review. Deployment and real-provider authorization remain separate.
+diff --git a/evidence/v12/disposable_db_and_search_receipts.txt b/evidence/v12/disposable_db_and_search_receipts.txt
+new file mode 100644
+index 0000000..e99c43a
+--- /dev/null
++++ b/evidence/v12/disposable_db_and_search_receipts.txt
+@@ -0,0 +1,53 @@
++### 1. authenticated SELECT gmail_refresh_token (expect SQLSTATE 42501)
++exit_code=0
++BEGIN
++SET
++ROLLBACK
++ERROR:  permission denied for table profiles
++HINT:  Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO authenticated;
++
++### 2. authenticated SELECT safe columns for Alpha UID (expect 1 row)
++exit_code=0
++BEGIN
++SET
++SET
++                  id                  |            email            |    name     |   role   |  company   | gmail_connected | gmail_email 
++--------------------------------------+-----------------------------+-------------+----------+------------+-----------------+-------------
++ a1111111-1111-4111-d2c0-000000000001 | d2c.alpha.owner@example.com | Alpha Owner | employer | Alpha Corp | f               | 
++(1 row)
++
++ROLLBACK
++
++### 3. authenticated SELECT other user profile (expect 0 rows via RLS)
++exit_code=0
++BEGIN
++SET
++SET
++ id | email 
++----+-------
++(0 rows)
++
++ROLLBACK
++
++### 4. service_role SELECT count(gmail_refresh_token) (expect success)
++exit_code=0
++BEGIN
++SET
++ service_role_count 
++--------------------
++                  0
++(1 row)
++
++ROLLBACK
++
++### 5. PostgREST search query term=O'Reilly
++status=200
++body=[]
++
++### 5. PostgREST search query term=Node.js
++status=200
++body=[]
++
++### 5. PostgREST search query term=Staff id.neq.0
++status=200
++body=[]

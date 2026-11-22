@@ -1,0 +1,69 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+3 0 obj
+<< /Length 576 >>
+stream
+BT
+/F1 10 Tf
+40 740 Td
+14 TL
+(Sarah Connor) Tj
+T* (Principal Infrastructure & Platform Engineer) Tj
+T* (Professional Summary:) Tj
+T* (Proven cloud infrastructure leader with 8+ years architecting resilient container platforms.) Tj
+T* (Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal.) Tj
+T* (Technical Competencies:) Tj
+T* (- Container Orchestration: Kubernetes, Docker, Helm, ArgoCD) Tj
+T* (- Cloud Infrastructure: AWS \(EKS, EC2, VPC, S3\), Terraform, CloudFormation) Tj
+T* (- Programming & Scripting: Go, Python, Bash) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 580 >>
+stream
+BT
+/F1 10 Tf
+40 740 Td
+14 TL
+(Sarah Connor - Page 2) Tj
+T* (Production Experience & Reliability Engineering:) Tj
+T* (- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime.) Tj
+T* (- Enforced automated GitOps delivery pipelines reducing deployment failures by 85%.) Tj
+T* (- Implemented robust observability using Prometheus, Grafana, and OpenTelemetry.) Tj
+T* (Certifications & Education:) Tj
+T* (- Certified Kubernetes Administrator \(CKA\)) Tj
+T* (- AWS Certified Solutions Architect - Professional) Tj
+T* (- B.S. in Computer Science) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Pages /Kids [2 0 R 4 0 R] /Count 2 >>
+endobj
+7 0 obj
+<< /Type /Catalog /Pages 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000205 00000 n 
+0000000832 00000 n 
+0000000958 00000 n 
+0000001589 00000 n 
+0000001652 00000 n 
+trailer
+<< /Size 8 /Root 7 0 R >>
+startxref
+1701
+%%EOF

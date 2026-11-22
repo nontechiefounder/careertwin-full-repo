@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "@electric-sql/pglite-pgvector": "^0.0.12",
+    "esbuild": "0.28.2"
+  },
+  "name": "workbyline-context-repair-verification",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:contracts": "node tests/contracts.mjs",
+    "test:postgres": "node tests/postgres_schema.mjs",
+    "check:overlay": "node tests/check_overlay.mjs",
+    "test:v3-regression": "node tests/v3_regression.mjs"
+  }
+}

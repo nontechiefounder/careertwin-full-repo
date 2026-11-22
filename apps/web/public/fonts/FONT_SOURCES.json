@@ -1,0 +1,60 @@
+{
+  "repository": "https://github.com/vercel/geist-font",
+  "commit": "ef2597cfc42f4797676df105517ccc0a1cfa6569",
+  "files": [
+    {
+      "file": "Geist-Regular.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/Geist/ttf/Geist-Regular.ttf",
+      "sha256": "85a1c6b18a6b0a06dfe9fd4f6d6a5d4979f74ec861eaef4bc7868b5492b8a117",
+      "bytes": 126048
+    },
+    {
+      "file": "Geist-Medium.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/Geist/ttf/Geist-Medium.ttf",
+      "sha256": "3a3b36f0d0b981f4857f7f00eeef4a5ee123605575d362ab31ee7c19e3d11f2f",
+      "bytes": 127660
+    },
+    {
+      "file": "Geist-SemiBold.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/Geist/ttf/Geist-SemiBold.ttf",
+      "sha256": "b9f52322d6d20a7ff1e7fe1310ff12ec851aebb83d24f8b4f1d4149298f489b2",
+      "bytes": 127872
+    },
+    {
+      "file": "Geist-Bold.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/Geist/ttf/Geist-Bold.ttf",
+      "sha256": "3f21f02b827228c3f0c5fb230d027b5a1a263013618e8052bc1b3c5692812c88",
+      "bytes": 128824
+    },
+    {
+      "file": "GeistMono-Regular.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/GeistMono/ttf/GeistMono-Regular.ttf",
+      "sha256": "5a0de4b3d54ab272f76a1d8c84b7fb24c67bbec6591d5300e61c7bc10094b6c8",
+      "bytes": 149284
+    },
+    {
+      "file": "GeistPixel-Square.ttf",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/GeistPixel/ttf/GeistPixel-Square.ttf",
+      "sha256": "c1fbf7316997c1749857708998958e8ca0343416b3f8d2c7156d634a9520e997",
+      "bytes": 94764
+    },
+    {
+      "file": "GeistPixel-Square.woff2",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/fonts/GeistPixel/webfonts/GeistPixel-Square.woff2",
+      "sha256": "80887afede26bc861e92dbfbb17a775d769e46e7c84f336b1c9f17959f60606d",
+      "bytes": 28540
+    },
+    {
+      "file": "OFL.txt",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/OFL.txt",
+      "sha256": "021caa749f89fecd7c2e40a50499de29e84d2bc19251659b47d499c2fbfffc17",
+      "bytes": 4384
+    },
+    {
+      "file": "LICENSE.txt",
+      "source": "https://raw.githubusercontent.com/vercel/geist-font/ef2597cfc42f4797676df105517ccc0a1cfa6569/LICENSE.txt",
+      "sha256": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
+      "bytes": 4368
+    }
+  ]
+}

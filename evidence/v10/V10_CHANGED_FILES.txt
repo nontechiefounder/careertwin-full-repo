@@ -1,0 +1,8 @@
+PARTH_HANDOFF.md
+STEP_V10_REPAIRS_EVIDENCE.md
+STEP_V10_REPAIRS_REPORT.md
+apps/web/__tests__/pages/AuthPage.test.jsx
+apps/web/app/api/auth/resend-verification/route.js
+docs/handoff/DATA_AND_API_CONTRACTS.md
+docs/handoff/PARTH_HANDOFF.md
+docs/handoff/START_HERE.md

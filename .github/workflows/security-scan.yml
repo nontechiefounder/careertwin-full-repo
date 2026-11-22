@@ -1,0 +1,194 @@
+name: Executable Security, Secret & Dependency Scan (Pinned 7b7a3f76)
+on:
+  pull_request:
+    branches: ["review/v12-review-base"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PINNED_CANDIDATE_SHA: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+  SEMGREP_VERSION: "1.102.0"
+  GITLEAKS_VERSION: "8.24.2"
+  PIP_AUDIT_VERSION: "2.8.0"
+
+jobs:
+  sast:
+    name: SAST (Semgrep) on Pinned Candidate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+      - name: Assert Immutable Candidate SHA
+        run: test "$(git rev-parse HEAD)" = "${PINNED_CANDIDATE_SHA}"
+      - name: Run Pinned Semgrep (--error on findings)
+        id: semgrep
+        continue-on-error: true
+        run: |
+          python3 -m pip install --quiet "semgrep==${SEMGREP_VERSION}"
+          {
+            echo "candidate_sha=$(git rev-parse HEAD)"
+            echo "semgrep_version=$(semgrep --version)"
+            echo "rules=p/default p/owasp-top-ten p/typescript p/python"
+            echo "exclusions=node_modules,.next,logs"
+          } | tee semgrep-meta.txt
+          semgrep scan --error \
+            --config p/default --config p/owasp-top-ten --config p/typescript --config p/python \
+            --exclude node_modules --exclude .next --exclude logs \
+            --json --output semgrep-report.json .
+      - name: Upload Semgrep Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-semgrep-7b7a3f76
+          path: |
+            semgrep-meta.txt
+            semgrep-report.json
+      - name: Enforce Semgrep Findings Gate
+        if: steps.semgrep.outcome != 'success'
+        run: exit 1
+
+  secrets-git-history:
+    name: Secret Scan (Git History, Zero Exclusions)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+          fetch-depth: 0
+      - name: Assert Immutable Candidate SHA
+        run: test "$(git rev-parse HEAD)" = "${PINNED_CANDIDATE_SHA}"
+      - name: Install & Run Pinned Gitleaks (Git History)
+        id: gitleaks_git
+        continue-on-error: true
+        run: |
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          {
+            echo "candidate_sha=$(git rev-parse HEAD)"
+            echo "gitleaks_version=$(./gitleaks version)"
+            echo "scope=git_history_all_commits_zero_exclusions"
+          } | tee gitleaks-history-meta.txt
+          ./gitleaks git --redact --report-format json --report-path gitleaks-history.json .
+      - name: Upload Git-History Secret Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: secrets-git-history-7b7a3f76
+          path: |
+            gitleaks-history-meta.txt
+            gitleaks-history.json
+      - name: Enforce Git-History Secret Exit
+        if: steps.gitleaks_git.outcome != 'success'
+        run: exit 1
+
+  secrets-working-tree:
+    name: Secret Scan (Working Tree, Zero Exclusions)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+      - name: Assert Immutable Candidate SHA
+        run: test "$(git rev-parse HEAD)" = "${PINNED_CANDIDATE_SHA}"
+      - name: Install & Run Pinned Gitleaks (Working Tree)
+        id: gitleaks_fs
+        continue-on-error: true
+        run: |
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          {
+            echo "candidate_sha=$(git rev-parse HEAD)"
+            echo "gitleaks_version=$(./gitleaks version)"
+            echo "scope=working_tree_zero_exclusions"
+          } | tee gitleaks-fs-meta.txt
+          ./gitleaks dir --redact --report-format json --report-path gitleaks-working-tree.json .
+      - name: Upload Working-Tree Secret Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: secrets-working-tree-7b7a3f76
+          path: |
+            gitleaks-fs-meta.txt
+            gitleaks-working-tree.json
+      - name: Enforce Working-Tree Secret Exit
+        if: steps.gitleaks_fs.outcome != 'success'
+        run: exit 1
+
+  deps-node:
+    name: Node Dependency Audit (Root & Web)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+      - name: Assert Immutable Candidate SHA
+        run: test "$(git rev-parse HEAD)" = "${PINNED_CANDIDATE_SHA}"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Audit Root & Web Lockfiles
+        id: npm_audit
+        continue-on-error: true
+        run: |
+          {
+            echo "candidate_sha=$(git rev-parse HEAD)"
+            echo "node_version=$(node -v)"
+            echo "npm_version=$(npm -v)"
+          } | tee node-audit-meta.txt
+          ROOT_RC=0
+          WEB_RC=0
+          npm audit --json > root-npm-audit.json || ROOT_RC=$?
+          npm --prefix apps/web audit --json > web-npm-audit.json || WEB_RC=$?
+          exit $(( ROOT_RC | WEB_RC ))
+      - name: Upload Node Audit Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deps-node-7b7a3f76
+          path: |
+            node-audit-meta.txt
+            root-npm-audit.json
+            web-npm-audit.json
+      - name: Enforce Node Audit Exit
+        if: steps.npm_audit.outcome != 'success'
+        run: exit 1
+
+  deps-python:
+    name: Python Dependency Audit (Deployed Manifests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "7b7a3f76d522c22a6649f4f5666144320a8d04cb"
+      - name: Assert Immutable Candidate SHA
+        run: test "$(git rev-parse HEAD)" = "${PINNED_CANDIDATE_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Audit Pinned Python Requirements
+        id: pip_audit
+        continue-on-error: true
+        run: |
+          python3 -m pip install --quiet "pip-audit==${PIP_AUDIT_VERSION}"
+          {
+            echo "candidate_sha=$(git rev-parse HEAD)"
+            echo "pip_audit_version=$(pip-audit --version)"
+          } | tee pip-audit-meta.txt
+          RC=0
+          for req in requirements-lock.txt requirements.txt requirements-foundation.txt requirements-expansion.txt supplied_snapshot/engine/requirements.txt supplied_snapshot/engine/requirements-bge.txt; do
+            OUT="audit-$(echo "$req" | tr '/' '_').json"
+            pip-audit -r "$req" -f json -o "$OUT" || RC=1
+          done
+          exit $RC
+      - name: Upload Python Audit Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deps-python-7b7a3f76
+          path: |
+            pip-audit-meta.txt
+            audit-*.json
+      - name: Enforce Python Audit Exit
+        if: steps.pip_audit.outcome != 'success'
+        run: exit 1

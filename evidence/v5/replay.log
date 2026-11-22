@@ -1,0 +1,39 @@
+PASS helper and loopback: A
+PASS helper and loopback: B
+PASS helper and loopback: C
+PASS helper and loopback: positive
+PASS helper and loopback: refusal
+PASS helper and loopback: ownership
+PASS helper and loopback: deadline
+PASS helper and loopback: units
+PASS helper and loopback: short-claim
+PASS helper and loopback: no-evidence
+PASS helper and loopback: refusal-with-claim
+PASS helper and loopback: exact-negative
+PASS helper and loopback: negative-to-positive
+PASS helper and loopback: written-number
+PASS helper and loopback: currency
+PASS helper and loopback: refusal-tail
+PASS helper and loopback: unrelated
+PASS no provider request: gate off
+PASS no provider request: gate missing
+PASS no provider request: OpenAI strict
+PASS no provider request: empty key
+PASS no provider request: strict without selection
+PASS no provider request: other preferred
+PASS no named source
+PASS no version
+PASS pending
+PASS oversized
+PASS denied context
+PASS denied membership
+PASS unauthenticated
+PASS provider unavailable
+PASS ambiguous same filename
+PASS explicit span disambiguates
+PASS preserve qualifying sentence
+PASS detail: same revision
+PASS detail: different revision
+PASS detail: different source
+PASS detail: withdrawn detail
+Cases passed: 38 ; external requests: 0 (provider transport replaced).

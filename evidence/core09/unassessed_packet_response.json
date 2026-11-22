@@ -1,0 +1,106 @@
+{
+  "gates": {
+    "gatePass": false,
+    "disqualified": false,
+    "failedMustHaves": [
+      "Distributed Systems",
+      "Kubernetes",
+      "Go"
+    ],
+    "disqualificationReasons": []
+  },
+  "claims": [],
+  "concerns": [
+    "Distributed Systems",
+    "Kubernetes",
+    "Go"
+  ],
+  "filename": null,
+  "fit_score": null,
+  "ledger_id": "12fc1725-47d1-4c6d-be46-506538d365ae",
+  "strengths": [],
+  "claim_edges": [],
+  "file_sha256": null,
+  "parser_name": null,
+  "why_matched": "Candidate evaluated against role ProofContract: Staff Cloud & Kubernetes Platform Architect.",
+  "why_sourced": "Sourced based on verified criteria for Staff Cloud & Kubernetes Platform Architect.",
+  "claim_ledger": [],
+  "evaluated_at": "2026-10-13T00:52:05.750Z",
+  "role_version": "1.0.0",
+  "spec_version": "1.0.0-kernel",
+  "evidence_refs": [],
+  "missing_proof": [
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Distributed Systems: \"Describe a specific production incident where you implemented Distributed Systems.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Distributed Systems\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.",
+      "unproven_requirement": "Distributed Systems"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Kubernetes: \"Describe a specific production incident where you implemented Kubernetes.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Kubernetes\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.",
+      "unproven_requirement": "Kubernetes"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Go: \"Describe a specific production incident where you implemented Go.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Go\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.",
+      "unproven_requirement": "Go"
+    }
+  ],
+  "rubric_version": "1.0.0",
+  "screen_summary": "Candidate evaluated as INSUFFICIENT EVIDENCE with Proof Strength 0%.",
+  "ledger_revision": 1,
+  "what_is_inferred": [],
+  "what_is_verified": [],
+  "decision_blockers": [
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Distributed Systems: \"Describe a specific production incident where you implemented Distributed Systems.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Distributed Systems\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.",
+      "unproven_requirement": "Distributed Systems"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Kubernetes: \"Describe a specific production incident where you implemented Kubernetes.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Kubernetes\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.",
+      "unproven_requirement": "Kubernetes"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Go: \"Describe a specific production incident where you implemented Go.\"",
+      "why_insufficient": "Not mentioned in candidate document. No verified evidence ref provided for requirement \"Go\".",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.",
+      "unproven_requirement": "Go"
+    }
+  ],
+  "evidence_revision": "rev-1",
+  "evaluation_metrics": {
+    "entropy": 2,
+    "gate_pass": false,
+    "uncertainty": 0.65,
+    "blockers_count": 3,
+    "proof_coverage": 0,
+    "proof_strength": 0,
+    "role_fit_label": "Insufficient Evidence",
+    "decision_readiness": "INSUFFICIENT EVIDENCE",
+    "proof_strength_label": "None",
+    "role_fit_distribution": {
+      "p_low": 0.25,
+      "p_strong": 0.25,
+      "p_limited": 0.25,
+      "p_moderate": 0.25
+    },
+    "must_have_gates_passed": false
+  },
+  "evaluation_version": "1.0.0-kernel",
+  "strongest_evidence": [],
+  "evaluation_timestamp": "2026-10-13T00:52:05.750Z",
+  "candidate_document_id": null,
+  "recommended_next_step": "Request Minimum Missing Proof Artifacts",
+  "extracted_capabilities": [],
+  "normalized_text_sha256": null,
+  "what_remains_uncertain": [],
+  "approved_rubric_version": "1.0.0",
+  "claim_ledger_persisted_at": "2026-10-13T00:52:05.75134+00:00"
+}

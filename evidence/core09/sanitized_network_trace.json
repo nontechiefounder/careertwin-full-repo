@@ -1,0 +1,2531 @@
+[
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:34.940Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:34.944Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/auth"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:34.946Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q=",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "connection": "keep-alive"
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:34.950Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:36.102Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/auth/signin",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{\"email\":\"synthetic.employer.alpha@example.invalid\",\"password\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:36.213Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:54331/auth/v1/user",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "x-supabase-api-version": "2024-01-01",
+      "referer": "http://localhost:3004/",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "x-client-info": "supabase-js-web/2.100.1",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "apikey": "[REDACTED_CREDENTIAL]"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:36.213Z",
+    "url": "http://localhost:3004/api/auth/signin",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:36 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"user\":{\"id\":\"00000000-0000-4000-a000-000000000001\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:51:36.200496669Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:51:36.203423Z\",\"is_anonymous\":false},\"session\":{\"access_token\":\"[REDACTED_CREDENTIAL]\",\"token_type\":\"[REDACTED_CREDENTIAL]\",\"expires_in\":3600,\"expires_at\":1791856296,\"refresh_token\":\"[REDACTED_CREDENTIAL]\",\"user\":{\"id\":\"00000000-0000-4000-a000-000000000001\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:51:36.200496669Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:51:36.203423Z\",\"is_anonymous\":false},\"weak_password\":\"[REDACTED_CREDENTIAL]\"}}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:36.244Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:36.244Z",
+    "url": "http://127.0.0.1:54331/auth/v1/user",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "access-control-expose-headers": "X-Total-Count, Link, X-Supabase-Api-Version",
+      "connection": "keep-alive",
+      "access-control-allow-credentials": "true",
+      "via": "kong/2.8.1",
+      "x-kong-upstream-latency": "23",
+      "access-control-allow-origin": "*",
+      "content-length": "496",
+      "date": "Tue, 13 Oct 2026 00:51:36 GMT",
+      "x-kong-proxy-latency": "1",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:51:36.200496Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:51:36.203423Z\",\"is_anonymous\":false}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:36.286Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:36 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:36.326Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/analytics",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:36.451Z",
+    "url": "http://localhost:3004/api/employer/analytics",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:36 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"summary\":{\"active_roles\":180,\"total_candidates\":182,\"total_shortlisted\":37,\"screens_completed\":0,\"packets_generated\":152},\"stage_counts\":{\"new\":67,\"sourced\":39,\"hold\":39,\"shortlisted\":37},\"runs\":[{\"id\":\"82864089-f6b6-4cdb-8219-ceb25aa6b34d\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"Staff Kubernetes Architect leading distributed systems\",\"must_haves\":[\"Kubernetes\",\"Distributed Systems\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:25.848+00:00\",\"updated_at\":\"2026-10-13T00:51:25.858766+00:00\",\"company\":null,\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":{\"approved_at\":\"2026-10-13T00:51:25.931Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"role_summary\":\"Staff Kubernetes Architect leading distributed systems...\",\"disqualifiers\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"explicit_requirements\":[\"Kubernetes\",\"Distributed Systems\",\"Go\"],\"inferred_requirements\":[],\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"candidates_count\":2,\"shortlisted_count\":1,\"screens_completed\":0},{\"id\":\"86638582-96af-416d-9c13-36472adb7075\",\"employer_id\":null,\"role_title\":\"Rollback Test Role\",\"job_description\":null,\"must_haves\":null,\"nice_to_haves\":null,\"disqualifiers\":null,\"status\":\"active\",\"created_at\":\"2026-10-10T14:54:31.393282+00:00\",\"updated_at\":\"2026-10-10T14:54:31.393282+00:00\",\"company\":null,\"company_stage\":null,\"hiring_notes\":null,\"brief_json\":{\"approved_at\":\"2026-10-10T14:54:31.393282+00:00\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"contract_approved\":true,\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":null,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"candidates_count\":1,\"shortlisted_count\":0,\"screens_completed\":0},{\"id\":\"03d1d560-a45e-483a-a702-524c20bae23b\",\"employer_id\":null,\"role_title\":\"Missing Meta Role\",\"job_description\":null,\"must_haves\":null,\"nice_to_haves\":null,\"disqualifiers\":null,\"status\":\"active\",\"created_at\":\"2026-10-10T14:54:30.327068+00:00\",...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:37.369Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/intake",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:37.369Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/intake",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:37.464Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:37 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:37.529Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:37 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:37.568Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/intake",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:37.569Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/intake"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:37.570Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:37.576Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:37 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:39.275Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/hiring-runs",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/intake",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json"
+    },
+    "postData": "{\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"company\":\"Alpha Corp\",\"location\":\"San Francisco, CA / Remote\",\"company_stage\":\"\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"hiring_notes\":\"\",\"status\":\"active\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:39.338Z",
+    "url": "http://localhost:3004/api/employer/hiring-runs",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:39 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":null,\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"hiring_run_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:39.360Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:39.403Z",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:39 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":null,\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\"},\"brief\":{\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"disqualifiers\":[],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"missing_info\":[]}}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:40.459Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7/approve",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:40.532Z",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7/approve",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:40 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"success\":true,\"contract_approved\":true,\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_rubric_version\":\"1.0.0\",\"hiring_run_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:40.532Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:40.569Z",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:40 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":{\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"disqualifiers\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\"},\"brief\":{\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"disqualifiers\":[],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"approved_rubric_version\":\"1.0.0\"}}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.100Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.181Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.181Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.181Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:42 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.218Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:42 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.220Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.254Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:42 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.265Z",
+    "url": "http://localhost:3004/api/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:42 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":{\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"disqualifiers\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\"},\"brief\":{\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"disqualifiers\":[],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"approved_rubric_version\":\"1.0.0\"}}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.300Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:42.301Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/brief/8cc72e65-72ae-470f-8519-f398caf521e7"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.301Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:42.303Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:42 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:43.882Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:43.882Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:43.929Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:43.929Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:43 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:44.006Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:44 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:44.033Z",
+    "url": "http://localhost:3004/api/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:44 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":{\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"disqualifiers\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\"},\"extractions\":[],\"counts\":{\"cohort_candidates\":0,\"documents_received\":0,\"extractions_completed\":0,\"packets_compiled\":0,\"evaluations_completed\":0,\"evidence_ready\":0,\"human_review_required\":0,\"needs_proof\":0,\"insufficient_evidence\":0,\"pending_evaluation\":0},\"total_scanned\":0}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:44.079Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:44.080Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:44.080Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:44.081Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:44 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:45.629Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/candidate-documents/upload",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryK3MFBtSkXbUhleXH"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:45.829Z",
+    "url": "http://localhost:3004/api/employer/candidate-documents/upload",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:45 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"success\":true,\"document\":{\"id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"hiring_run_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"normalized_text\":\"Sarah Connor\\nPrincipal Infrastructure & Platform Engineer\\nProfessional Summary:\\nProven cloud infrastructure leader with 8+ years architecting resilient container platforms.\\nExtensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal.\\nTechnical Competencies:\\n- Container Orchestration: Kubernetes, Docker, Helm, ArgoCD\\n- Cloud Infrastructure: AWS (EKS, EC2, VPC, S3), Terraform, CloudFormation\\n- Programming & Scripting: Go, Python, Bash\\nSarah Connor - Page 2\\nProduction Experience & Reliability Engineering:\\n- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime.\\n- Enforced automated GitOps delivery pipelines reducing deployment failures by 85%.\\n- Implemented robust observability using Prometheus, Grafana, and OpenTelemetry.\\nCertifications & Education:\\n- Certified Kubernetes Administrator (CKA)\\n- AWS Certified Solutions Architect - Professional\\n- B.S. in Computer Science\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"mime_type\":\"application/pdf\",\"byte_size\":1925,\"parser_name\":\"pdf-parse@2.4.5\",\"row_index\":null,\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"storage_path\":\"00000000-0000-4000-c000-000000000001/8cc72e65-72ae-470f-8519-f398caf521e7/8324736c-5104-4b1a-b929-b2294d4da333/sarah_connor_lead_infra.pdf\",\"parser_metadata\":{\"parsed_at\":\"2026-10-13T00:51:45.818Z\",\"char_count\":951,\"page_count\":2,\"page_spans\":[{\"end_char\":473,\"start_char\":0,\"page_number\":1},{\"end_char\":951,\"start_char\":474,\"page_number\":2}],\"total_pages\":2,\"parser_version\":\"pdf-parse@2.4.5\"}},\"candidate_id\":\"301ec212-380a-4597-a856-241bc42db743\",\"profile_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"extraction_id\":\"301ec212-380a-4597-a856-241bc42db743\",\"storage_path\":\"00000000-0000-4000-c000-000000000001/8cc72e65-72ae-470f-8519-f398caf521e7/8324736c-5104-4b1a-b929-b2294d4da333/sarah_connor_lead_infra.pdf\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:45.829Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:45.894Z",
+    "url": "http://localhost:3004/api/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:45 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"employer_id\":\"00000000-0000-4000-a000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\",\"job_description\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices.\",\"must_haves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"nice_to_haves\":[],\"disqualifiers\":[],\"status\":\"active\",\"created_at\":\"2026-10-13T00:51:39.327+00:00\",\"updated_at\":\"2026-10-13T00:51:39.328696+00:00\",\"company\":\"Alpha Corp\",\"company_stage\":null,\"hiring_notes\":\"\",\"brief_json\":{\"approved_at\":\"2026-10-13T00:51:40.519Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"missing_info\":[],\"role_summary\":\"We are looking for a Staff Cloud & Kubernetes Platform Architect to lead multi-cluster Kubernetes deployments, distributed systems, and Go microservices....\",\"disqualifiers\":[],\"contract_status\":\"approved\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"verification_focus\":[\"Verified professional history as a Staff Cloud & Kubernetes Platform Architect\",\"Technical interview screening results\",\"Past project impact verification\"],\"screening_dimensions\":[\"Technical Depth\",\"Core Experience\",\"Communication\",\"Culture Fit\"],\"explicit_requirements\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"inferred_requirements\":[],\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":\"San Francisco, CA / Remote\",\"org_id\":\"00000000-0000-4000-c000-000000000001\"},\"extractions\":[{\"id\":\"301ec212-380a-4597-a856-241bc42db743\",\"hiring_run_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"fit_score\":null,\"status\":\"new\",\"highlights\":null,\"created_at\":\"2026-10-13T00:51:45.813633+00:00\",\"fit_summary\":null,\"decision_packet\":null,\"candidate_profiles\":{\"id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"bio\":\"Principal Infrastructure & Platform Engineer\",\"name\":\"Sarah Connor Lead Infra\",\"email\":null,\"source\":null,\"location\":\"Parsed from Resume\",\"created_at\":\"2026-10-13T00:51:45.793665+00:00\",\"github_url\":null,\"updated_at\":\"2026-10-13T00:51:45.793665+00:00\",\"resume_link\":null,\"target_roles\":null,\"search_urgency\":null,\"compensation_max\":null,\"compensation_min\":null}}],\"counts\":{\"cohort_candidates\":1,\"documents_received\":1,\"extractions_completed\":1,\"packets_compiled\":0,\"evaluations_completed\":0,\"evidence_ready\":0,\"human_review_required\":0,\"needs_proof\":0,\"insufficient_evidence\":0,\"pending_eval...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:48.901Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/candidate-documents/8324736c-5104-4b1a-b929-b2294d4da333/download",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/shortlist/8cc72e65-72ae-470f-8519-f398caf521e7",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:48.977Z",
+    "url": "http://localhost:3004/api/employer/candidate-documents/8324736c-5104-4b1a-b929-b2294d4da333/download",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "x-file-sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "connection": "keep-alive",
+      "x-parser-name": "pdf-parse@2.4.5",
+      "content-length": "1925",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:48 GMT",
+      "content-disposition": "inline; filename=\"sarah_connor_lead_infra.pdf\"",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "content-type": "application/pdf"
+    },
+    "body": "%PDF-1.4\n1 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n2 0 obj\n<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>\nendobj\n3 0 obj\n<< /Length 576 >>\nstream\nBT\n/F1 10 Tf\n40 740 Td\n14 TL\n(Sarah Connor) Tj\nT* (Principal Infrastructure & Platform Engineer) Tj\nT* (Professional Summary:) Tj\nT* (Proven cloud infrastructure leader with 8+ years architecting resilient container platforms.) Tj\nT* (Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal.) Tj\nT* (Technical Competencies:) Tj\nT* (- Container Orchestration: Kubernetes, Docker, Helm, ArgoCD) Tj\nT* (- Cloud Infrastructure: AWS \\(EKS, EC2, VPC, S3\\), Terraform, CloudFormation) Tj\nT* (- Programming & Scripting: Go, Python, Bash) Tj\nET\nendstream\nendobj\n4 0 obj\n<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 1 0 R >> >> >>\nendobj\n5 0 obj\n<< /Length 580 >>\nstream\nBT\n/F1 10 Tf\n40 740 Td\n14 TL\n(Sarah Connor - Page 2) Tj\nT* (Production Experience & Reliability Engineering:) Tj\nT* (- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime.) Tj\nT* (- Enforced automated GitOps delivery pipelines reducing deployment failures by 85%.) Tj\nT* (- Implemented robust observability using Prometheus, Grafana, and OpenTelemetry.) Tj\nT* (Certifications & Education:) Tj\nT* (- Certified Kubernetes Administrator \\(CKA\\)) Tj\nT* (- AWS Certified Solutions Architect - Professional) Tj\nT* (- B.S. in Computer Science) Tj\nET\nendstream\nendobj\n6 0 obj\n<< /Type /Pages /Kids [2 0 R 4 0 R] /Count 2 >>\nendobj\n7 0 obj\n<< /Type /Catalog /Pages 6 0 R >>\nendobj\nxref\n0 8\n0000000000 65535 f \n0000000009 00000 n \n0000000079 00000 n \n0000000205 00000 n \n0000000832 00000 n \n0000000958 00000 n \n0000001589 00000 n \n0000001652 00000 n \ntrailer\n<< /Size 8 /Root 7 0 R >>\nstartxref\n1701\n%%EOF\n"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:49.037Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:49.038Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:49.077Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:49 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:49.078Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852709075",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:49.110Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:49 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:49.137Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852709075",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:49 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":null,\"extraction\":{\"id\":\"301ec212-380a-4597-a856-241bc42db743\",\"hiring_run_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"fit_score\":null,\"status\":\"new\",\"highlights\":null,\"created_at\":\"2026-10-13T00:51:45.813633+00:00\",\"fit_summary\":null,\"decision_packet\":null,\"candidate_profiles\":{\"id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"bio\":\"Principal Infrastructure & Platform Engineer\",\"name\":\"Sarah Connor Lead Infra\",\"email\":null,\"source\":null,\"location\":\"Parsed from Resume\",\"created_at\":\"2026-10-13T00:51:45.793665+00:00\",\"github_url\":null,\"updated_at\":\"2026-10-13T00:51:45.793665+00:00\",\"resume_link\":null,\"target_roles\":null,\"search_urgency\":null,\"compensation_max\":null,\"compensation_min\":null},\"hiring_runs\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\"},\"decision_rationale\":null,\"candidate_name\":\"Sarah Connor Lead Infra\",\"current_role\":\"Principal Infrastructure & Platform Engineer\",\"location\":\"Parsed from Resume\",\"skills\":[]},\"hiring_run\":{\"id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"role_title\":\"Staff Cloud & Kubernetes Platform Architect\"},\"emails\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:49.240Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:49.240Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:49.241Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:49.244Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:49 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:51.752Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:51.915Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:51 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"locator\":\"P...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:51.952Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:51.952Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:52.055Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:52 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:52.058Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852712053",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:52.109Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:52 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:52.153Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:52.153Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:52.153Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:52.155Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:52 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:52.195Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852712053",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:52 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"l...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:55.975Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json"
+    },
+    "postData": "{\"action\":\"hold\",\"rationale\":\"Candidate demonstrates verified multi-cluster Kubernetes production mastery. Hold pending final compensation and scheduling review.\",\"expected_ledger_revision\":1,\"expected_rubric_version\":\"1.0.0\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:56.064Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:56 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"success\":true,\"status\":\"hold\",\"decision_packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kuber...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:56.064Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852716058",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:56.126Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852716058",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:56 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"l...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:58.014Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:58.015Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:58.107Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:58 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:58.108Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852718106",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:58.143Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:58 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:58.173Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852718106",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:58 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"l...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:58.215Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:58.215Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:58.215Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:51:58.217Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:51:58 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:51:59.890Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.105Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:00 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"locator\":\"P...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:00.125Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:00.125Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.161Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:00 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:00.163Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852720160",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.191Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:00 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.218Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852720160",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:00 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"l...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:00.324Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:00.324Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.324Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:00.326Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:00 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:03.560Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json"
+    },
+    "postData": "{\"action\":\"advance\",\"rationale\":\"Approved for onsite technical interview after reviewing updated revision 2 ledger.\",\"expected_ledger_revision\":2,\"expected_rubric_version\":\"1.0.0\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:03.673Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:03 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"success\":true,\"status\":\"shortlisted\",\"decision_packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating productio...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:03.675Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852723668",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:03.735Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852723668",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:03 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[{\"id\":\"claim_8324736c_mh_1_545\",\"status\":\"INFERRED\",\"claim_text\":\"Distributed Systems asserted in resume experience: \\\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\\\" (candidate assertion, offset 545-636)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_545_636\",\"page\":2,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\",\"locator\":\"Page 2 (Chars 545-636)\",\"role_id\":\"8cc72e65-72ae-470f-8519-f398caf521e7\",\"version\":\"1.0.0\",\"filename\":\"sarah_connor_lead_infra.pdf\",\"file_hash\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"file_type\":\"pdf\",\"mime_type\":\"application/pdf\",\"created_at\":\"2026-10-13T00:51:45.820708+00:00\",\"document_id\":\"8324736c-5104-4b1a-b929-b2294d4da333\",\"file_sha256\":\"90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f\",\"parser_name\":\"pdf-parse@2.4.5\",\"source_tier\":\"self_claim\",\"source_type\":\"pdf\",\"candidate_id\":\"349ae0b3-8eb3-431f-8e2c-2130b4df3f25\",\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"source_offset\":{\"page\":2,\"end_char\":636,\"char_count\":91,\"end_offset\":636,\"start_char\":545,\"excerpt_hash\":\"0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5\",\"start_offset\":545},\"parser_version\":\"pdf-parse@2.4.5\",\"normalized_text_sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\"}],\"is_conflicting\":false,\"requirement_id\":\"mh_1\",\"evidence_classification\":\"self_reported\"},{\"id\":\"claim_8324736c_mh_2_173\",\"status\":\"INFERRED\",\"claim_text\":\"Kubernetes asserted in resume experience: \\\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\\\" (candidate assertion, offset 173-269)\",\"confidence\":0.6,\"is_inferred\":true,\"source_type\":\"resume_assertion\",\"evidence_refs\":[{\"id\":\"ev_8324736c_173_269\",\"page\":1,\"org_id\":\"00000000-0000-4000-c000-000000000001\",\"parser\":\"pdf-parse@2.4.5\",\"sha256\":\"ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5\",\"excerpt\":\"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\",\"l...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.685Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/d8b97f35-8841-4516-abaa-900cf51b2362/generate",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.762Z",
+    "url": "http://localhost:3004/api/employer/packets/d8b97f35-8841-4516-abaa-900cf51b2362/generate",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:05 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[],\"concerns\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"filename\":null,\"fit_score\":null,\"ledger_id\":\"12fc1725-47d1-4c6d-be46-506538d365ae\",\"strengths\":[],\"claim_edges\":[],\"file_sha256\":null,\"parser_name\":null,\"why_matched\":\"Candidate evaluated against role ProofContract: Staff Cloud & Kubernetes Platform Architect.\",\"why_sourced\":\"Sourced based on verified criteria for Staff Cloud & Kubernetes Platform Architect.\",\"claim_ledger\":[],\"evaluated_at\":\"2026-10-13T00:52:05.750Z\",\"role_version\":\"1.0.0\",\"spec_version\":\"1.0.0-kernel\",\"evidence_refs\":[],\"missing_proof\":[{\"interview_probe\":\"Probe candidate on real production scenarios handling Distributed Systems: \\\"Describe a specific production incident where you implemented Distributed Systems.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Distributed Systems\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.\",\"unproven_requirement\":\"Distributed Systems\"},{\"interview_probe\":\"Probe candidate on real production scenarios handling Kubernetes: \\\"Describe a specific production incident where you implemented Kubernetes.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Kubernetes\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.\",\"unproven_requirement\":\"Kubernetes\"},{\"interview_probe\":\"Probe candidate on real production scenarios handling Go: \\\"Describe a specific production incident where you implemented Go.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Go\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.\",\"unproven_requirement\":\"Go\"}],\"rubric_version\":\"1.0.0\",\"screen_summary\":\"Candidate evaluated as INSUFFICIENT EVIDENCE with Proof Strength 0%.\",\"ledger_revision\":1,\"what_is_inferred\":[],\"what_is_verified\":[],\"decision_blockers\":[{\"interview_probe\":\"Probe candidate on real production scenarios handling Distributed Systems: \\\"Describe a specific production incident where you implemented Distributed Systems.\\\"\",\"why_insufficient\":\"Not mentioned in ca...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.795Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/d8b97f35-8841-4516-abaa-900cf51b2362",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.795Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/d8b97f35-8841-4516-abaa-900cf51b2362",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.845Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:05 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.845Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/d8b97f35-8841-4516-abaa-900cf51b2362?t=1791852725843",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/d8b97f35-8841-4516-abaa-900cf51b2362",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.897Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:05 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000001\",\"email\":\"synthetic.employer.alpha@example.invalid\",\"name\":\"Synthetic Employer Alpha Owner\",\"role\":\"employer\",\"company\":\"Alpha Corp\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.929Z",
+    "url": "http://localhost:3004/api/employer/packets/d8b97f35-8841-4516-abaa-900cf51b2362?t=1791852725843",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:05 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"packet\":{\"gates\":{\"gatePass\":false,\"disqualified\":false,\"failedMustHaves\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"disqualificationReasons\":[]},\"claims\":[],\"concerns\":[\"Distributed Systems\",\"Kubernetes\",\"Go\"],\"filename\":null,\"fit_score\":null,\"ledger_id\":\"12fc1725-47d1-4c6d-be46-506538d365ae\",\"strengths\":[],\"claim_edges\":[],\"file_sha256\":null,\"parser_name\":null,\"why_matched\":\"Candidate evaluated against role ProofContract: Staff Cloud & Kubernetes Platform Architect.\",\"why_sourced\":\"Sourced based on verified criteria for Staff Cloud & Kubernetes Platform Architect.\",\"claim_ledger\":[],\"evaluated_at\":\"2026-10-13T00:52:05.750Z\",\"role_version\":\"1.0.0\",\"spec_version\":\"1.0.0-kernel\",\"evidence_refs\":[],\"missing_proof\":[{\"interview_probe\":\"Probe candidate on real production scenarios handling Distributed Systems: \\\"Describe a specific production incident where you implemented Distributed Systems.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Distributed Systems\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.\",\"unproven_requirement\":\"Distributed Systems\"},{\"interview_probe\":\"Probe candidate on real production scenarios handling Kubernetes: \\\"Describe a specific production incident where you implemented Kubernetes.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Kubernetes\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.\",\"unproven_requirement\":\"Kubernetes\"},{\"interview_probe\":\"Probe candidate on real production scenarios handling Go: \\\"Describe a specific production incident where you implemented Go.\\\"\",\"why_insufficient\":\"Not mentioned in candidate document. No verified evidence ref provided for requirement \\\"Go\\\".\",\"minimum_next_proof\":\"Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.\",\"unproven_requirement\":\"Go\"}],\"rubric_version\":\"1.0.0\",\"screen_summary\":\"Candidate evaluated as INSUFFICIENT EVIDENCE with Proof Strength 0%.\",\"ledger_revision\":1,\"what_is_inferred\":[],\"what_is_verified\":[],\"decision_blockers\":[{\"interview_probe\":\"Probe candidate on real production scenarios handling Distributed Systems: \\\"Describe a specific production incident where you implemented Distributed Systems.\\\"\",\"why_insufficient\":\"Not menti...[truncated]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.994Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/d8b97f35-8841-4516-abaa-900cf51b2362",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:05.995Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/d8b97f35-8841-4516-abaa-900cf51b2362"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.996Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:51:34 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Alpha",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:05.998Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:05 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:08.469Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:08.471Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/auth"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:08.471Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q=",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:08 GMT",
+      "connection": "keep-alive"
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:08.474Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:08 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:09.098Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/auth/signin",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{\"email\":\"synthetic.employer.beta@example.invalid\",\"password\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:09.261Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:54331/auth/v1/user",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "x-supabase-api-version": "2024-01-01",
+      "referer": "http://localhost:3004/",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0",
+      "x-client-info": "supabase-js-web/2.100.1",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "apikey": "[REDACTED_CREDENTIAL]"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:09.261Z",
+    "url": "http://localhost:3004/api/auth/signin",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:09 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"user\":{\"id\":\"00000000-0000-4000-a000-000000000002\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.beta@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:52:09.249207588Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:52:09.252444Z\",\"is_anonymous\":false},\"session\":{\"access_token\":\"[REDACTED_CREDENTIAL]\",\"token_type\":\"[REDACTED_CREDENTIAL]\",\"expires_in\":3600,\"expires_at\":1791856329,\"refresh_token\":\"[REDACTED_CREDENTIAL]\",\"user\":{\"id\":\"00000000-0000-4000-a000-000000000002\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.beta@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:52:09.249207588Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:52:09.252444Z\",\"is_anonymous\":false},\"weak_password\":\"[REDACTED_CREDENTIAL]\"}}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:09.300Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/auth",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:09.300Z",
+    "url": "http://127.0.0.1:54331/auth/v1/user",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "access-control-expose-headers": "X-Total-Count, Link, X-Supabase-Api-Version",
+      "connection": "keep-alive",
+      "access-control-allow-credentials": "true",
+      "via": "kong/2.8.1",
+      "x-kong-upstream-latency": "32",
+      "access-control-allow-origin": "*",
+      "content-length": "495",
+      "date": "Tue, 13 Oct 2026 00:52:09 GMT",
+      "x-kong-proxy-latency": "1",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000002\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"synthetic.employer.beta@example.invalid\",\"email_confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"phone\":\"\",\"confirmed_at\":\"2026-08-06T00:05:04.840136Z\",\"last_sign_in_at\":\"2026-10-13T00:52:09.249207Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{},\"identities\":[],\"created_at\":\"2026-08-06T00:05:04.840136Z\",\"updated_at\":\"2026-10-13T00:52:09.252444Z\",\"is_anonymous\":false}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:09.358Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:09 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000002\",\"email\":\"synthetic.employer.beta@example.invalid\",\"name\":\"Synthetic Employer Beta Owner\",\"role\":\"employer\",\"company\":\"Beta Inc\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:09.396Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/analytics",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:09.467Z",
+    "url": "http://localhost:3004/api/employer/analytics",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:09 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"summary\":{\"active_roles\":1,\"total_candidates\":1,\"total_shortlisted\":0,\"screens_completed\":0,\"packets_generated\":1},\"stage_counts\":{\"new\":1},\"runs\":[{\"id\":\"22222222-2222-4222-a222-222222222222\",\"employer_id\":\"6878ce33-13b1-4592-9a9f-b2acb448c977\",\"role_title\":\"Synthetic Product Manager (Run Beta)\",\"job_description\":null,\"must_haves\":[\"Machine Learning\",\"CUDA\",\"PyTorch\"],\"nice_to_haves\":null,\"disqualifiers\":null,\"status\":\"active\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"company\":\"Beta Inc\",\"company_stage\":null,\"hiring_notes\":null,\"brief_json\":{\"must_haves\":[\"Machine Learning\",\"CUDA\",\"PyTorch\"],\"approved_at\":\"2026-10-03T00:00:00Z\",\"approved_by\":\"00000000-0000-4000-a000-000000000001\",\"contract_version\":\"1.0.0\",\"contract_approved\":true,\"approved_rubric_version\":\"1.0.0\"},\"crustdata_credits_spent\":0,\"location\":null,\"org_id\":\"00000000-0000-4000-c000-000000000002\",\"candidates_count\":1,\"shortlisted_count\":0,\"screens_completed\":0}],\"recent_activity\":[]}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.392Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.455Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.498Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "application/json",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": "{\"action\":\"reject\",\"rationale\":\"Cross tenant breach attempt\",\"expected_ledger_revision\":2,\"expected_rubric_version\":\"1.0.0\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.506Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"error\":\"Candidate assessment not found\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.538Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/candidate-documents/8324736c-5104-4b1a-b929-b2294d4da333/download",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.548Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/generate",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"error\":\"Candidate not found\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.586Z",
+    "method": "POST",
+    "url": "http://localhost:3004/api/employer/candidate-documents/upload",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryBGk7tipJ0clueiKS",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.589Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743/action",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"error\":\"Candidate not found\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.650Z",
+    "url": "http://localhost:3004/api/employer/candidate-documents/8324736c-5104-4b1a-b929-b2294d4da333/download",
+    "status": 403,
+    "statusText": "Forbidden",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.662Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.662Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/auth/me",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.696Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000002\",\"email\":\"synthetic.employer.beta@example.invalid\",\"name\":\"Synthetic Employer Beta Owner\",\"role\":\"employer\",\"company\":\"Beta Inc\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.698Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852730695",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.722Z",
+    "url": "http://localhost:3004/api/auth/me",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"id\":\"00000000-0000-4000-a000-000000000002\",\"email\":\"synthetic.employer.beta@example.invalid\",\"name\":\"Synthetic Employer Beta Owner\",\"role\":\"employer\",\"company\":\"Beta Inc\",\"created_at\":\"2026-08-06T00:05:04.840136+00:00\",\"updated_at\":\"2026-08-06T00:05:04.840136+00:00\",\"gmail_connected\":false,\"gmail_email\":null,\"gmail_refresh_token\":\"[REDACTED_CREDENTIAL]\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.741Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/employer/candidate-extractions/301ec212-380a-4597-a856-241bc42db743",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.741Z",
+    "url": "http://localhost:3004/api/employer/packets/301ec212-380a-4597-a856-241bc42db743?t=1791852730695",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"error\":\"Candidate assessment not found\"}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.749Z",
+    "url": "http://localhost:3004/api/employer/candidate-extractions/301ec212-380a-4597-a856-241bc42db743",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "content-encoding": "gzip",
+      "etag": "\"dyerejn9tn94f\"",
+      "connection": "keep-alive",
+      "x-nextjs-stale-time": "300",
+      "x-nextjs-cache": "HIT",
+      "x-nextjs-prerender": "1, 1",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+      "x-powered-by": "Next.js"
+    },
+    "body": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0y_jtlk09tb83.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0qfzl5y.pe4k7.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/0j.uarmua8-jf.js\"/><script src=\"/_next/static/chunks/0d403~._7o239.js\" async=\"\"></script><script src=\"/_next/static/chunks/11a4is0ixxmje.js\" async=\"\"></script><script src=\"/_next/static/chunks/066n5e-fm4gij.js\" async=\"\"></script><script src=\"/_next/static/chunks/turbopack-16l2.41l7.240.js\" async=\"\"></script><script src=\"/_next/static/chunks/0fdk1ydgv79vh.js\" async=\"\"></script><script src=\"/_next/static/chunks/0-28akvlefwfw.js\" async=\"\"></script><script src=\"/_next/static/chunks/0ps5bjcqzl~.t.js\" async=\"\"></script><script src=\"/_next/static/chunks/0zrans--z2.tg.js\" async=\"\"></script><script src=\"/_next/static/chunks/0u_6m32xccofa.js\" async=\"\"></script><meta name=\"robots\" content=\"noindex\"/><title>404: This page could not be found.</title><title>workBYLiNE | The Context Layer for AI-Era Hiring</title><meta name=\"description\" content=\"Evidence-backed trust packets, verifiable provenance, and human-in-the-loop hiring decisions.\"/><link rel=\"icon\" href=\"/favicon.ico?favicon.0x3dzn~oxb6tn.ico\" sizes=\"256x256\" type=\"image/x-icon\"/><script src=\"/_next/static/chunks/03~yq9q893hmn.js\" noModule=\"\"></script></head><body class=\"inter_a42ef38b-module__ptHEqW__variable jetbrains_mono_cd0af58d-module__DCnTpG__variable font-sans antialiased min-h-screen bg-background text-foreground\"><div hidden=\"\"><!--$--><!--/$--></div><div style=\"font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center\"><div><style>body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}</style><h1 class=\"next-error-h1\" style=\"display:inline-block;margin:0 20px 0 0;padding:0 23px 0 0;font-size:24px;font-weight:500;vertical-align:top;line-height:49px\">404</h1><div style=\"display:inline-block\"><h2 style=\"font-size:14px;font-weight:400;line-height:49px;margin:0\">T...[truncated]"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.862Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search/?q=",
+    "headers": {
+      "sec-ch-ua-platform": "\"macOS\"",
+      "authorization": "[REDACTED_CREDENTIAL]",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "accept": "application/json, text/plain, */*",
+      "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"HeadlessChrome\";v=\"151\", \"Chromium\";v=\"151\"",
+      "sec-ch-ua-mobile": "?0"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "request",
+    "timestamp": "2026-10-13T00:52:10.862Z",
+    "method": "GET",
+    "url": "http://localhost:3004/api/search?q=",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+      "referer": "http://localhost:3004/employer/packet/301ec212-380a-4597-a856-241bc42db743"
+    },
+    "postData": null
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.863Z",
+    "url": "http://localhost:3004/api/search/?q=",
+    "status": 308,
+    "statusText": "Permanent Redirect",
+    "headers": {
+      "date": "Tue, 13 Oct 2026 00:52:08 GMT",
+      "refresh": "0;url=/api/search?q=",
+      "location": "/api/search?q="
+    },
+    "body": "[binary or unreadable response]"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:10.864Z",
+    "url": "http://localhost:3004/api/search?q=",
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "{\"results\":[]}"
+  },
+  {
+    "actor": "Employer_Beta",
+    "type": "response",
+    "timestamp": "2026-10-13T00:52:12.921Z",
+    "url": "http://localhost:3004/api/employer/candidate-documents/upload",
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "transfer-encoding": "chunked",
+      "keep-alive": "timeout=5",
+      "date": "Tue, 13 Oct 2026 00:52:10 GMT",
+      "content-type": "application/json",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "connection": "keep-alive"
+    },
+    "body": "[binary or unreadable response]"
+  }
+]

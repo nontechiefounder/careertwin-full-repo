@@ -1,0 +1,501 @@
+--- a/PARTH_HANDOFF.md
++++ b/PARTH_HANDOFF.md
+@@ -1,3 +1,66 @@
+-# workBYLiNE v5 — Parth handoff
++# workBYLiNE — Reproducible Engineering Handoff for Parth (`PARTH_HANDOFF.md`)
+ 
+-Start with [the v5 review and replay instructions](./V5_REVIEW.md), then [the engineering handoff](./docs/handoff/PARTH_HANDOFF.md). No hosting or live-provider use authorized.
++**v8 review candidate — local engineering review only.** This candidate builds on frozen v7 (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`) with bounded fixes for `V6-R3` failure-branch non-enumeration, `V7-P1` incomplete-lookup/pagination cap handling, `V6-D1` entry-point parity, and explicit single-instance vs. shared-cooldown hosting boundaries (`V6-R1`). Current v8 repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
++
++**Date:** 2026-11-19  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
++**Branch / Base Commit:** `antigravity/workbyline-v3-candidate` @ `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (parent `8560c4ea9b63064e33f431fe75965f73c7af4cc4`)  
++**Supersedes:** Historical pre-Track-1 handoff docs and prior `WorkByLine_Candidate_Handoff_68fb5f4_repaired.zip` (`440da1676d991276038e92c01f6c056b38652022e6acefa34e97673f0cc1a1b3`, 1,148 manifest entries). Zero production migrations, remote pushes, hosted staging deployments, live external provider probes, or live-customer runs have been executed.
++
++---
++
++## 1. Historical v4 Repository State & V3/V4 Audit Repairs (F01–F09, B1–B9)
++
++> [!IMPORTANT]
++> **Boundary & Policy Notice:** Findings F01–F09 and B1–B9 remain marked **`IMPLEMENTED PENDING INDEPENDENT REVIEW`** until independent inspection of the v4 archive confirms closure. Protected targets (`careertwin-local-baseline` `54330–54335`, ports `3000`/`3004`) remain untouched. Any changes to core scoring formulas, weights, or calibration remain strictly a Founder Decision.
++
++- **F01 (HIGH — Screening Authorization):** `apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js` strictly enforces `ALLOWED_EMPLOYER_WRITER_ROLES = ['owner', 'admin', 'recruiter', 'hiring_manager']` (plus candidate self-completion); `auditor` and `viewer` receive `403 Forbidden` before any AI or DB writes.
++- **F02 / B1–B2 (HIGH — Grounded Chat & Validator):** `apps/web/app/api/employer/chat/route.js` connects to authoritative `contextScope` / `contextFetch` and context tables (`context_source_objects`, `context_source_versions`, `context_parsed_artifacts`, `context_evidence_spans`), preserving `401`/`403` denials (`UNMAPPED_WORKSPACE` / `MAPPING_REVOKED`) without SQL fallback. `apps/web/lib/chatGrounding.js` was hardened with clause splitting on conjunctions, bidirectional negation polarity checks, entity presence & order validation, local numeric-context window matching, universal/production scope escalation detection, and pure-refusal isolation (`isPureRefusalClause`) so refusal prefixes never bypass validation of appended unsupported claims (fixing Counterexamples A, B, C and related bypasses).
++- **F03 / B3 (HIGH — Authoritative Score Preservation):** `resolveAuthoritativeFitScore` in `apps/web/lib/scoreUtils.js` preserves intentional `decision_packet.fit_score === null` without falling back to stale `candidates.fit_score` across chat, shortlist, sidebar, and review views. Source cards are gated on packet presence; response modes (`deterministic_summary` / `grounded_generation` / `grounded_abstention`) are explicitly labeled.
++- **F04 (HIGH — Disqualifier & Requirement Matching):** `apps/web/lib/evidenceExtractor.js` removes early `return` on disqualifiers, enforces word boundaries `\b` (with camelCase/snake_case identifier support), handles negation/polarity and positive idioms (`"track record"`), and removes the `microservices` -> `distributed systems` alias.
++- **F05 / B6 (MEDIUM — Scoring Truthfulness):** `packages/proof-engine/src/index.ts` and `packages/shared-contracts/src/index.ts` separate `verified_proof_score` (corroborated `VERIFIED` proof only) from `assertion_alignment_score` (self-reported alignment) and export `evidence_breakdown` alongside deterministic `calculation_digest` without altering `fit_score` weights.
++- **F06 / B7 (MEDIUM — Provider Inventory):** `apps/web/lib/ai.js` implements real Anthropic Messages API (`callClaude`), documents `WORKBYLINE_AI_PROVIDER` as a preference by default, and enforces zero-fallback single-provider restriction when `WORKBYLINE_AI_STRICT_PROVIDER=true`.
++- **F07 / B4 (MEDIUM — Transactional Screening Completion):** `complete_screening_session_transactional` (`supabase/migrations/20260822000001_transactional_screening_completion.sql`) replaces separate writes/cleanup with row-locked (`FOR UPDATE`) transactional persistence of `overall_score`, `strengths`, `concerns`, and `recommended_next_step`, returning identical structured fields on initial completion and concurrent/idempotent replay.
++- **B5 & F09 (Context States & DB Error Handling):** `context-sources` routes and `ContextEvidencePanel.jsx` preserve `pending`, `missing`, `lexical_only`, `unprojected`, and `disabled` states verbatim; `sourcing-sessions/[id]/route.js` and `packets/[extractionId]/route.js` surface explicit `500` / `unavailable` states on DB errors.
++- **F08 / B8–B9 (Tests, Docs & Branding Reconciliation):** Replaced source-string checks in `tests/v3_regression.mjs` with behavioral + PGlite SQL execution, verified `apps/web/app/auth/page.jsx:177` brand green `#00D604` and reconciled `BrandingRegressionCheck.test.js` (`3/3`), and consolidated all canonical documentation under `docs/handoff/`.
++
++---
++
++## 2. Clean Reproduction & Guarded Verification
++
++1. **Sanitized Environment Templates:** Configure from `.env.example` and `apps/web/.env.example`. Never commit real `.env*` files.
++2. **Root Behavioral, Contract, Schema & Overlay Checks:**
++   ```bash
++   npm run test:v3-regression
++   npm run test:contracts
++   npm run test:postgres
++   npm run check:overlay
++   ```
++3. **Web Lint, Build & Guarded Disposable Harness (Run ID `20261119T101535Z_21491` PASSED):**
++   ```bash
++   (cd apps/web && npm run lint && npm run build)
++   bash scripts/guarded_disposable_verify.sh
++   ```
++
++---
++
++## 3. Canonical Documentation Set (`docs/handoff/`)
++
++- [START_HERE.md](./START_HERE.md)
++- [ARCHITECTURE.md](./ARCHITECTURE.md)
++- [DATA_AND_API_CONTRACTS.md](./DATA_AND_API_CONTRACTS.md)
++- [DEPENDENCIES_AND_SETUP.md](./DEPENDENCIES_AND_SETUP.md)
++- [INTEGRATIONS_AND_CONFIGURATION.md](./INTEGRATIONS_AND_CONFIGURATION.md)
++- [IMPLEMENTATION_AND_VERIFICATION.md](./IMPLEMENTATION_AND_VERIFICATION.md)
++- [SECURITY_AND_OPERATIONS.md](./SECURITY_AND_OPERATIONS.md)
++- [PRD.md](./PRD.md)
++- [ROADMAP.md](./ROADMAP.md)
++- [PARTH_HANDOFF.md](./PARTH_HANDOFF.md)
++
++---
++
++## 4. Founder Decisions Required Before Staging / Live Calls
++
++1. **STATE C & Track 2 Sign-Off:** Confirm V3 Track 1 scope and deferred Track 2 items (`PRD.md`, `ROADMAP.md`).
++2. **Bounded Live-Provider Verification:** Explicitly authorize synthetic Gemini, DataVertex (`DATAVERTEX_MAX_CREDITS=2`), or Claude smoke tests before executing any live external API calls.
++3. **Optional Offline Context Engine Unblocks:** Authorize installing `temporal` CLI (`127.0.0.1:7233`) and `BAAI/bge-small-en-v1.5` weights (`WORKBYLINE_EMBEDDING_WEIGHTS`) if full Temporal + hybrid pgvector retrieval is required in staging.
+--- /dev/null
++++ b/STEP_V8_REPAIRS_EVIDENCE.md
+@@ -0,0 +1,33 @@
++# workBYLiNE Genome — v8 Verification Evidence
++
++**Date:** 2026-11-21  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Candidate:** `WorkByLine_Parth_Local_Review_v7.zip` (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`)
++
++---
++
++## 1. Before / After Counterexamples (`independent_probes.mjs`)
++
++- **Before (`v7` baseline):** `independent_probes.mjs` reproduced `5` violations (`V6-R1` separate VM instances, `V6-R3` SMTP/link-error `503`/`500` vs absent `200`, `V7-P1` 20-page cap treating page-21 target as absent).
++- **After (`v8`):** Re-running `independent_probes.mjs` against `/tmp/wbl-v8-candidate` stopped at line 130 (`AssertionError: Expected "actual" to be strictly unequal to: 200`), confirming `resend-verification` now returns `200 accepted` even on SMTP/link failure instead of disclosing unconfirmed account existence. `AuthPage.test.jsx` directly verifies page-21 pagination, `503` malformed lookup, and 5-way `200 accepted` parity.
++
++---
++
++## 2. Post-Repair Verification Matrix (on `/tmp/wbl-v8-candidate`)
++
++| Check | Command & CWD | Exit | Result & Boundary |
++|---|---|---:|---|
++| **Locked Install (Root & Web)** | `npm ci --no-audit --no-fund` (root & `apps/web`) | `0` | `4` + `936` packages installed cleanly |
++| **Focused V8 Vitest Suites** | `npx --no-install vitest run __tests__/pages/AuthPage.test.jsx __tests__/api/screeningCompleteBehavior.test.js __tests__/api/dryRunEmail.test.js __tests__/security/ApiAuthorizationCharacterization.test.js __tests__/security/BrandingRegressionCheck.test.js __tests__/security/VitestDiscoveryContract.test.js` (`apps/web`) | `0` | **6/6 files, 50/50 tests PASSED** (mocked `supabaseServer`, `smtp`, `ai`, `jsdom` UI) |
++| **Root Suites** | `node tests/contracts.mjs && node tests/postgres_schema.mjs && node tests/check_overlay.mjs && node tests/v3_regression.mjs` (root) | `0` | Contracts `8/8`, PGlite `5/5`, Overlay `9/9`, V3 Regression `6/6` |
++| **v5 Employer-Chat Replay** | `node --no-warnings --experimental-vm-modules tests/employer-chat-v5.mjs` (root) | `0` | **38/38 PASSED**, `external requests: 0` (Node loopback HTTP) |
++| **ESLint & Next.js Build** | `npm run lint && npm run build` (`apps/web`) | `0` | `0` lint errors (`3` `<img>` warnings), Webpack compiled in `15.3s`, **51/51** static pages (`76` route table entries) |
++| **Guarded Disposable Harness** | `bash scripts/guarded_disposable_verify.sh` (`Run ID: 20261121T133424Z_20156`, DB `supabase_db_wbl-disposable-verify` `54422`, Kong `54421`, App `:3010`, `CAREERTWIN_DRY_RUN_EMAIL=true`, `WORKBYLINE_GENERATION_GATE=false`, live keys blank) | `0` | `status: "PASSED"`, `cleanup_status: "clean"`: Step 5 `1\|1\|0\|0\|1`; Step 6a **20/20 files (185/185 tests)**; Step 6b **6/6 files (61/61 tests)**; Step 8 live `:3010` **PASSED**; Step 9 Playwright **39 passed, 2 skipped, 0 failed** (`43.1s`) |
++
++---
++
++## 3. Remaining Limits & `NOT VERIFIED` Boundaries
++
++- **Multi-Instance Cooldown Hosting:** `createMemoryCooldownStore()` is single-process only; multi-instance / serverless hosting remains **`BLOCKED / FOUNDER DECISION REQUIRED`** (PostgreSQL vs. Redis shared limiter).
++- **Playwright Skips (`2/41`):** `EmployerDay3Assertions.test.js:439` (`Test E`) and `EmployerDay4Assertions.test.js:306` (`Scenario 14`).
++- **Not Verified Locally:** Multi-instance external shared cooldown store, live SMTP delivery, live external AI/sourcing providers, persistent Python Context Engine (`:8011` / Temporal `:7233` / BGE weights), GitHub `main` synchronization (`R1`), and hosted staging.
+--- /dev/null
++++ b/STEP_V8_REPAIRS_REPORT.md
+@@ -0,0 +1,31 @@
++# workBYLiNE Genome — v8 Auth Recovery & Review Closure Report
++
++**Date:** 2026-11-21  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Candidate:** `WorkByLine_Parth_Local_Review_v7.zip` (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`)  
++**New Candidate:** `WorkByLine_Parth_Local_Review_v8.zip` (see `STEP_V8_REPAIRS_EVIDENCE.md` for SHA-256 and manifest)
++
++---
++
++## 1. Executive Summary
++
++Addressed the three remaining findings from `WorkByLine_v7_Independent_Review_20261121.zip`:
++1. **`V6-R3` (Failure-Branch Account Enumeration in `resend-verification/route.js`):** Public `POST /api/auth/resend-verification` now logs internal delivery/link failures privately (without tokens/credentials) and returns the **exact same** `200` `{ delivery_status: 'accepted', message: 'If an unverified account exists for this email, a verification email will be sent.' }` across absent, confirmed, dry-run, unconfirmed-sent, unconfirmed-SMTP-failure, and unconfirmed-link-failure branches. Truthful `POST /api/auth/signup` partial-success metadata (`account_created: true`, `retry_supported: true`, `500`/`503`) is preserved.
++2. **`V7-P1` (Scan-Cap Truncation / Incomplete Lookup in `resend-verification/route.js`):** Raised the bounded directory pagination safety ceiling (`MAX_LIST_USERS_PAGES = 1000`, supporting up to 1,000,000 users; or `getUserByEmail` when available) and changed cap exhaustion / malformed `users` payloads to return `503 VERIFICATION_LOOKUP_UNAVAILABLE` (`incomplete: true`) rather than silently treating an incomplete search as an absent account.
++3. **`V6-D1` (Entry-Point & Root Handoff Parity):** Updated `docs/handoff/START_HERE.md` to open with `v8` identity and made root `PARTH_HANDOFF.md` byte-identical to `docs/handoff/PARTH_HANDOFF.md`.
++4. **`V6-R1` (Explicit Multi-Instance Cooldown Boundary — `FOUNDER DECISION REQUIRED`):** Corrected `AuthPage.test.jsx` to state explicitly that `createMemoryCooldownStore()` enforces atomic single-instance concurrency (`1 x 200`, `7 x 429`) and `setResendCooldownStore()` is an adapter interface only. Multi-instance / serverless hosting remains **BLOCKED (`FOUNDER DECISION REQUIRED`)** between:
++   - **Option A:** PostgreSQL `auth_resend_cooldowns` table + atomic `SECURITY DEFINER` RPC migration.
++   - **Option B:** Redis `SET key NX PX 60000` store wired via `setResendCooldownStore()`.
++
++---
++
++## 2. Exact Files Changed (`10` total vs. Frozen v7)
++
++1. `apps/web/app/api/auth/resend-verification/route.js` — Non-enumerating `200` across delivery/link failure branches, `MAX_LIST_USERS_PAGES = 1000` + `503 VERIFICATION_LOOKUP_UNAVAILABLE` on incomplete/malformed lookup.
++2. `apps/web/__tests__/pages/AuthPage.test.jsx` — Corrected single-instance + adapter test wording, added page-21 pagination test, added `503` malformed lookup test, and verified `200 accepted` parity across absent, confirmed, unconfirmed-sent, SMTP-failure, and thrown-link-failure branches.
++3. `docs/handoff/START_HERE.md` — Updated opening candidate identity to `v8` and linked `STEP_V8_REPAIRS_REPORT.md` / `STEP_V8_REPAIRS_EVIDENCE.md`.
++4. `docs/handoff/PARTH_HANDOFF.md` & `PARTH_HANDOFF.md` — Synchronized byte-for-byte with `v8` identity.
++5. `docs/handoff/DATA_AND_API_CONTRACTS.md` — Updated `/api/auth/resend-verification` contract.
++6. `docs/handoff/SECURITY_AND_OPERATIONS.md` — Documented `V6-R1` multi-instance Founder decision options.
++7. `STEP_V8_REPAIRS_REPORT.md` & `STEP_V8_REPAIRS_EVIDENCE.md` — Checkpoint report and verification evidence.
++8. `evidence/v8/V8_REPAIR_DIFF.patch` (plus `V8_CHANGED_FILES.txt`).
+--- a/apps/web/__tests__/pages/AuthPage.test.jsx
++++ b/apps/web/__tests__/pages/AuthPage.test.jsx
+@@ -199,7 +199,7 @@
+     expect(throwBody.retry_supported).toBe(true);
+   });
+ 
+-  it('V6-R1: admits at most 1 of 8 concurrent resend requests and enforces shared-store cooldown across 2 instances', async () => {
++  it('V6-R1: admits at most 1 of 8 concurrent resend requests in a single instance and verifies adapter interface', async () => {
+     const createUserSpy = vi.fn();
+     mockCreateSupabaseServerClient.mockResolvedValue({
+       auth: {
+@@ -232,67 +232,60 @@
+     expect(mockSendSMTPEmail).toHaveBeenCalledTimes(1);
+     expect(createUserSpy).not.toHaveBeenCalled();
+ 
+-    // Two simulated instances sharing an injected cooldown store
+-    const sharedStore = createMemoryCooldownStore();
+-    setResendCooldownStore(sharedStore);
++    // Adapter interface check (single process; multi-instance hosting requires external shared store)
++    const injectedStore = createMemoryCooldownStore();
++    setResendCooldownStore(injectedStore);
+     const r1 = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+       method: 'POST',
+-      body: JSON.stringify({ email: 'multi@example.invalid' }),
++      body: JSON.stringify({ email: 'adapter@example.invalid' }),
++    }));
++    const r2 = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'adapter@example.invalid' }),
+     }));
+     expect(r1.status).toBe(200);
+-    // Simulate second instance reusing same sharedStore
+-    setResendCooldownStore(sharedStore);
+-    const r2 = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+-      method: 'POST',
+-      body: JSON.stringify({ email: 'multi@example.invalid' }),
+-    }));
+     expect(r2.status).toBe(429);
+   });
+ 
+-  it('V6-R2 & V6-R3: paginates past first 1,000 users and returns identical non-enumerating responses for absent, confirmed, and unconfirmed emails', async () => {
++  it('V6-R2, V7-P1 & V6-R3: paginates past page 20, fails 503 on malformed lookup, and returns identical non-enumerating 200 across success and failure branches', async () => {
+     const firstPage = Array.from({ length: 1000 }, (_, i) => ({
+       id: `u-${i}`,
+       email: `other${i}@example.invalid`,
+       email_confirmed_at: null,
+     }));
+ 
+-    // 1. Unconfirmed user on page 2
++    // 1. Unconfirmed user on page 21 (past old 20-page cap)
+     mockCreateSupabaseServerClient.mockResolvedValueOnce({
+       auth: {
+         admin: {
+           listUsers: vi.fn().mockImplementation(async ({ page }) => ({
+             data: {
+-              users: page === 2 ? [{ id: 'p2-user', email: 'page2@example.invalid', email_confirmed_at: null }] : firstPage,
+-              nextPage: page === 2 ? null : 2,
+-              lastPage: 2,
++              users: page === 21 ? [{ id: 'p21-user', email: 'page21@example.invalid', email_confirmed_at: null }] : firstPage,
++              nextPage: page === 21 ? null : page + 1,
++              lastPage: 21,
+             },
+             error: null,
+           })),
+-          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'p2-hash' } }, error: null }),
+-        },
+-      },
+-    });
+-    mockSendSMTPEmail.mockResolvedValueOnce({ messageId: 'msg-p2' });
+-    const unconfirmedRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+-      method: 'POST',
+-      body: JSON.stringify({ email: 'page2@example.invalid' }),
+-    }));
+-    const unconfirmedBody = await unconfirmedRes.json();
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'p21-hash' } }, error: null }),
++        },
++      },
++    });
++    mockSendSMTPEmail.mockResolvedValueOnce({ messageId: 'msg-p21' });
++    const p21Res = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'page21@example.invalid' }),
++    }));
++    expect(p21Res.status).toBe(200);
+     expect(mockSendSMTPEmail).toHaveBeenCalledTimes(1);
+ 
+     // 2. Absent email
+     mockCreateSupabaseServerClient.mockResolvedValueOnce({
+-      auth: {
+-        admin: {
+-          listUsers: vi.fn().mockResolvedValue({ data: { users: [], nextPage: null }, error: null }),
+-        },
+-      },
++      auth: { admin: { listUsers: vi.fn().mockResolvedValue({ data: { users: [], nextPage: null }, error: null }) } },
+     });
+     const absentRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
+       method: 'POST',
+       body: JSON.stringify({ email: 'absent@example.invalid' }),
+     }));
+-    const absentBody = await absentRes.json();
+ 
+     // 3. Confirmed email
+     mockCreateSupabaseServerClient.mockResolvedValueOnce({
+@@ -309,15 +302,64 @@
+       method: 'POST',
+       body: JSON.stringify({ email: 'confirmed@example.invalid' }),
+     }));
+-    const confirmedBody = await confirmedRes.json();
+-
+-    expect(unconfirmedRes.status).toBe(200);
+-    expect(absentRes.status).toBe(200);
+-    expect(confirmedRes.status).toBe(200);
+-    expect(unconfirmedBody).toEqual(absentBody);
+-    expect(unconfirmedBody).toEqual(confirmedBody);
+-    expect(unconfirmedBody.delivery_status).toBe('accepted');
+-    expect(unconfirmedBody.email_sent).toBeUndefined();
++
++    // 4. Unconfirmed + SMTP failure -> public response stays identical 200 accepted
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          listUsers: vi.fn().mockResolvedValue({
++            data: { users: [{ id: 'u-smtp', email: 'smtpfail@example.invalid', email_confirmed_at: null }], nextPage: null },
++            error: null,
++          }),
++          generateLink: vi.fn().mockResolvedValue({ data: { properties: { hashed_token: 'h' } }, error: null }),
++        },
++      },
++    });
++    mockSendSMTPEmail.mockRejectedValueOnce(new Error('SMTP down'));
++    const smtpFailRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'smtpfail@example.invalid' }),
++    }));
++
++    // 5. Unconfirmed + thrown generateLink -> public response stays identical 200 accepted
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: {
++        admin: {
++          listUsers: vi.fn().mockResolvedValue({
++            data: { users: [{ id: 'u-link', email: 'linkthrow@example.invalid', email_confirmed_at: null }], nextPage: null },
++            error: null,
++          }),
++          generateLink: vi.fn().mockRejectedValue(new Error('Link throw')),
++        },
++      },
++    });
++    const linkThrowRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'linkthrow@example.invalid' }),
++    }));
++
++    // 6. Malformed directory payload -> 503 VERIFICATION_LOOKUP_UNAVAILABLE
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: { admin: { listUsers: vi.fn().mockResolvedValue({ data: { users: null }, error: null }) } },
++    });
++    const malformedLookupRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'malformed@example.invalid' }),
++    }));
++    expect(malformedLookupRes.status).toBe(503);
++
++    const b1 = await p21Res.json();
++    const b2 = await absentRes.json();
++    const b3 = await confirmedRes.json();
++    const b4 = await smtpFailRes.json();
++    const b5 = await linkThrowRes.json();
++    expect(smtpFailRes.status).toBe(200);
++    expect(linkThrowRes.status).toBe(200);
++    expect(b1).toEqual(b2);
++    expect(b1).toEqual(b3);
++    expect(b1).toEqual(b4);
++    expect(b1).toEqual(b5);
++    expect(b1.delivery_status).toBe('accepted');
+   });
+ 
+   it('R3 UI: renders delivery failure notice and resends verification without re-calling register', async () => {
+--- a/apps/web/app/api/auth/resend-verification/route.js
++++ b/apps/web/app/api/auth/resend-verification/route.js
+@@ -3,7 +3,7 @@
+ import { deliverVerificationEmail } from '@/lib/verificationEmail';
+ 
+ const RESEND_COOLDOWN_MS = 60_000;
+-const MAX_LIST_USERS_PAGES = 20;
++const MAX_LIST_USERS_PAGES = 1000;
+ const LIST_USERS_PER_PAGE = 1000;
+ const GENERIC_PUBLIC_MESSAGE = 'If an unverified account exists for this email, a verification email will be sent.';
+ 
+@@ -37,40 +37,43 @@
+   }
+ }
+ 
+-async function findUserByEmail(admin, normalizedEmail) {
++async function findUserByEmail(admin, normalizedEmail, maxPages = MAX_LIST_USERS_PAGES) {
+   if (typeof admin?.getUserByEmail === 'function') {
+     const res = await admin.getUserByEmail(normalizedEmail);
+     if (res?.error) {
+-      return { user: null, error: res.error };
++      return { user: null, incomplete: false, error: res.error };
+     }
+-    return { user: res?.data?.user || null, error: null };
++    return { user: res?.data?.user || null, incomplete: false, error: null };
+   }
+ 
+   if (typeof admin?.listUsers !== 'function') {
+-    return { user: null, error: new Error('Admin user lookup unavailable') };
++    return { user: null, incomplete: true, error: new Error('Admin user lookup unavailable') };
+   }
+ 
+-  for (let page = 1; page <= MAX_LIST_USERS_PAGES; page++) {
++  for (let page = 1; page <= maxPages; page++) {
+     const { data: listData, error: listErr } = await admin.listUsers({
+       page,
+       perPage: LIST_USERS_PER_PAGE,
+     });
+     if (listErr) {
+-      return { user: null, error: listErr };
++      return { user: null, incomplete: false, error: listErr };
+     }
+-    const users = Array.isArray(listData?.users) ? listData.users : [];
++    if (!Array.isArray(listData?.users)) {
++      return { user: null, incomplete: true, error: new Error('Malformed admin user directory response') };
++    }
++    const users = listData.users;
+     const match = users.find(
+       (u) => typeof u?.email === 'string' && u.email.trim().toLowerCase() === normalizedEmail
+     );
+     if (match) {
+-      return { user: match, error: null };
++      return { user: match, incomplete: false, error: null };
+     }
+     const hasMore = Boolean(listData?.nextPage) || (users.length === LIST_USERS_PER_PAGE && (!listData?.lastPage || page < listData.lastPage));
+     if (!hasMore) {
+-      break;
++      return { user: null, incomplete: false, error: null };
+     }
+   }
+-  return { user: null, error: null };
++  return { user: null, incomplete: true, error: new Error('Admin user directory pagination cap reached before exhaustion') };
+ }
+ 
+ export async function POST(request) {
+@@ -82,7 +85,7 @@
+       return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
+     }
+ 
+-    // Atomic cooldown reservation BEFORE any await or user lookup (uniform across unknown/confirmed/unconfirmed)
++    // Atomic cooldown reservation BEFORE any await or user lookup (single-process default; shared store required for multi-instance)
+     const reservation = await activeCooldownStore.tryReserve(email, RESEND_COOLDOWN_MS);
+     if (!reservation?.admitted) {
+       return NextResponse.json(
+@@ -96,12 +99,23 @@
+     }
+ 
+     const supabase = await createSupabaseServerClient(null, true);
+-    const { user: existing, error: lookupErr } = await findUserByEmail(supabase.auth?.admin, email);
+-    if (lookupErr) {
+-      return NextResponse.json({ error: 'VERIFICATION_LOOKUP_UNAVAILABLE' }, { status: 503 });
++    const { user: existing, incomplete, error: lookupErr } = await findUserByEmail(supabase.auth?.admin, email);
++    if (lookupErr || incomplete) {
++      console.error('[API Resend Verification] Directory lookup failed or incomplete:', {
++        incomplete: Boolean(incomplete),
++        error: lookupErr?.name || 'LookupError',
++      });
++      return NextResponse.json(
++        {
++          error: 'VERIFICATION_LOOKUP_UNAVAILABLE',
++          delivery_status: 'unavailable',
++          message: 'Verification lookup is temporarily unavailable. Please try again later.',
++        },
++        { status: 503 }
++      );
+     }
+ 
+-    // Non-enumerating public acknowledgment for absent or already-confirmed accounts
++    // Uniform non-enumerating public acknowledgment for absent, confirmed, or unconfirmed accounts
+     if (!existing || existing.email_confirmed_at) {
+       return NextResponse.json({
+         delivery_status: 'accepted',
+@@ -111,18 +125,13 @@
+ 
+     const delivery = await deliverVerificationEmail({ supabase, email, isResend: true });
+     if (!delivery.ok) {
+-      return NextResponse.json(
+-        {
+-          error: delivery.error || 'VERIFICATION_EMAIL_DELIVERY_FAILED',
+-          delivery_status: delivery.delivery_status,
+-          retry_supported: true,
+-          message: delivery.message,
+-        },
+-        { status: delivery.status }
+-      );
++      // Log privately without tokens/credentials; keep public response identical to avoid account enumeration
++      console.error('[API Resend Verification] Private delivery failure:', {
++        stage: delivery.error || 'VERIFICATION_EMAIL_DELIVERY_FAILED',
++        status: delivery.status,
++      });
+     }
+ 
+-    // Return identical non-enumerating public shape for unconfirmed accounts
+     return NextResponse.json({
+       delivery_status: 'accepted',
+       message: GENERIC_PUBLIC_MESSAGE,
+--- a/docs/handoff/DATA_AND_API_CONTRACTS.md
++++ b/docs/handoff/DATA_AND_API_CONTRACTS.md
+@@ -43,7 +43,7 @@
+ 
+ - **Auth:** `/api/auth/{confirm,me,signin,signup,resend-verification}`, `/api/health`, `/api/search`.
+   - `POST /api/auth/signup` returns `delivery_status` (`'sent' | 'suppressed_dry_run' | 'failed' | 'not_attempted'`), `account_created`, `email_sent`, and `retry_supported` (`503 VERIFICATION_EMAIL_DELIVERY_FAILED` on SMTP failure; `500 VERIFICATION_LINK_FAILED` on both returned errors and thrown link exceptions).
+-  - `POST /api/auth/resend-verification` enforces atomic pre-lookup cooldown reservation (`429 RATE_LIMITED`), paginates past the first 1,000 users, fails truthfully (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on admin lookup error, and returns a uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, and unconfirmed accounts without recreating users. Multi-instance hosting requires configuring an approved shared cooldown store via `setResendCooldownStore()`.
++  - `POST /api/auth/resend-verification` enforces atomic pre-lookup cooldown reservation (`429 RATE_LIMITED`), paginates past page 20 (`MAX_LIST_USERS_PAGES = 1000`) or uses `getUserByEmail`, fails truthfully (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on lookup error or incomplete/malformed directory responses, and returns a uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, unconfirmed-sent, and unconfirmed-delivery/link-failure branches without recreating users. Multi-instance hosting requires configuring an approved shared cooldown store via `setResendCooldownStore()`.
+ - **Candidate:** `/api/candidate/profile`, `/api/candidate/status/[candidateId]`, `/api/candidate/proof-profile/[candidateId]` (`POST /generate`), `/api/candidate/screening-sessions/[sessionId]` (`POST /start`, `POST /answer`, `POST /complete`).
+   - `POST /api/candidate/screening-sessions/[sessionId]/complete` fails closed on `screening_answers` read/malformed errors (`503 SCREENING_ANSWERS_UNAVAILABLE` / `422 SCREENING_ANSWERS_INVALID`) and empty answers (`422 INSUFFICIENT_SCREENING_ANSWERS`) before generation or RPC writes; when at least one valid non-empty answer row is present, blank/non-string rows are filtered out (`V6-C1`).
+ - **Employer Briefs & Packets:** `/api/employer/hiring-runs` (`POST /suggest`), `/api/employer/brief/[id]` (`POST /approve`), `/api/employer/candidate-documents/upload`, `/api/employer/candidate-documents/[documentId]/download`, `/api/employer/packets/[extractionId]` (`POST /generate`, `POST /action`), `/api/employer/shortlist/[roleId]`.
+--- a/docs/handoff/PARTH_HANDOFF.md
++++ b/docs/handoff/PARTH_HANDOFF.md
+@@ -1,6 +1,6 @@
+ # workBYLiNE — Reproducible Engineering Handoff for Parth (`PARTH_HANDOFF.md`)
+ 
+-**v7 review candidate — local engineering review only.** This candidate builds on frozen v6 (`de53be583e24dda12340f6508d355a12a685fdfb31dbdbcb8407e35d990cf1a3`) with bounded fixes for `V6-R1`–`V6-R4`, `V6-C1`, `V6-C2`, and `V6-D1`. Current v7 repair & evidence records: [STEP_V7_REPAIRS_REPORT.md](../../STEP_V7_REPAIRS_REPORT.md) and [STEP_V7_REPAIRS_EVIDENCE.md](../../STEP_V7_REPAIRS_EVIDENCE.md) (historical v5 record: [V5_REVIEW.md](../../V5_REVIEW.md)).
++**v8 review candidate — local engineering review only.** This candidate builds on frozen v7 (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`) with bounded fixes for `V6-R3` failure-branch non-enumeration, `V7-P1` incomplete-lookup/pagination cap handling, `V6-D1` entry-point parity, and explicit single-instance vs. shared-cooldown hosting boundaries (`V6-R1`). Current v8 repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
+ 
+ **Date:** 2026-11-19  
+ **Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+--- a/docs/handoff/SECURITY_AND_OPERATIONS.md
++++ b/docs/handoff/SECURITY_AND_OPERATIONS.md
+@@ -36,5 +36,6 @@
+ ## 3. Protected Targets & Operational Rules
+ 
+ - **Protected Local Targets:** `supabase_db_careertwin-local-baseline` (`54330–54335`) and ports `3000` / `3004` must never be touched by verification scripts.
++- **Resend Cooldown Hosting Boundary (`V6-R1`):** Default `createMemoryCooldownStore()` in `apps/web/app/api/auth/resend-verification/route.js` enforces atomic single-instance cooldown only. Multi-instance / serverless hosting remains **BLOCKED (`FOUNDER DECISION REQUIRED`)** until an approved shared backend is wired via `setResendCooldownStore()` — either **Option A:** PostgreSQL `auth_resend_cooldowns` table + atomic `SECURITY DEFINER` RPC migration, or **Option B:** Redis `SET key NX PX 60000` store.
+ - **Disposable Verification Target:** `supabase_db_wbl-disposable-verify` (`54422` / Kong `54421`), app port `3010`, `CAREERTWIN_DRY_RUN_EMAIL=true`.
+ - **External Call Policy:** No live AI, sourcing, or email sends are authorized without explicit Founder approval.
+--- a/docs/handoff/START_HERE.md
++++ b/docs/handoff/START_HERE.md
+@@ -1,11 +1,11 @@
+ # workBYLiNE — Authoritative Engineering Handoff (`START_HERE.md`)
+ 
+-**v5 review candidate — local engineering review only.** This is a delta from the v4 Parth archive, not a clean checkout of its base commit. The v4 guarded run and production-build counts below are historical, not v5 executions. Current evidence and remaining gates: [v5 review record](../../V5_REVIEW.md).
++**v8 review candidate — local technical review only.** Current repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
+ 
+ - **Product / Project:** workBYLiNE (Genome V3 / CareerTwin Hiring Intelligence Platform)
+ - **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)
+-- **Base Commit:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (`antigravity/workbyline-v3-candidate`, parent `8560c4ea9b63064e33f431fe75965f73c7af4cc4`)
+-- **Previously Reviewed Reference Archive:** `WorkByLine_Candidate_Handoff_68fb5f4_repaired.zip` (`440da1676d991276038e92c01f6c056b38652022e6acefa34e97673f0cc1a1b3`, 1,148 manifest entries)
++- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v8 is a versioned archive delta beyond historical base commit)
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v7.zip` (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`)
+ 
+ > [!IMPORTANT]
+ > **Status Boundary:** Neither this documentation nor the passing disposable/mocked verification gates declare the system `APPROVED`, `PRODUCTION READY`, or `REAL-COMPANY DATA READY`. All findings remain `IMPLEMENTED PENDING INDEPENDENT REVIEW` outside the bounded v5 review. Deployment and real-provider authorization remain separate.
+@@ -30,7 +30,8 @@
+ | 10 | [ROADMAP.md](./ROADMAP.md) | Independent review closure -> Founder decisions -> bounded live-provider verification -> staging/Track 2 |
+ 
+ Supporting reconciled closeout & repair reports at repository root:
+-- [STEP_V7_REPAIRS_REPORT.md](../../STEP_V7_REPAIRS_REPORT.md) & [STEP_V7_REPAIRS_EVIDENCE.md](../../STEP_V7_REPAIRS_EVIDENCE.md) (latest `v7` auth-recovery & review-closure delta)
++- [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) & [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md) (latest `v8` auth-recovery & review-closure delta)
++- [STEP_V7_REPAIRS_REPORT.md](../../STEP_V7_REPAIRS_REPORT.md) & [STEP_V7_REPAIRS_EVIDENCE.md](../../STEP_V7_REPAIRS_EVIDENCE.md) (historical `v7` delta)
+ - [TRACK1_REPAIR_STATUS.md](../../TRACK1_REPAIR_STATUS.md) & [VERIFICATION_EVIDENCE.md](../../VERIFICATION_EVIDENCE.md) (historical Track 1 / v4 baseline records)
+ 
+ ---

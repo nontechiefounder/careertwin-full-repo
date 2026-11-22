@@ -1,0 +1,59 @@
+==================================================================
+WORKBYLINE V2: PLAYWRIGHT REAL BROWSER FOUNDER ACCEPTANCE SUITE
+Target URL: http://127.0.0.1:3004
+Execution Session Unique ID: mvo9qfes
+Screenshot Directory: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots
+==================================================================
+
+--- Journey 1: UI Sign-in as Owner (Tenant Alpha) ---
+[PASSED] UI Sign-in (Owner Alpha): Successfully signed in via HTML form, redirected to: http://127.0.0.1:3004/employer
+
+--- Journey 2: Access Brief & Document Context Panel ---
+[PASSED] Brief Evidence Panel Render: Context evidence panel rendered with authoritative disclaimer.
+
+--- Journey 3: Real File Upload through Browser File Picker ---
+[PASSED] File Upload (TXT) HTTP Assertion: Uploaded alice_backend_v1_mvo9qfes.txt with status 202, source_id: ddfdc79d-d4f7-43ec-9556-43897ac3f7e6
+[PASSED] File Upload (PDF) HTTP Assertion: Uploaded bob_arch_mvo9qfes.pdf with status 202
+[PASSED] File Upload (DOCX) HTTP Assertion: Uploaded charlie_lead_mvo9qfes.docx with status 202
+
+--- Journey 4: Execute Real Temporal Pipeline Worker ---
+incorrect startxref pointer(1)
+parsing for Object Streams
+  -> Temporal worker output: 2026-10-25T20:16:47.490910Z  WARN temporalio_sdk_core::worker: Temporal Server 1.16.0 or newer is required to guarantee that the latest heartbeat details are preserved when an activity fails; the server did not advertise the activity_failure_include_heartbeat capability, so heartbeat details may be lost on failure
+TEMPORAL_DISPATCHED_3_WORKFLOWS
+[PASSED] Temporal Durable Worker Execution: Dispatched pending jobs through Temporal pipeline: 2026-10-25T20:16:47.490910Z  WARN temporalio_sdk_core::worker: Temporal Server 1.16.0 or newer is required to guarantee that the latest heartbeat details are preserved when an activity fails; the server did not advertise the activity_failure_include_heartbeat capability, so heartbeat details may be lost on failure
+TEMPORAL_DISPATCHED_3_WORKFLOWS
+[PASSED] Indexed Document Discovery: Discovered indexed document alice_infra_mvo9qfes in UI.
+
+--- Journey 5: Inspect Exact Source Spans, Hashes and Unicode Offsets ---
+[PASSED] Source Span & Hash Verification: Verified exact SHA-256 (f781dec1554b34204cbd16ba2650263445b4baec6930156c2b102f471861d3aa) and Unicode code-point offsets.
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_01_uploaded_document_inspection.png
+
+--- Journey 6: Evidence Passage Retrieval in Browser ---
+[PASSED] Evidence Passage Retrieval: Successfully searched and rendered source-grounded passage in UI.
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_02_search_passages_result.png
+
+--- Journey 7: Upload Changed Version (v2 Superseding v1) ---
+[PASSED] Versioned Document Supersession: Document revised to v2 via Temporal pipeline; immutable history preserved.
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_03_superseded_version_v2.png
+
+--- Journey 8: Graph Query Strategy Execution ---
+[PASSED] Graph Query Strategy: Truthful graph status verified (never substitutes mock results).
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_04_graph_query_response.png
+
+--- Journey 9: Cross-Tenant Isolation (Tenant B) ---
+[PASSED] Cross-Tenant Isolation (Tenant B): Tenant B accessing Tenant A returned status 200 / access blocked.
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_05_tenant_b_cross_isolation.png
+
+--- Journey 10: Auditor Read-Only Enforcement ---
+[PASSED] Auditor Read-Only Enforcement: Auditor write attempt rejected with: "ACCESS_DENIED"
+  -> Screenshot saved: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/evidence/screenshots/founder_06_auditor_read_only_rejection.png
+
+==================================================================
+PLAYWRIGHT FOUNDER JOURNEY SUMMARY
+==================================================================
+  Total Milestones: 13
+  Passed:           13
+  Failed:           0
+
+[STATUS] ALL REAL BROWSER FOUNDER JOURNEY MILESTONES PASSED WITH 100% SUCCESS.

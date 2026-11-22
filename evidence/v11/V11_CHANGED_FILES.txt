@@ -1,0 +1,11 @@
+STEP_V11_SECURITY_AND_AUTH0_EVIDENCE.md
+STEP_V11_SECURITY_AND_AUTH0_REPORT.md
+apps/web/__tests__/security/V11SecurityRepairs.test.js
+apps/web/__tests__/security/VitestDiscoveryContract.test.js
+apps/web/app/api/auth/me/route.js
+apps/web/app/api/integrations/gmail/callback/route.js
+apps/web/app/api/integrations/gmail/connect/route.js
+apps/web/app/api/search/route.js
+apps/web/lib/gmail.js
+scripts/guarded_disposable_verify.sh
+supabase/migrations/20260823000001_revoke_profiles_token_select.sql

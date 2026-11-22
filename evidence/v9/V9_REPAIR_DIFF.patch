@@ -1,0 +1,437 @@
+--- a/PARTH_HANDOFF.md
++++ b/PARTH_HANDOFF.md
+@@ -1,66 +1,9 @@
+-# workBYLiNE — Reproducible Engineering Handoff for Parth (`PARTH_HANDOFF.md`)
++# workBYLiNE — Engineering Handoff Entry Point
+ 
+-**v8 review candidate — local engineering review only.** This candidate builds on frozen v7 (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`) with bounded fixes for `V6-R3` failure-branch non-enumeration, `V7-P1` incomplete-lookup/pagination cap handling, `V6-D1` entry-point parity, and explicit single-instance vs. shared-cooldown hosting boundaries (`V6-R1`). Current v8 repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
++**Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
++**Latest Candidate:** `WorkByLine_Parth_Local_Review_v9.zip` (delta from frozen `v8`: `e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)
+ 
+-**Date:** 2026-11-19  
+-**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+-**Branch / Base Commit:** `antigravity/workbyline-v3-candidate` @ `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (parent `8560c4ea9b63064e33f431fe75965f73c7af4cc4`)  
+-**Supersedes:** Historical pre-Track-1 handoff docs and prior `WorkByLine_Candidate_Handoff_68fb5f4_repaired.zip` (`440da1676d991276038e92c01f6c056b38652022e6acefa34e97673f0cc1a1b3`, 1,148 manifest entries). Zero production migrations, remote pushes, hosted staging deployments, live external provider probes, or live-customer runs have been executed.
+-
+----
+-
+-## 1. Historical v4 Repository State & V3/V4 Audit Repairs (F01–F09, B1–B9)
+-
+-> [!IMPORTANT]
+-> **Boundary & Policy Notice:** Findings F01–F09 and B1–B9 remain marked **`IMPLEMENTED PENDING INDEPENDENT REVIEW`** until independent inspection of the v4 archive confirms closure. Protected targets (`careertwin-local-baseline` `54330–54335`, ports `3000`/`3004`) remain untouched. Any changes to core scoring formulas, weights, or calibration remain strictly a Founder Decision.
+-
+-- **F01 (HIGH — Screening Authorization):** `apps/web/app/api/candidate/screening-sessions/[sessionId]/complete/route.js` strictly enforces `ALLOWED_EMPLOYER_WRITER_ROLES = ['owner', 'admin', 'recruiter', 'hiring_manager']` (plus candidate self-completion); `auditor` and `viewer` receive `403 Forbidden` before any AI or DB writes.
+-- **F02 / B1–B2 (HIGH — Grounded Chat & Validator):** `apps/web/app/api/employer/chat/route.js` connects to authoritative `contextScope` / `contextFetch` and context tables (`context_source_objects`, `context_source_versions`, `context_parsed_artifacts`, `context_evidence_spans`), preserving `401`/`403` denials (`UNMAPPED_WORKSPACE` / `MAPPING_REVOKED`) without SQL fallback. `apps/web/lib/chatGrounding.js` was hardened with clause splitting on conjunctions, bidirectional negation polarity checks, entity presence & order validation, local numeric-context window matching, universal/production scope escalation detection, and pure-refusal isolation (`isPureRefusalClause`) so refusal prefixes never bypass validation of appended unsupported claims (fixing Counterexamples A, B, C and related bypasses).
+-- **F03 / B3 (HIGH — Authoritative Score Preservation):** `resolveAuthoritativeFitScore` in `apps/web/lib/scoreUtils.js` preserves intentional `decision_packet.fit_score === null` without falling back to stale `candidates.fit_score` across chat, shortlist, sidebar, and review views. Source cards are gated on packet presence; response modes (`deterministic_summary` / `grounded_generation` / `grounded_abstention`) are explicitly labeled.
+-- **F04 (HIGH — Disqualifier & Requirement Matching):** `apps/web/lib/evidenceExtractor.js` removes early `return` on disqualifiers, enforces word boundaries `\b` (with camelCase/snake_case identifier support), handles negation/polarity and positive idioms (`"track record"`), and removes the `microservices` -> `distributed systems` alias.
+-- **F05 / B6 (MEDIUM — Scoring Truthfulness):** `packages/proof-engine/src/index.ts` and `packages/shared-contracts/src/index.ts` separate `verified_proof_score` (corroborated `VERIFIED` proof only) from `assertion_alignment_score` (self-reported alignment) and export `evidence_breakdown` alongside deterministic `calculation_digest` without altering `fit_score` weights.
+-- **F06 / B7 (MEDIUM — Provider Inventory):** `apps/web/lib/ai.js` implements real Anthropic Messages API (`callClaude`), documents `WORKBYLINE_AI_PROVIDER` as a preference by default, and enforces zero-fallback single-provider restriction when `WORKBYLINE_AI_STRICT_PROVIDER=true`.
+-- **F07 / B4 (MEDIUM — Transactional Screening Completion):** `complete_screening_session_transactional` (`supabase/migrations/20260822000001_transactional_screening_completion.sql`) replaces separate writes/cleanup with row-locked (`FOR UPDATE`) transactional persistence of `overall_score`, `strengths`, `concerns`, and `recommended_next_step`, returning identical structured fields on initial completion and concurrent/idempotent replay.
+-- **B5 & F09 (Context States & DB Error Handling):** `context-sources` routes and `ContextEvidencePanel.jsx` preserve `pending`, `missing`, `lexical_only`, `unprojected`, and `disabled` states verbatim; `sourcing-sessions/[id]/route.js` and `packets/[extractionId]/route.js` surface explicit `500` / `unavailable` states on DB errors.
+-- **F08 / B8–B9 (Tests, Docs & Branding Reconciliation):** Replaced source-string checks in `tests/v3_regression.mjs` with behavioral + PGlite SQL execution, verified `apps/web/app/auth/page.jsx:177` brand green `#00D604` and reconciled `BrandingRegressionCheck.test.js` (`3/3`), and consolidated all canonical documentation under `docs/handoff/`.
+-
+----
+-
+-## 2. Clean Reproduction & Guarded Verification
+-
+-1. **Sanitized Environment Templates:** Configure from `.env.example` and `apps/web/.env.example`. Never commit real `.env*` files.
+-2. **Root Behavioral, Contract, Schema & Overlay Checks:**
+-   ```bash
+-   npm run test:v3-regression
+-   npm run test:contracts
+-   npm run test:postgres
+-   npm run check:overlay
+-   ```
+-3. **Web Lint, Build & Guarded Disposable Harness (Run ID `20261119T101535Z_21491` PASSED):**
+-   ```bash
+-   (cd apps/web && npm run lint && npm run build)
+-   bash scripts/guarded_disposable_verify.sh
+-   ```
+-
+----
+-
+-## 3. Canonical Documentation Set (`docs/handoff/`)
+-
+-- [START_HERE.md](./START_HERE.md)
+-- [ARCHITECTURE.md](./ARCHITECTURE.md)
+-- [DATA_AND_API_CONTRACTS.md](./DATA_AND_API_CONTRACTS.md)
+-- [DEPENDENCIES_AND_SETUP.md](./DEPENDENCIES_AND_SETUP.md)
+-- [INTEGRATIONS_AND_CONFIGURATION.md](./INTEGRATIONS_AND_CONFIGURATION.md)
+-- [IMPLEMENTATION_AND_VERIFICATION.md](./IMPLEMENTATION_AND_VERIFICATION.md)
+-- [SECURITY_AND_OPERATIONS.md](./SECURITY_AND_OPERATIONS.md)
+-- [PRD.md](./PRD.md)
+-- [ROADMAP.md](./ROADMAP.md)
+-- [PARTH_HANDOFF.md](./PARTH_HANDOFF.md)
+-
+----
+-
+-## 4. Founder Decisions Required Before Staging / Live Calls
+-
+-1. **STATE C & Track 2 Sign-Off:** Confirm V3 Track 1 scope and deferred Track 2 items (`PRD.md`, `ROADMAP.md`).
+-2. **Bounded Live-Provider Verification:** Explicitly authorize synthetic Gemini, DataVertex (`DATAVERTEX_MAX_CREDITS=2`), or Claude smoke tests before executing any live external API calls.
+-3. **Optional Offline Context Engine Unblocks:** Authorize installing `temporal` CLI (`127.0.0.1:7233`) and `BAAI/bge-small-en-v1.5` weights (`WORKBYLINE_EMBEDDING_WEIGHTS`) if full Temporal + hybrid pgvector retrieval is required in staging.
++- **Canonical Handoff:** [docs/handoff/PARTH_HANDOFF.md](./docs/handoff/PARTH_HANDOFF.md)
++- **Canonical Documentation Index:** [docs/handoff/START_HERE.md](./docs/handoff/START_HERE.md)
++- **Latest v9 Repair Report & Evidence:** [STEP_V9_REPAIRS_REPORT.md](./STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](./STEP_V9_REPAIRS_EVIDENCE.md)
++- **Historical v8 / v7 / v6 / v4 Records:** [STEP_V8_REPAIRS_REPORT.md](./STEP_V8_REPAIRS_REPORT.md), [STEP_V7_REPAIRS_REPORT.md](./STEP_V7_REPAIRS_REPORT.md), [STEP_FAILURE_REPAIRS_REPORT.md](./STEP_FAILURE_REPAIRS_REPORT.md), [TRACK1_REPAIR_STATUS.md](./TRACK1_REPAIR_STATUS.md), [VERIFICATION_EVIDENCE.md](./VERIFICATION_EVIDENCE.md)
+--- /dev/null
++++ b/STEP_V9_REPAIRS_EVIDENCE.md
+@@ -0,0 +1,28 @@
++# workBYLiNE Genome — v9 Verification Evidence
++
++**Date:** 2026-11-22  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Candidate:** `WorkByLine_Parth_Local_Review_v8.zip` (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)
++
++---
++
++## 1. Baseline Reproduction & Post-Repair Verification
++
++- **Baseline (`independent_v8_probes.mjs` on unchanged `v8`):** `17/17` assertions ran (`external_attempts: 0`), reproducing `V8-R1` (`3` distinct addresses -> `3,000` calls), `V8-R2` (`known 200` vs `absent 503`), `V8-R3` (`10,001` retained keys), and `V8-C2` (malformed `getUserByEmail` -> `200`).
++- **Post-Repair Link Validation:** Checked `54` relative Markdown links across `PARTH_HANDOFF.md` and `docs/handoff/*.md` -> **`0` broken links** (`V8-C1`).
++
++| Check | Command & CWD | Exit | Result & Boundary |
++|---|---|---:|---|
++| **Locked Install (Root & Web)** | `npm ci --no-audit --no-fund` (root & `apps/web`) | `0` | `4` + `936` packages installed cleanly |
++| **Focused V9 Vitest Suites** | `npx --no-install vitest run __tests__/pages/AuthPage.test.jsx __tests__/api/screeningCompleteBehavior.test.js __tests__/api/dryRunEmail.test.js __tests__/security/ApiAuthorizationCharacterization.test.js __tests__/security/BrandingRegressionCheck.test.js __tests__/security/VitestDiscoveryContract.test.js` (`apps/web`) | `0` | **6/6 files, 50/50 tests PASSED** (mocked `supabaseServer`, `smtp`, `ai`, `jsdom` UI; covers `V8-R1`, `V8-R2`, `V8-R3`, `V8-C2`, 7-branch non-enumeration, page-21 pagination, single-instance 8-way race, R2) |
++| **Root Suites** | `node tests/contracts.mjs && node tests/postgres_schema.mjs && node tests/check_overlay.mjs && node tests/v3_regression.mjs` (root) | `0` | Contracts `8/8`, PGlite `5/5`, Overlay `9/9`, V3 Regression `6/6` |
++| **v5 Employer-Chat Replay** | `node --no-warnings --experimental-vm-modules tests/employer-chat-v5.mjs` (root) | `0` | **38/38 PASSED**, `external requests: 0` (Node loopback HTTP) |
++| **ESLint & Next.js Build** | `npm run lint && npm run build` (`apps/web`) | `0` | `0` lint errors (`3` `<img>` warnings), Webpack compiled in `14.3s`, **51/51** static pages generated (`76` route table entries) |
++| **Guarded Disposable Harness** | `bash scripts/guarded_disposable_verify.sh` (`Run ID: 20261121T224805Z_64900`, DB `supabase_db_wbl-disposable-verify` `54422`, Kong `54421`, App `:3010`, `CAREERTWIN_DRY_RUN_EMAIL=true`, `WORKBYLINE_GENERATION_GATE=false`, live keys blank) | `0` | `status: "PASSED"`, `cleanup_status: "clean"`: Step 5 `1\|1\|0\|0\|1`; Step 6a **20/20 files (185/185 tests)**; Step 6b **6/6 files (61/61 tests)**; Step 8 live `:3010` **PASSED**; Step 9 Playwright **39 passed, 2 skipped, 0 failed** (`43.8s`) |
++
++---
++
++## 2. Remaining `NOT VERIFIED` Boundaries
++- **Multi-Instance Shared Store (`V6-R1`):** Default limiter is single-process only; external Redis/PostgreSQL shared store wiring requires Founder decision and hosted verification.
++- **Playwright Skips (`2/41`):** `EmployerDay3Assertions.test.js:439` (`Test E`) and `EmployerDay4Assertions.test.js:306` (`Scenario 14`).
++- **Not Verified Locally:** Live SMTP delivery, live external AI/sourcing providers, persistent Python Context Engine (`:8011` / Temporal `:7233` / BGE weights), GitHub `main` synchronization (`R1`), and hosted staging.
+--- /dev/null
++++ b/STEP_V9_REPAIRS_REPORT.md
+@@ -0,0 +1,36 @@
++# workBYLiNE Genome — v9 Bounded Auth-Recovery & Handoff Repairs Report
++
++**Date:** 2026-11-22  
++**Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`  
++**Parent Frozen Candidate:** `WorkByLine_Parth_Local_Review_v8.zip` (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)  
++**New Candidate:** `WorkByLine_Parth_Local_Review_v9.zip` (see `STEP_V9_REPAIRS_EVIDENCE.md` for SHA-256 and manifest)
++
++---
++
++## 1. Executive Summary
++
++Closed the remaining bounded findings from `WorkByLine_v8_Independent_Review_20261122.zip`:
++- **`V8-R1` (Aggregate Directory Work Budget):** Reduced synchronous `listUsers` fallback cap from `1,000` to `MAX_LIST_USERS_PAGES = 25` and added an endpoint-wide window budget (`MAX_DIRECTORY_CALLS_PER_WINDOW = 50` calls per `60s` across all emails, returning `429 RATE_LIMITED` when exhausted).
++- **`V8-R2` (Oversized Directory Status Differentiation):** When `listUsers` advertises `lastPage > MAX_LIST_USERS_PAGES`, `findUserByEmail` now fails fast and uniformly (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on page 1 before matching any user, eliminating the page-1 `200` vs. absent `503` distinction.
++- **`V8-R3` (Expired Cooldown Entry Pruning & Bounded Cardinality):** `createMemoryCooldownStore({ maxEntries = 2000 })` now prunes expired entries (`expiresAt <= now`) on `tryReserve` (plus FIFO eviction if active keys exceed `maxEntries`), bounding memory under distinct-address churn.
++- **`V8-C1` (Root Handoff Broken Relative Links):** Replaced the broken root-copied `PARTH_HANDOFF.md` links with valid root-relative links pointing to `./docs/handoff/PARTH_HANDOFF.md`, `./docs/handoff/START_HERE.md`, and `./STEP_V9_REPAIRS_*` (`54/54` links verified, `0` broken).
++- **`V8-C2` (Optional `getUserByEmail` Malformed Payload Guard):** `findUserByEmail` now requires `{ data: { user } }` (and valid `email` when non-null), returning `503 VERIFICATION_LOOKUP_UNAVAILABLE` on malformed `{ data: { unexpected: true } }` responses instead of treating them as absence.
++
++---
++
++## 2. Exact Source Delta (`8` Changed/Added Paths vs. Frozen v8)
++
++1. `apps/web/app/api/auth/resend-verification/route.js` — Bounded `MAX_LIST_USERS_PAGES = 25`, aggregate `MAX_DIRECTORY_CALLS_PER_WINDOW = 50` (`429`), uniform `lastPage > 25` early `503`, strict `getUserByEmail` contract validation, and expired-key pruning / `maxEntries = 2000` bounded cooldown store.
++2. `apps/web/__tests__/pages/AuthPage.test.jsx` — Added regression tests for `V8-C2` malformed `getUserByEmail`, `V8-R2` oversized directory uniform `503`, `V8-R1` 50-call aggregate budget (`429`), and `V8-R3` expired-key pruning (`400 -> 1` after expiry).
++3. `PARTH_HANDOFF.md` — Root entry point with valid root-relative links (`V8-C1`).
++4. `docs/handoff/START_HERE.md`, `docs/handoff/PARTH_HANDOFF.md`, `docs/handoff/DATA_AND_API_CONTRACTS.md` — Updated candidate identity to `v9` and documented the bounded lookup/cooldown contract.
++5. `STEP_V9_REPAIRS_REPORT.md` & `STEP_V9_REPAIRS_EVIDENCE.md` (plus `evidence/v9/V9_REPAIR_DIFF.patch`).
++
++---
++
++## 3. Remaining Release Gates & Founder Choice (`V6-R1`)
++
++- **Founder Decision Required (`V6-R1` Multi-Instance Hosting):** Default `createMemoryCooldownStore()` and `directoryWindowCalls` remain single-process only. Multi-instance / serverless hosting remains **`BLOCKED / FOUNDER DECISION REQUIRED`** between:
++  - **Option A:** PostgreSQL `auth_resend_cooldowns` table + atomic `SECURITY DEFINER` RPC migration + O(1) indexed user lookup (or approved GoTrue email configuration) so no synchronous `listUsers` scan is needed.
++  - **Option B:** Redis (`SET key NX PX 60000` + aggregate counter) wired via `setResendCooldownStore()`.
++- **Rollback:** Retain frozen `WorkByLine_Parth_Local_Review_v8.zip` (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`) as comparison reference. Zero SQL migrations were added in v9.
+--- a/apps/web/__tests__/pages/AuthPage.test.jsx
++++ b/apps/web/__tests__/pages/AuthPage.test.jsx
+@@ -348,6 +348,87 @@
+     }));
+     expect(malformedLookupRes.status).toBe(503);
+ 
++    // 7. V8-C2: Malformed optional getUserByEmail payload -> 503 (never treated as absence)
++    mockCreateSupabaseServerClient.mockResolvedValueOnce({
++      auth: { admin: { getUserByEmail: vi.fn().mockResolvedValue({ data: { unexpected: true }, error: null }) } },
++    });
++    const malformedDirectRes = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'directmalformed@example.invalid' }),
++    }));
++    expect(malformedDirectRes.status).toBe(503);
++
++    // 8. V8-R2: Oversized directory (lastPage: 1001) returns uniform 503 on BOTH page-1 match and absent address (1 call each)
++    const oversizedDir = (emailMatch) => ({
++      auth: {
++        admin: {
++          listUsers: vi.fn().mockResolvedValue({
++            data: { users: emailMatch ? [{ id: 'p1', email: emailMatch, email_confirmed_at: null }] : [], nextPage: 2, lastPage: 1001 },
++            error: null,
++          }),
++        },
++      },
++    });
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir('p1over@example.invalid'));
++    const overKnown = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'p1over@example.invalid' }),
++    }));
++    mockCreateSupabaseServerClient.mockResolvedValueOnce(oversizedDir(null));
++    const overAbsent = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'absentover@example.invalid' }),
++    }));
++    expect(overKnown.status).toBe(503);
++    expect(overAbsent.status).toBe(503);
++
++    // 9. V8-R1: Aggregate endpoint directory budget (50 calls) blocks distinct-address amplification with 429
++    __resetResendCooldownForTests();
++    let totalLookups = 0;
++    mockCreateSupabaseServerClient.mockResolvedValue({
++      auth: {
++        admin: {
++          listUsers: vi.fn().mockImplementation(async ({ page }) => {
++            totalLookups++;
++            return { data: { users: firstPage, nextPage: page + 1 }, error: null };
++          }),
++        },
++      },
++    });
++    const rA = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'amp1@example.invalid' }),
++    }));
++    const rB = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'amp2@example.invalid' }),
++    }));
++    const rC = await resendPOST(new Request('http://localhost/api/auth/resend-verification', {
++      method: 'POST',
++      body: JSON.stringify({ email: 'amp3@example.invalid' }),
++    }));
++    expect(rA.status).toBe(503);
++    expect(rB.status).toBe(503);
++    expect(rC.status).toBe(429);
++    expect(totalLookups).toBeLessThanOrEqual(50);
++
++    // 10. V8-R3: Expired keys are evicted and map size stays strictly bounded
++    const store = createMemoryCooldownStore({ maxEntries: 500 });
++    const realNow = Date.now;
++    let fakeNow = 1_000_000;
++    Date.now = () => fakeNow;
++    try {
++      for (let i = 0; i < 400; i++) {
++        store.tryReserve(`churn-${i}@example.invalid`, 10);
++      }
++      expect(store.size()).toBe(400);
++      fakeNow += 50; // All 400 keys expired
++      store.tryReserve('fresh@example.invalid', 60_000);
++      expect(store.size()).toBe(1);
++    } finally {
++      Date.now = realNow;
++    }
++
+     const b1 = await p21Res.json();
+     const b2 = await absentRes.json();
+     const b3 = await confirmedRes.json();
+--- a/apps/web/app/api/auth/resend-verification/route.js
++++ b/apps/web/app/api/auth/resend-verification/route.js
+@@ -3,21 +3,47 @@
+ import { deliverVerificationEmail } from '@/lib/verificationEmail';
+ 
+ const RESEND_COOLDOWN_MS = 60_000;
+-const MAX_LIST_USERS_PAGES = 1000;
++const MAX_LIST_USERS_PAGES = 25;
+ const LIST_USERS_PER_PAGE = 1000;
++const MAX_DIRECTORY_CALLS_PER_WINDOW = 50;
++const DIRECTORY_BUDGET_WINDOW_MS = 60_000;
++const DEFAULT_MAX_COOLDOWN_ENTRIES = 2000;
+ const GENERIC_PUBLIC_MESSAGE = 'If an unverified account exists for this email, a verification email will be sent.';
+ 
+-export function createMemoryCooldownStore() {
++export function createMemoryCooldownStore({ maxEntries = DEFAULT_MAX_COOLDOWN_ENTRIES } = {}) {
+   const map = new Map();
++
++  function pruneExpired(now) {
++    for (const [k, exp] of map.entries()) {
++      if (exp <= now) {
++        map.delete(k);
++      }
++    }
++  }
++
+   return {
+     tryReserve(key, ttlMs) {
+       const now = Date.now();
+-      const expiresAt = map.get(key);
+-      if (expiresAt && expiresAt > now) {
+-        return { admitted: false, retryAfterSeconds: Math.max(1, Math.ceil((expiresAt - now) / 1000)) };
++      const existing = map.get(key);
++      if (existing && existing > now) {
++        return { admitted: false, retryAfterSeconds: Math.max(1, Math.ceil((existing - now) / 1000)) };
++      }
++      if (existing !== undefined && existing <= now) {
++        map.delete(key);
++      }
++      if (map.size >= 64 || map.size >= maxEntries) {
++        pruneExpired(now);
++      }
++      while (map.size >= maxEntries) {
++        const oldestKey = map.keys().next().value;
++        if (oldestKey === undefined) break;
++        map.delete(oldestKey);
+       }
+       map.set(key, now + ttlMs);
+       return { admitted: true, retryAfterSeconds: 0 };
++    },
++    size() {
++      return map.size;
+     },
+     clear() {
+       map.clear();
+@@ -26,6 +52,8 @@
+ }
+ 
+ let activeCooldownStore = createMemoryCooldownStore();
++let directoryWindowStart = 0;
++let directoryWindowCalls = 0;
+ 
+ export function setResendCooldownStore(store) {
+   activeCooldownStore = store || createMemoryCooldownStore();
+@@ -35,15 +63,40 @@
+   if (typeof activeCooldownStore.clear === 'function') {
+     activeCooldownStore.clear();
+   }
++  directoryWindowStart = 0;
++  directoryWindowCalls = 0;
++}
++
++function consumeDirectoryCallBudget() {
++  const now = Date.now();
++  if (now - directoryWindowStart >= DIRECTORY_BUDGET_WINDOW_MS) {
++    directoryWindowStart = now;
++    directoryWindowCalls = 0;
++  }
++  if (directoryWindowCalls >= MAX_DIRECTORY_CALLS_PER_WINDOW) {
++    return false;
++  }
++  directoryWindowCalls += 1;
++  return true;
+ }
+ 
+ async function findUserByEmail(admin, normalizedEmail, maxPages = MAX_LIST_USERS_PAGES) {
+   if (typeof admin?.getUserByEmail === 'function') {
++    if (!consumeDirectoryCallBudget()) {
++      return { user: null, incomplete: true, budgetExceeded: true, error: new Error('Directory lookup budget exhausted') };
++    }
+     const res = await admin.getUserByEmail(normalizedEmail);
+     if (res?.error) {
+       return { user: null, incomplete: false, error: res.error };
+     }
+-    return { user: res?.data?.user || null, incomplete: false, error: null };
++    if (!res?.data || !Object.prototype.hasOwnProperty.call(res.data, 'user')) {
++      return { user: null, incomplete: true, error: new Error('Malformed direct user lookup payload') };
++    }
++    const directUser = res.data.user;
++    if (directUser !== null && (typeof directUser !== 'object' || typeof directUser.email !== 'string')) {
++      return { user: null, incomplete: true, error: new Error('Malformed direct user record') };
++    }
++    return { user: directUser, incomplete: false, error: null };
+   }
+ 
+   if (typeof admin?.listUsers !== 'function') {
+@@ -51,6 +104,9 @@
+   }
+ 
+   for (let page = 1; page <= maxPages; page++) {
++    if (!consumeDirectoryCallBudget()) {
++      return { user: null, incomplete: true, budgetExceeded: true, error: new Error('Directory lookup budget exhausted') };
++    }
+     const { data: listData, error: listErr } = await admin.listUsers({
+       page,
+       perPage: LIST_USERS_PER_PAGE,
+@@ -61,6 +117,10 @@
+     if (!Array.isArray(listData?.users)) {
+       return { user: null, incomplete: true, error: new Error('Malformed admin user directory response') };
+     }
++    // Fail uniformly before scanning page 1 if directory advertises more pages than the synchronous cap (prevents V8-R2 position leak)
++    if (typeof listData?.lastPage === 'number' && listData.lastPage > maxPages) {
++      return { user: null, incomplete: true, error: new Error('Admin user directory exceeds synchronous scan cap') };
++    }
+     const users = listData.users;
+     const match = users.find(
+       (u) => typeof u?.email === 'string' && u.email.trim().toLowerCase() === normalizedEmail
+@@ -85,7 +145,7 @@
+       return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
+     }
+ 
+-    // Atomic cooldown reservation BEFORE any await or user lookup (single-process default; shared store required for multi-instance)
++    // Atomic per-email cooldown reservation with expired-entry pruning (single-process default; shared store required for multi-instance)
+     const reservation = await activeCooldownStore.tryReserve(email, RESEND_COOLDOWN_MS);
+     if (!reservation?.admitted) {
+       return NextResponse.json(
+@@ -99,7 +159,17 @@
+     }
+ 
+     const supabase = await createSupabaseServerClient(null, true);
+-    const { user: existing, incomplete, error: lookupErr } = await findUserByEmail(supabase.auth?.admin, email);
++    const { user: existing, incomplete, budgetExceeded, error: lookupErr } = await findUserByEmail(supabase.auth?.admin, email);
++    if (budgetExceeded) {
++      return NextResponse.json(
++        {
++          error: 'RATE_LIMITED',
++          retry_after_seconds: 60,
++          message: 'Too many verification requests. Please wait and try again.',
++        },
++        { status: 429 }
++      );
++    }
+     if (lookupErr || incomplete) {
+       console.error('[API Resend Verification] Directory lookup failed or incomplete:', {
+         incomplete: Boolean(incomplete),
+@@ -125,7 +195,6 @@
+ 
+     const delivery = await deliverVerificationEmail({ supabase, email, isResend: true });
+     if (!delivery.ok) {
+-      // Log privately without tokens/credentials; keep public response identical to avoid account enumeration
+       console.error('[API Resend Verification] Private delivery failure:', {
+         stage: delivery.error || 'VERIFICATION_EMAIL_DELIVERY_FAILED',
+         status: delivery.status,
+--- a/docs/handoff/DATA_AND_API_CONTRACTS.md
++++ b/docs/handoff/DATA_AND_API_CONTRACTS.md
+@@ -43,7 +43,7 @@
+ 
+ - **Auth:** `/api/auth/{confirm,me,signin,signup,resend-verification}`, `/api/health`, `/api/search`.
+   - `POST /api/auth/signup` returns `delivery_status` (`'sent' | 'suppressed_dry_run' | 'failed' | 'not_attempted'`), `account_created`, `email_sent`, and `retry_supported` (`503 VERIFICATION_EMAIL_DELIVERY_FAILED` on SMTP failure; `500 VERIFICATION_LINK_FAILED` on both returned errors and thrown link exceptions).
+-  - `POST /api/auth/resend-verification` enforces atomic pre-lookup cooldown reservation (`429 RATE_LIMITED`), paginates past page 20 (`MAX_LIST_USERS_PAGES = 1000`) or uses `getUserByEmail`, fails truthfully (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on lookup error or incomplete/malformed directory responses, and returns a uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, unconfirmed-sent, and unconfirmed-delivery/link-failure branches without recreating users. Multi-instance hosting requires configuring an approved shared cooldown store via `setResendCooldownStore()`.
++  - `POST /api/auth/resend-verification` enforces atomic pre-lookup cooldown reservation (`429 RATE_LIMITED`) with expired-entry pruning and bounded store cardinality (`DEFAULT_MAX_COOLDOWN_ENTRIES = 2000`), enforces an aggregate directory lookup budget (`MAX_DIRECTORY_CALLS_PER_WINDOW = 50` per 60s), caps synchronous `listUsers` fallback (`MAX_LIST_USERS_PAGES = 25`), validates `getUserByEmail` payload shape (`user` property required), fails uniformly (`503 VERIFICATION_LOOKUP_UNAVAILABLE`) on lookup error or oversized/incomplete/malformed directory responses, and returns a uniform non-enumerating `200` `{ delivery_status: 'accepted', message }` across absent, confirmed, dry-run, unconfirmed-sent, and unconfirmed-delivery/link-failure branches without recreating users. Multi-instance hosting requires configuring an approved shared cooldown store via `setResendCooldownStore()`.
+ - **Candidate:** `/api/candidate/profile`, `/api/candidate/status/[candidateId]`, `/api/candidate/proof-profile/[candidateId]` (`POST /generate`), `/api/candidate/screening-sessions/[sessionId]` (`POST /start`, `POST /answer`, `POST /complete`).
+   - `POST /api/candidate/screening-sessions/[sessionId]/complete` fails closed on `screening_answers` read/malformed errors (`503 SCREENING_ANSWERS_UNAVAILABLE` / `422 SCREENING_ANSWERS_INVALID`) and empty answers (`422 INSUFFICIENT_SCREENING_ANSWERS`) before generation or RPC writes; when at least one valid non-empty answer row is present, blank/non-string rows are filtered out (`V6-C1`).
+ - **Employer Briefs & Packets:** `/api/employer/hiring-runs` (`POST /suggest`), `/api/employer/brief/[id]` (`POST /approve`), `/api/employer/candidate-documents/upload`, `/api/employer/candidate-documents/[documentId]/download`, `/api/employer/packets/[extractionId]` (`POST /generate`, `POST /action`), `/api/employer/shortlist/[roleId]`.
+--- a/docs/handoff/PARTH_HANDOFF.md
++++ b/docs/handoff/PARTH_HANDOFF.md
+@@ -1,6 +1,6 @@
+ # workBYLiNE — Reproducible Engineering Handoff for Parth (`PARTH_HANDOFF.md`)
+ 
+-**v8 review candidate — local engineering review only.** This candidate builds on frozen v7 (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`) with bounded fixes for `V6-R3` failure-branch non-enumeration, `V7-P1` incomplete-lookup/pagination cap handling, `V6-D1` entry-point parity, and explicit single-instance vs. shared-cooldown hosting boundaries (`V6-R1`). Current v8 repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
++**v9 review candidate — local engineering review only.** This candidate builds on frozen v8 (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`) with bounded fixes for `V8-R1` (bounded directory scan + aggregate work budget), `V8-R2` (uniform oversized-directory `503`), `V8-R3` (expired-key pruning & bounded cooldown map), `V8-C1` (root handoff links), and `V8-C2` (strict `getUserByEmail` contract validation). Current v9 repair & evidence records: [STEP_V9_REPAIRS_REPORT.md](../../STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](../../STEP_V9_REPAIRS_EVIDENCE.md).
+ 
+ **Date:** 2026-11-19  
+ **Lifecycle State:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)  
+--- a/docs/handoff/START_HERE.md
++++ b/docs/handoff/START_HERE.md
+@@ -1,11 +1,11 @@
+ # workBYLiNE — Authoritative Engineering Handoff (`START_HERE.md`)
+ 
+-**v8 review candidate — local technical review only.** Current repair & evidence records: [STEP_V8_REPAIRS_REPORT.md](../../STEP_V8_REPAIRS_REPORT.md) and [STEP_V8_REPAIRS_EVIDENCE.md](../../STEP_V8_REPAIRS_EVIDENCE.md).
++**v9 review candidate — local technical review only.** Current repair & evidence records: [STEP_V9_REPAIRS_REPORT.md](../../STEP_V9_REPAIRS_REPORT.md) and [STEP_V9_REPAIRS_EVIDENCE.md](../../STEP_V9_REPAIRS_EVIDENCE.md).
+ 
+ - **Product / Project:** workBYLiNE (Genome V3 / CareerTwin Hiring Intelligence Platform)
+ - **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW` (STATE C)
+-- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v8 is a versioned archive delta beyond historical base commit)
+-- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v7.zip` (`a8965a16b39c5d0b332aaf91c47dcd0d868afb170b886259ab47c2d8617e71a0`)
++- **Historical Base Commit Reference:** `68fb5f443dd20585670ed3f5c5a06ff4e8dc30f1` (v9 is a versioned archive delta beyond historical base commit)
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v8.zip` (`e834acb929bde40968cd7426ffcd858785f2fd3d0d7b340df9a15990609fd00e`)
+ 
+ > [!IMPORTANT]
+ > **Status Boundary:** Neither this documentation nor the passing disposable/mocked verification gates declare the system `APPROVED`, `PRODUCTION READY`, or `REAL-COMPANY DATA READY`. All findings remain `IMPLEMENTED PENDING INDEPENDENT REVIEW` outside the bounded v5 review. Deployment and real-provider authorization remain separate.

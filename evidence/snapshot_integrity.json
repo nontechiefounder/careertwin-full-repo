@@ -1,0 +1,258 @@
+{
+  "files": 63,
+  "unchanged": true,
+  "checks": [
+    {
+      "path": "migrations/20260815000001_scheduled_emails_atomic_uniqueness.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260817000001_core09_transactional_decisions_and_storage.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260814000001_candidate_evidence_ledger.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260804000001_staging_authorization_blockers.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260805000001_fix_staging_rls_discrepancies.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260818000001_context_evidence_foundation.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260816000001_close_release_blockers.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260803000002_organization_and_rls_hardening.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260816000003_strict_rpc_validation_and_audit_history.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260814000002_candidate_evidence_tenant_security.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260816000002_exact_document_and_rubric_binding.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260815000002_packet_provenance_and_email_scope.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260803000003_organization_authorization_completion.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260803000001_operational_schema_baseline.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260817000002_migration_tracking_synchronization.sql",
+      "matches": true
+    },
+    {
+      "path": "migrations/20260814000003_atomic_claim_ledger_revision.sql",
+      "matches": true
+    },
+    {
+      "path": "v2_integration_rehearsal_full.patch",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/rehearse_paired_rollback.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/deploy_staging.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/run_customer_journey.js",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/rollback_staging.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/verify_staging_acceptance.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/verify_staging_smoke.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/seed_synthetic_data.sh",
+      "matches": true
+    },
+    {
+      "path": "infra/deployment/test_script_defects.sh",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/employer/brief/[id]/research/page.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/employer/brief/[id]/page.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/page.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/api/employer/research-qa/route.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/api/employer/context-sources/route.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/api/employer/context-sources/[sourceId]/evidence/route.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/app/api/employer/context-sources/upload/route.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/components/research/ResearchQAPanel.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/components/context/ContextEvidencePanel.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/__tests__/context/ContextEvidenceFoundation.test.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/__tests__/security/VitestDiscoveryContract.test.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/__tests__/components/ResearchQAPanel.test.jsx",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/__tests__/api/researchQA.test.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/package-lock.json",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/package.json",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/lib/engineConfig.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/lib/contextEvidenceWorker.js",
+      "matches": true
+    },
+    {
+      "path": "source/apps/web/.env.example",
+      "matches": true
+    },
+    {
+      "path": "logs/vitest_full_suite_53_files.log",
+      "matches": true
+    },
+    {
+      "path": "logs/vitest_full_suite_52_files.log",
+      "matches": true
+    },
+    {
+      "path": "logs/paired_rollback_rehearsal.log",
+      "matches": true
+    },
+    {
+      "path": "logs/nextjs_production_build.log",
+      "matches": true
+    },
+    {
+      "path": ".env.example",
+      "matches": true
+    },
+    {
+      "path": "engine/app/auth.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/ingestion.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/db.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/services.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/models.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/research_qa.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/__init__.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/schemas.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/extraction.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/retrieval.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/grounding.py",
+      "matches": true
+    },
+    {
+      "path": "engine/app/main.py",
+      "matches": true
+    },
+    {
+      "path": "engine/requirements.txt",
+      "matches": true
+    },
+    {
+      "path": "engine/requirements-bge.txt",
+      "matches": true
+    },
+    {
+      "path": "00_START_HERE.md",
+      "matches": true
+    }
+  ]
+}

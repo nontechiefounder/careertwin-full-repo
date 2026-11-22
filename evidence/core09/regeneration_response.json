@@ -1,0 +1,551 @@
+{
+  "gates": {
+    "gatePass": false,
+    "disqualified": false,
+    "failedMustHaves": [
+      "Distributed Systems",
+      "Kubernetes",
+      "Go"
+    ],
+    "disqualificationReasons": []
+  },
+  "claims": [
+    {
+      "id": "claim_8324736c_mh_1_545",
+      "status": "INFERRED",
+      "claim_text": "Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_545_636",
+          "page": 2,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime",
+          "locator": "Page 2 (Chars 545-636)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+          "source_offset": {
+            "page": 2,
+            "end_char": 636,
+            "char_count": 91,
+            "end_offset": 636,
+            "start_char": 545,
+            "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+            "start_offset": 545
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_1",
+      "evidence_classification": "self_reported"
+    },
+    {
+      "id": "claim_8324736c_mh_2_173",
+      "status": "INFERRED",
+      "claim_text": "Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_173_269",
+          "page": 1,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal",
+          "locator": "Page 1 (Chars 173-269)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+          "source_offset": {
+            "page": 1,
+            "end_char": 269,
+            "char_count": 96,
+            "end_offset": 269,
+            "start_char": 173,
+            "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+            "start_offset": 173
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_2",
+      "evidence_classification": "self_reported"
+    },
+    {
+      "id": "claim_8324736c_mh_3_430",
+      "status": "INFERRED",
+      "claim_text": "Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_430_473",
+          "page": 1,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "- Programming & Scripting: Go, Python, Bash",
+          "locator": "Page 1 (Chars 430-473)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+          "source_offset": {
+            "page": 1,
+            "end_char": 473,
+            "char_count": 43,
+            "end_offset": 473,
+            "start_char": 430,
+            "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+            "start_offset": 430
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_3",
+      "evidence_classification": "self_reported"
+    }
+  ],
+  "concerns": [
+    "Distributed Systems",
+    "Kubernetes",
+    "Go"
+  ],
+  "filename": "sarah_connor_lead_infra.pdf",
+  "fit_score": 50,
+  "ledger_id": "d5600520-d44a-49a8-a546-9ba75f38086b",
+  "strengths": [
+    "Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)",
+    "Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)",
+    "Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)"
+  ],
+  "claim_edges": [
+    {
+      "claim_id": "claim_8324736c_mh_1_545",
+      "evidence_id": "ev_8324736c_545_636"
+    },
+    {
+      "claim_id": "claim_8324736c_mh_2_173",
+      "evidence_id": "ev_8324736c_173_269"
+    },
+    {
+      "claim_id": "claim_8324736c_mh_3_430",
+      "evidence_id": "ev_8324736c_430_473"
+    }
+  ],
+  "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+  "parser_name": "pdf-parse@2.4.5",
+  "why_matched": "Candidate evaluated against role ProofContract: Staff Cloud & Kubernetes Platform Architect.",
+  "why_sourced": "Sourced based on verified criteria for Staff Cloud & Kubernetes Platform Architect.",
+  "claim_ledger": [
+    {
+      "id": "claim_8324736c_mh_1_545",
+      "status": "INFERRED",
+      "claim_text": "Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_545_636",
+          "page": 2,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime",
+          "locator": "Page 2 (Chars 545-636)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+          "source_offset": {
+            "page": 2,
+            "end_char": 636,
+            "char_count": 91,
+            "end_offset": 636,
+            "start_char": 545,
+            "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+            "start_offset": 545
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_1",
+      "evidence_classification": "self_reported"
+    },
+    {
+      "id": "claim_8324736c_mh_2_173",
+      "status": "INFERRED",
+      "claim_text": "Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_173_269",
+          "page": 1,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal",
+          "locator": "Page 1 (Chars 173-269)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+          "source_offset": {
+            "page": 1,
+            "end_char": 269,
+            "char_count": 96,
+            "end_offset": 269,
+            "start_char": 173,
+            "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+            "start_offset": 173
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_2",
+      "evidence_classification": "self_reported"
+    },
+    {
+      "id": "claim_8324736c_mh_3_430",
+      "status": "INFERRED",
+      "claim_text": "Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)",
+      "confidence": 0.6,
+      "is_inferred": true,
+      "source_type": "resume_assertion",
+      "evidence_refs": [
+        {
+          "id": "ev_8324736c_430_473",
+          "page": 1,
+          "org_id": "00000000-0000-4000-c000-000000000001",
+          "parser": "pdf-parse@2.4.5",
+          "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+          "excerpt": "- Programming & Scripting: Go, Python, Bash",
+          "locator": "Page 1 (Chars 430-473)",
+          "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+          "version": "1.0.0",
+          "filename": "sarah_connor_lead_infra.pdf",
+          "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "file_type": "pdf",
+          "mime_type": "application/pdf",
+          "created_at": "2026-10-13T00:51:45.820708+00:00",
+          "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+          "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+          "parser_name": "pdf-parse@2.4.5",
+          "source_tier": "self_claim",
+          "source_type": "pdf",
+          "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+          "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+          "source_offset": {
+            "page": 1,
+            "end_char": 473,
+            "char_count": 43,
+            "end_offset": 473,
+            "start_char": 430,
+            "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+            "start_offset": 430
+          },
+          "parser_version": "pdf-parse@2.4.5",
+          "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+        }
+      ],
+      "is_conflicting": false,
+      "requirement_id": "mh_3",
+      "evidence_classification": "self_reported"
+    }
+  ],
+  "evaluated_at": "2026-10-13T00:52:00.087Z",
+  "role_version": "1.0.0",
+  "spec_version": "1.0.0-kernel",
+  "evidence_refs": [
+    {
+      "id": "ev_8324736c_545_636",
+      "page": 2,
+      "org_id": "00000000-0000-4000-c000-000000000001",
+      "parser": "pdf-parse@2.4.5",
+      "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+      "excerpt": "- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime",
+      "locator": "Page 2 (Chars 545-636)",
+      "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+      "version": "1.0.0",
+      "filename": "sarah_connor_lead_infra.pdf",
+      "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "file_type": "pdf",
+      "mime_type": "application/pdf",
+      "created_at": "2026-10-13T00:51:45.820708+00:00",
+      "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+      "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "parser_name": "pdf-parse@2.4.5",
+      "source_tier": "self_claim",
+      "source_type": "pdf",
+      "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+      "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+      "source_offset": {
+        "page": 2,
+        "end_char": 636,
+        "char_count": 91,
+        "end_offset": 636,
+        "start_char": 545,
+        "excerpt_hash": "0defe95fa6c31be99463deb5566b24a67a7075b3da0781260ff78d291863a6c5",
+        "start_offset": 545
+      },
+      "parser_version": "pdf-parse@2.4.5",
+      "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+    },
+    {
+      "id": "ev_8324736c_173_269",
+      "page": 1,
+      "org_id": "00000000-0000-4000-c000-000000000001",
+      "parser": "pdf-parse@2.4.5",
+      "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+      "excerpt": "Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal",
+      "locator": "Page 1 (Chars 173-269)",
+      "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+      "version": "1.0.0",
+      "filename": "sarah_connor_lead_infra.pdf",
+      "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "file_type": "pdf",
+      "mime_type": "application/pdf",
+      "created_at": "2026-10-13T00:51:45.820708+00:00",
+      "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+      "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "parser_name": "pdf-parse@2.4.5",
+      "source_tier": "self_claim",
+      "source_type": "pdf",
+      "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+      "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+      "source_offset": {
+        "page": 1,
+        "end_char": 269,
+        "char_count": 96,
+        "end_offset": 269,
+        "start_char": 173,
+        "excerpt_hash": "314179d5bf0ae0cdf187be8956cc2002c163e2969d719ac4f4b77631f14f0c89",
+        "start_offset": 173
+      },
+      "parser_version": "pdf-parse@2.4.5",
+      "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+    },
+    {
+      "id": "ev_8324736c_430_473",
+      "page": 1,
+      "org_id": "00000000-0000-4000-c000-000000000001",
+      "parser": "pdf-parse@2.4.5",
+      "sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+      "excerpt": "- Programming & Scripting: Go, Python, Bash",
+      "locator": "Page 1 (Chars 430-473)",
+      "role_id": "8cc72e65-72ae-470f-8519-f398caf521e7",
+      "version": "1.0.0",
+      "filename": "sarah_connor_lead_infra.pdf",
+      "file_hash": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "file_type": "pdf",
+      "mime_type": "application/pdf",
+      "created_at": "2026-10-13T00:51:45.820708+00:00",
+      "document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+      "file_sha256": "90ebc8dfa402e2da6a47e2e5bdbc8d971fce06f76b5c3a359144ef948473844f",
+      "parser_name": "pdf-parse@2.4.5",
+      "source_tier": "self_claim",
+      "source_type": "pdf",
+      "candidate_id": "349ae0b3-8eb3-431f-8e2c-2130b4df3f25",
+      "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+      "source_offset": {
+        "page": 1,
+        "end_char": 473,
+        "char_count": 43,
+        "end_offset": 473,
+        "start_char": 430,
+        "excerpt_hash": "60f95a1e245bca6ef0258212281909385ca2ab900e199f9af2c89a6ae03411c2",
+        "start_offset": 430
+      },
+      "parser_version": "pdf-parse@2.4.5",
+      "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5"
+    }
+  ],
+  "missing_proof": [
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Distributed Systems: \"Describe a specific production incident where you implemented Distributed Systems.\"",
+      "why_insufficient": "Requirement \"Distributed Systems\" appears in resume skill list only (\"Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.",
+      "unproven_requirement": "Distributed Systems"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Kubernetes: \"Describe a specific production incident where you implemented Kubernetes.\"",
+      "why_insufficient": "Requirement \"Kubernetes\" appears in resume skill list only (\"Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.",
+      "unproven_requirement": "Kubernetes"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Go: \"Describe a specific production incident where you implemented Go.\"",
+      "why_insufficient": "Requirement \"Go\" appears in resume skill list only (\"Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.",
+      "unproven_requirement": "Go"
+    }
+  ],
+  "human_decision": {
+    "action": "hold",
+    "status": "hold",
+    "actor_id": "00000000-0000-4000-a000-000000000001",
+    "rationale": "Candidate demonstrates verified multi-cluster Kubernetes production mastery. Hold pending final compensation and scheduling review.",
+    "timestamp": "2026-10-13 00:51:56.046524+00",
+    "actor_email": "synthetic.employer.alpha@example.invalid",
+    "recorded_at": "2026-10-13 00:51:56.046524+00",
+    "decision_history": [
+      {
+        "action": "hold",
+        "status": "hold",
+        "actor_id": "00000000-0000-4000-a000-000000000001",
+        "rationale": "Candidate demonstrates verified multi-cluster Kubernetes production mastery. Hold pending final compensation and scheduling review.",
+        "timestamp": "2026-10-13 00:51:56.046524+00",
+        "actor_email": "synthetic.employer.alpha@example.invalid",
+        "recorded_at": "2026-10-13 00:51:56.046524+00",
+        "requires_re_review": false,
+        "reviewed_document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+        "reviewed_rubric_version": "1.0.0",
+        "reviewed_ledger_revision": 1
+      }
+    ],
+    "re_review_reason": "Packet updated to revision 2 under rubric 1.0.0. Review previous decision.",
+    "requires_re_review": true,
+    "reviewed_document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+    "reviewed_rubric_version": "1.0.0",
+    "reviewed_ledger_revision": 1
+  },
+  "rubric_version": "1.0.0",
+  "screen_summary": "Candidate evaluated as NEEDS PROOF with Proof Strength 10%.",
+  "ledger_revision": 2,
+  "what_is_inferred": [
+    "Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)",
+    "Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)",
+    "Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)"
+  ],
+  "what_is_verified": [],
+  "decision_blockers": [
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Distributed Systems: \"Describe a specific production incident where you implemented Distributed Systems.\"",
+      "why_insufficient": "Requirement \"Distributed Systems\" appears in resume skill list only (\"Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Distributed Systems.",
+      "unproven_requirement": "Distributed Systems"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Kubernetes: \"Describe a specific production incident where you implemented Kubernetes.\"",
+      "why_insufficient": "Requirement \"Kubernetes\" appears in resume skill list only (\"Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Kubernetes.",
+      "unproven_requirement": "Kubernetes"
+    },
+    {
+      "interview_probe": "Probe candidate on real production scenarios handling Go: \"Describe a specific production incident where you implemented Go.\"",
+      "why_insufficient": "Requirement \"Go\" appears in resume skill list only (\"Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)\"). Self-reported listing does not demonstrate verified production competence under ProofContract.",
+      "minimum_next_proof": "Submit targeted code repository sample, architectural diagram, or work sample demonstrating Go.",
+      "unproven_requirement": "Go"
+    }
+  ],
+  "evidence_revision": "ed4a40345abf",
+  "evaluation_metrics": {
+    "entropy": 0.954,
+    "gate_pass": false,
+    "uncertainty": 0.73,
+    "blockers_count": 3,
+    "proof_coverage": 1,
+    "proof_strength": 0.1,
+    "role_fit_label": "Limited",
+    "decision_readiness": "NEEDS PROOF",
+    "proof_strength_label": "Limited",
+    "role_fit_distribution": {
+      "p_low": 0,
+      "p_strong": 0,
+      "p_limited": 0.625,
+      "p_moderate": 0.375
+    },
+    "must_have_gates_passed": false
+  },
+  "evaluation_version": "1.0.0-kernel",
+  "strongest_evidence": [
+    "sarah_connor_lead_infra.pdf [span offset 545-636]",
+    "sarah_connor_lead_infra.pdf [span offset 173-269]",
+    "sarah_connor_lead_infra.pdf [span offset 430-473]"
+  ],
+  "evaluation_timestamp": "2026-10-13T00:52:00.087Z",
+  "candidate_document_id": "8324736c-5104-4b1a-b929-b2294d4da333",
+  "recommended_next_step": "Request Minimum Missing Proof Artifacts",
+  "extracted_capabilities": [
+    "Distributed Systems asserted in resume experience: \"- Led migration of 120 microservices to multi-region Kubernetes clusters with zero downtime\" (candidate assertion, offset 545-636)",
+    "Kubernetes asserted in resume experience: \"Extensive hands-on experience orchestrating production Kubernetes clusters on AWS and bare metal\" (candidate assertion, offset 173-269)",
+    "Go asserted in resume experience: \"- Programming & Scripting: Go, Python, Bash\" (candidate assertion, offset 430-473)"
+  ],
+  "normalized_text_sha256": "ed4a40345abfeb19d4b310d672e7bc2f55c06f702d79e5564eed92bcdd66aae5",
+  "what_remains_uncertain": [],
+  "approved_rubric_version": "1.0.0",
+  "claim_ledger_persisted_at": "2026-10-13T00:52:00.090139+00:00"
+}

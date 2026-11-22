@@ -1,0 +1,10 @@
+A	STEP_V7_REPAIRS_EVIDENCE.md
+A	STEP_V7_REPAIRS_REPORT.md
+M	apps/web/__tests__/api/screeningCompleteBehavior.test.js
+M	apps/web/__tests__/pages/AuthPage.test.jsx
+M	apps/web/app/api/auth/resend-verification/route.js
+M	apps/web/app/auth/page.jsx
+M	apps/web/lib/verificationEmail.js
+M	docs/handoff/DATA_AND_API_CONTRACTS.md
+M	docs/handoff/PARTH_HANDOFF.md
+M	docs/handoff/START_HERE.md

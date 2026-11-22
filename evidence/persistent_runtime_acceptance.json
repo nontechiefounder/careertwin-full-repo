@@ -1,0 +1,159 @@
+{
+  "suite": "persistent_runtime_acceptance",
+  "timestamp_utc": "2026-10-31T00:13:53Z",
+  "database_target": "127.0.0.1:54399/disposable_v3_db",
+  "temporal_address": "127.0.0.1:7233",
+  "api_url": "http://127.0.0.1:8011",
+  "checks": {
+    "health_operational_readiness": {
+      "status": "PASS",
+      "http_status": 200,
+      "operational_readiness": {
+        "database": "connected",
+        "schema": "ready",
+        "schema_version": "008_inference_backend_and_upgrade_reconciliation.sql",
+        "temporal": "ready",
+        "temporal_worker_pollers": 1,
+        "embedding": "ready",
+        "graph": "disabled",
+        "generation": "unconfigured",
+        "erasure_recovery": "ready"
+      },
+      "configuration": {
+        "database_dialect": "postgresql",
+        "temporal_address": "127.0.0.1:7233",
+        "temporal_task_queue": "wbctx-evidence",
+        "require_temporal_ready": true,
+        "embedding_configured": true,
+        "embedding_model": "bge-small-en-v1.5",
+        "embedding_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+        "embedding_artifact_sha256": "5650b43c69a52dc94d243256be3a974a8836090b043531cec56ae64ac2fc3d0a",
+        "embedding_inference_backend": "sentence_transformers:6.2.0/torch:2.15.0/transformers:5.22.0/tokenizers:0.23.3",
+        "embedding_language_scope": "en (English-primary BAAI/bge-small-en-v1.5; non-Latin tokenization preserved, multilingual retrieval quality not claimed)",
+        "graph_enabled": false,
+        "generation_configured": false,
+        "generation_feature_gate": false
+      }
+    },
+    "document_identity_and_idempotency": {
+      "status": "PASS",
+      "doc1_source_id": "4ba319a5-b23f-4c88-95aa-1ee3edee8f9f",
+      "doc2_source_id": "15fe59e9-3459-4788-b019-3ef6b230ae5e",
+      "doc1_v2_version_id": "1bd3ca96-74fe-43a0-ad1d-52711ae54899",
+      "idempotency_conflict_status": 409
+    },
+    "temporal_heartbeats_lease_and_hybrid_rrf": {
+      "status": "PASS",
+      "workflow_result": {
+        "graph_projection": "NOT_ENABLED",
+        "index_heartbeat_count": 4,
+        "indexing_status": "INDEXED",
+        "ok": true,
+        "parse_heartbeat_count": 4,
+        "parse_lease_renewal_count": 2,
+        "parsing_state": "completed",
+        "pipeline_status": "COMPLETED",
+        "state": "completed"
+      },
+      "indexing_provenance": {
+        "model_id": "bge-small-en-v1.5",
+        "model_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+        "artifact_sha256": "5650b43c69a52dc94d243256be3a974a8836090b043531cec56ae64ac2fc3d0a",
+        "inference_backend": "sentence_transformers:6.2.0/torch:2.15.0/transformers:5.22.0/tokenizers:0.23.3",
+        "dimensions": 384
+      },
+      "retrieval_method": "postgres-fts+pgvector-rrf",
+      "top_passage_rrf_score": 0.03278688524590164
+    },
+    "in_flight_cancellation_fencing": {
+      "status": "PASS",
+      "cancelled_version_id": "07a2bba5-deb0-4f1d-a3d7-d3d3ea0cac7c",
+      "durable_job_state": "cancelled",
+      "durable_version_state": "cancelled",
+      "attempts_after_dispatcher_poll": 1,
+      "manual_sql_override_used": false,
+      "committed_artifacts": 0,
+      "committed_spans": 0,
+      "committed_projections": 0
+    },
+    "worker_sigkill_crash_and_restart_recovery": {
+      "status": "PASS",
+      "parsing_crash_recovery": {
+        "workflow_id": "wbctx-version-f9275f70-c222-441a-9ec4-599435559cd0",
+        "run_id": "01a18f4e-a1b4-72b7-bb2d-42d9dae570c7",
+        "version_id": "f9275f70-c222-441a-9ec4-599435559cd0",
+        "killed_worker_pid": 9922,
+        "restarted_worker_pid": 9983,
+        "attempt_before_kill": 1,
+        "attempt_after_recovery": 2,
+        "fence_before_kill": "f5448cdb-2a84-46a9-9a20-2b87d6ae37f0",
+        "fence_after_recovery": "d84c4f8c-3a8e-4727-b64c-0c5bfb666d36",
+        "stale_worker_fence_rejected": true,
+        "duplicate_artifacts_or_spans": 0
+      },
+      "indexing_crash_recovery": {
+        "workflow_id": "wbctx-version-4629abc9-5953-41d3-924a-fb07caf7be88",
+        "version_id": "4629abc9-5953-41d3-924a-fb07caf7be88",
+        "killed_worker_pid": 9983,
+        "restarted_worker_pid": 10056,
+        "index_fence_before_kill": "4f6c7dc8-e250-44e3-b61d-e4cc02931ccc",
+        "index_fence_after_recovery": "bd788e4b-8a5b-46cf-8088-873ea3cf71b3",
+        "indexed_spans": 1,
+        "duplicate_embeddings": 0
+      },
+      "graph_projection_crash_recovery": "BLOCKED (local Neo4j/Graphiti and GEMINI_API_KEY unprovisioned in this environment)"
+    },
+    "migration_advisory_lock_and_checksums": {
+      "status": "PASS",
+      "worker_b_waited_seconds": 1.429,
+      "legacy_null_backfill": "VERIFIED",
+      "tamper_rejection_exit_code": 1,
+      "worker_a_log": [
+        "[worker-A] Connected (backend_pid=218143). Acquiring session advisory lock 8492041...",
+        "  [worker-A] Acquired advisory lock 8492041 on backend_pid=218143 (waited_ms=0).",
+        "  [worker-A] Skipping already applied: 000_contain_unsafe_legacy_rpc.sql (sha256: a3abd1c6c143...)",
+        "  [worker-A] Skipping already applied: 001_evidence_service.sql (sha256: 0692a2e08b2b...)",
+        "  [worker-A] Skipping already applied: 004_hybrid_retrieval.sql (sha256: 294508df1771...)",
+        "  [worker-A] Skipping already applied: 005_v3_projections_and_semantics.sql (sha256: 9c2701390914...)",
+        "  [worker-A] Skipping already applied: 006_indexing_stages_and_erasure_recovery.sql (sha256: e66da886c3ad...)",
+        "  [worker-A] Skipping already applied: 007_closeout_provenance_and_recovery_leases.sql (sha256: 1261890533ff...)",
+        "  [worker-A] Skipping already applied: 008_inference_backend_and_upgrade_reconciliation.sql (sha256: 5fbcde775a67...)",
+        "  [worker-A] All forward migrations (000 -> 008) verified.",
+        "  [worker-A] Released advisory lock 8492041."
+      ],
+      "worker_b_log": [
+        "[worker-B] Connected (backend_pid=218144). Acquiring session advisory lock 8492041...",
+        "  [worker-B] Acquired advisory lock 8492041 on backend_pid=218144 (waited_ms=1300).",
+        "  [worker-B] Skipping already applied: 000_contain_unsafe_legacy_rpc.sql (sha256: a3abd1c6c143...)",
+        "  [worker-B] Skipping already applied: 001_evidence_service.sql (sha256: 0692a2e08b2b...)",
+        "  [worker-B] Skipping already applied: 004_hybrid_retrieval.sql (sha256: 294508df1771...)",
+        "  [worker-B] Skipping already applied: 005_v3_projections_and_semantics.sql (sha256: 9c2701390914...)",
+        "  [worker-B] Skipping already applied: 006_indexing_stages_and_erasure_recovery.sql (sha256: e66da886c3ad...)",
+        "  [worker-B] Skipping already applied: 007_closeout_provenance_and_recovery_leases.sql (sha256: 1261890533ff...)",
+        "  [worker-B] Skipping already applied: 008_inference_backend_and_upgrade_reconciliation.sql (sha256: 5fbcde775a67...)",
+        "  [worker-B] All forward migrations (000 -> 008) verified.",
+        "  [worker-B] Released advisory lock 8492041."
+      ]
+    },
+    "durable_erasure_recovery": {
+      "status": "PASS",
+      "concurrent_claim_total_recovered": 1,
+      "permission_error_preserved_pending": true,
+      "degraded_health_reported_on_pending_error_and_aging_backlog": true,
+      "cli_recovery_output": "[RECOVERY] Recovered 1 tombstones, unlinked 1 disk files, failed 0 (pending_backlog=0, failed_backlog=0)."
+    },
+    "terminal_workflow_retry_recovery": {
+      "status": "PASS",
+      "workflow_id": "wbctx-version-b94839c2-c874-4ce2-81ea-4aaf8eb14937",
+      "failed_run_id": "01a18f4f-4e50-7cb2-b02a-ff0b59d4a8de",
+      "recovered_run_id": "01a18f4f-6dcc-70ab-87e2-4fccc883142c",
+      "initial_temporal_status": "FAILED",
+      "recovered_temporal_status": "COMPLETED",
+      "parsed_evidence_preserved": true,
+      "duplicate_spans_created": 0,
+      "duplicate_artifacts_created": 0,
+      "indexed_embeddings_count": 1,
+      "hybrid_retrieval_verified": true
+    }
+  }
+}

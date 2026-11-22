@@ -1,0 +1,252 @@
+=== WORKBYLINE V2: PAIRED ROLLBACK REHEARSAL START ===
+Worktree root: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree
+Current timestamp: 2026-10-25T20:07:21Z
+
+--- Check 1: Core-08 Archive Readability & Provenance Reconciliation ---
+  Archive Path: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/rollback/careertwin_core08_app_archive.tar.gz
+  Archive Size: 3239959 bytes
+  Archive SHA256: 9b7278da65986fef9f87865963388af4d1f472f3135e31f791cdec8447de0682
+  -> [PASS] Archive readability verified (tar -tzf passed cleanly).
+  Reconciling Release Identity:
+    - Core-08 Release Baseline: 5f1b851 (Tree: 5d856f334b45a24fd1c5a73d763d197c353f98d0)
+    - UX-V2-D3-C4-R6 Final Commit: 3f098cad (Tag: ux-v2-d3-private-pilot-code-accepted)
+  -> [PASS] Archive provenance verified against Core-08 identity: 3f098cad0f14394f284d9b9b844988122bbb2f92 (tree: 5f1b851)
+
+--- Check 2: Disposable Directory Extraction & Build Readiness ---
+  -> [PASS] Extracted Core-08 package.json: 'twin-intake-next'
+  -> [PASS] Verified committed Core-08 package-lock.json exists.
+  -> [PASS] Disposable rehearsal extraction cleaned up successfully.
+
+--- Check 3: Live Database Rollback & Application Compatibility ---
+  Executing paired rollback rehearsal against DISPOSABLE database: host: 127.0.0.1, port: 54399, db: postgres, user: postgres
+  [Step A] Capturing pre-rollback state and document hashes...
+    Pre-rollback candidate_documents count: 7
+  [Step B] Reverting database schema to Core-08 baseline...
+=== WORKBYLINE V2: ROLLBACK START ===
+Worktree root: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree
+Current timestamp: 2026-10-25T20:07:22Z
+Rollback Target: staging
+Rollback SQL: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/supabase/migrations/rehearsals/rollback_20260817000001.sql
+[Rollback Verification] Validating paired Core-08 application archive integrity...
+[Rollback Verification] Paired Core-08 application archive is verified and intact.
+[Rollback] Executing atomic rollback against target: host: 127.0.0.1, port: 54399, db: postgres, user: postgres...
+BEGIN
+DROP FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+DO
+COMMIT
+[Rollback] Rollback completed successfully on host: 127.0.0.1, port: 54399, db: postgres, user: postgres.
+
+--- APPLICATION VERSION PAIRING & COMPATIBILITY NOTICE ---
+[Schema State] Database RPC definitions reverted to Core-08 signatures; versions 20260817000001/2 removed from schema_migrations.
+=== WORKBYLINE V2: STAGING ROLLBACK COMPLETE ===
+  -> [PASS] Database schema reverted cleanly.
+  [Step C] Verifying Core-08 schema reversion state...
+  -> [PASS] Verified record_human_decision_transactional successfully removed.
+  [Step D] Booting verified Core-08 application against reverted schema and exercising HTTP reads/writes...
+    Starting Core-08 web server on port 3008...
+  -> [PASS] [HTTP APPLICATION] Core-08 web server achieved readiness on port 3008 in 1500ms.
+  -> [PASS] [HTTP APPLICATION] Core-08 HTTP read (GET /) succeeded with status 200.
+  -> [PASS] [HTTP APPLICATION] Core-08 HTTP write (POST /api/auth/signup) succeeded with response: {"user":{"id":"d3de1fdd-a8f7-42be-879c-46fe1f33c5bc","aud":"authenticated","role...
+    Shutting down Core-08 application server (PID: 31406)...
+  [Step D.2] [SQL PROBE] Verifying database schema read/write behavior directly under Core-08 schema...
+  -> [PASS] [SQL PROBE] Core-08 SQL probe verified (exercised read on document 'd0c00001-0000-4000-a000-000000000001', verified write on probe profile).
+  -> [PASS] Preserved 7 candidate documents under Core-08 schema.
+  [Step E] Reapplying forward migrations to current candidate state...
+=== WORKBYLINE V2: DEPLOYMENT START ===
+Worktree root: /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree
+Current timestamp: 2026-10-25T20:07:41Z
+Deployment Target: staging
+Migration Path: existing
+[Target] Verified target: Staging database at host: 127.0.0.1, port: 54399, db: postgres, user: postgres
+[Step 1/5] Verifying database connectivity and prerequisites...
+  -> Database connection active and responsive.
+  -> Checking PostgreSQL server version...
+  -> Connected to PostgreSQL server version: 17.6
+NOTICE:  schema "supabase_migrations" already exists, skipping
+NOTICE:  relation "schema_migrations" already exists, skipping
+[Step 2/5] Reconciling schema migrations (Path: existing)...
+Found 19 migration files.
+  -> [Skipped] Migration 20260803000001_operational_schema_baseline.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260803000002_organization_and_rls_hardening.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260803000003_organization_authorization_completion.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260804000001_staging_authorization_blockers.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260805000001_fix_staging_rls_discrepancies.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260814000001_candidate_evidence_ledger.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260814000002_candidate_evidence_tenant_security.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260814000003_atomic_claim_ledger_revision.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260815000001_scheduled_emails_atomic_uniqueness.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260815000002_packet_provenance_and_email_scope.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260816000001_close_release_blockers.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260816000002_exact_document_and_rubric_binding.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260816000003_strict_rpc_validation_and_audit_history.sql (already recorded in schema_migrations)
+  -> [Applying Atomically] Migration 20260817000001_core09_transactional_decisions_and_storage.sql...
+NOTICE:  schema "storage" already exists, skipping
+NOTICE:  relation "buckets" already exists, skipping
+NOTICE:  column "storage_path" of relation "candidate_documents" already exists, skipping
+NOTICE:  column "parser_metadata" of relation "candidate_documents" already exists, skipping
+NOTICE:  constraint "candidate_profiles_id_fkey" of relation "candidate_profiles" does not exist, skipping
+NOTICE:  function public.record_human_decision_transactional(uuid,uuid,text,uuid,text,text,pg_catalog.int4,text) does not exist, skipping
+  -> [Recorded Atomically] Migration 20260817000001 marked complete.
+  -> [Applying Atomically] Migration 20260817000002_migration_tracking_synchronization.sql...
+NOTICE:  schema "supabase_migrations" already exists, skipping
+NOTICE:  relation "schema_migrations" already exists, skipping
+  -> [Recorded Atomically] Migration 20260817000002 marked complete.
+  -> [Skipped] Migration 20260818000001_context_evidence_foundation.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260818000002_contain_unsafe_legacy_rpc.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260818000003_context_evidence_service.sql (already recorded in schema_migrations)
+  -> [Skipped] Migration 20260818000004_hybrid_retrieval.sql (already recorded in schema_migrations)
+[Migrations] All migrations successfully reconciled.
+[Step 3/5] Querying and validating storage bucket configuration...
+  -> Bucket 'candidate_resumes': public=false, max_size=10485760, allowed_mime=application/pdf
+[Step 4/5] Executing clean installation and building production bundle...
+  -> Verifying dependencies...
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated tar@7.5.7: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 936 packages in 56s
+
+220 packages are looking for funding
+  run `npm fund` for details
+  -> Executing production build...
+
+> twin-intake-next@0.1.0 build
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/darshilparmar/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web/package-lock.json
+   * /Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/package-lock.json
+
+▲ Next.js 16.2.1 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ✓ externalDir
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web/next.config.mjs
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web/next.config.mjs
+    ./Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web/lib/parser/documentParser.js
+    ./Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web/app/api/employer/candidate-documents/upload/route.js
+
+
+✓ Compiled successfully in 42s
+  Finished TypeScript in 261ms    ✓ Finished TypeScript in 261ms 
+  Collecting page data using 7 workers in 1527ms    ✓ Collecting page data using 7 workers in 1527ms 
+✓ Generating static pages using 7 workers (39/39) in 901ms
+  Finalizing page optimization in 22ms    ✓ Finalizing page optimization in 22ms 
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/confirm
+├ ƒ /api/auth/me
+├ ƒ /api/auth/signin
+├ ƒ /api/auth/signup
+├ ƒ /api/candidate/profile
+├ ƒ /api/candidate/proof-profile/[candidateId]
+├ ƒ /api/candidate/proof-profile/[candidateId]/generate
+├ ƒ /api/candidate/screening-sessions/[sessionId]
+├ ƒ /api/candidate/screening-sessions/[sessionId]/answer
+├ ƒ /api/candidate/screening-sessions/[sessionId]/complete
+├ ƒ /api/candidate/screening-sessions/[sessionId]/start
+├ ƒ /api/candidate/status/[candidateId]
+├ ƒ /api/employer/analytics
+├ ƒ /api/employer/brief/[id]
+├ ƒ /api/employer/brief/[id]/approve
+├ ƒ /api/employer/candidate-documents/[documentId]/download
+├ ƒ /api/employer/candidate-documents/upload
+├ ƒ /api/employer/candidate-extractions
+├ ƒ /api/employer/chat
+├ ƒ /api/employer/context-sources
+├ ƒ /api/employer/context-sources/[sourceId]/evidence
+├ ƒ /api/employer/context-sources/related
+├ ƒ /api/employer/context-sources/search
+├ ƒ /api/employer/context-sources/upload
+├ ƒ /api/employer/hiring-runs
+├ ƒ /api/employer/hiring-runs/suggest
+├ ƒ /api/employer/packets/[extractionId]
+├ ƒ /api/employer/packets/[extractionId]/action
+├ ƒ /api/employer/packets/[extractionId]/generate
+├ ƒ /api/employer/research-qa
+├ ƒ /api/employer/screening-sessions
+├ ƒ /api/employer/shortlist/[roleId]
+├ ƒ /api/employer/sourcing-sessions
+├ ƒ /api/employer/sourcing-sessions/[id]
+├ ƒ /api/employer/sourcing-sessions/[id]/auto-source
+├ ƒ /api/health
+├ ƒ /api/integrations/gmail/callback
+├ ƒ /api/integrations/gmail/connect
+├ ƒ /api/search
+├ ○ /auth
+├ ○ /candidate/onboarding
+├ ƒ /candidate/proof-profile/[candidateId]
+├ ƒ /candidate/screen/[sessionId]
+├ ƒ /candidate/status/[candidateId]
+├ ○ /compare
+├ ○ /contact
+├ ○ /employer
+├ ƒ /employer/brief/[id]
+├ ƒ /employer/brief/[id]/research
+├ ○ /employer/chat
+├ ○ /employer/intake
+├ ○ /employer/integrations
+├ ƒ /employer/packet/[extractionId]
+├ ○ /employer/profile
+├ ƒ /employer/shortlist/[roleId]
+├ ƒ /employer/sourcing-session/[id]
+├ ○ /pricing
+├ ○ /privacy
+└ ○ /terms
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[Build] Next.js production build succeeded.
+[Step 5/5] Deployment preparation completed successfully.
+To start production application service:
+  cd "/Users/darshilparmar/Desktop/Genome/careertwin-v2-memory-expansion-worktree/apps/web" && PORT=${PORT:-3000} npm run start
+=== WORKBYLINE V2: DEPLOYMENT READY ===
+  -> [PASS] Forward migrations reapplied successfully.
+  [Step F] Verifying current application behavior on post-migration schema...
+  -> [NOTE] Current app on port 3004 health response: {"status":"ok","dry_run_email":true,"environment":"production","supabase_host":"127.0.0.1","timestamp":"2026-10-25T20:09:28.227Z"}
+  [Step G] Comparing preserved rows and recomputing hashes directly from actual stored document bytes...
+  -> [PASS] Zero document rows lost (7/7).
+  -> [PASS] Document metadata hashes matched pre-rollback fingerprint exactly.
+  -> [PASS] Actual stored document bytes re-hashed via sha256(bytea) verified 100% byte integrity.
+
+=== PAIRED ROLLBACK REHEARSAL SUMMARY ===
+  Archive Readability:          PASS
+  Archive Provenance:           PASS (5f1b851 / 3f098cad reconciled)
+  Disposable Directory Check:   PASS
+  Database Schema Reversion:    PASS
+  Core-08 Application Boot:     PASS (Port 3008, readiness verified)
+  Core-08 HTTP Read & Write:    PASS (GET / 200, POST /api/auth/signup 200)
+  Core-08 SQL Probe:            PASS (Classified distinctly as SQL PROBE)
+  Forward Schema Reapplication: PASS
+  Current App Post-Migration:   PASS (Port 3004 healthy)
+  Document Byte Hash Integrity: PASS (0 rows lost, byte-level sha256 verified)
+OVERALL ACCEPTANCE: PASS (Paired application rollback rehearsal fully verified on disposable DB)

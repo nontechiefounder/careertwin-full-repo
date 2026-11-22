@@ -1,0 +1,20 @@
+exit_code=0
+
+ RUN  v4.1.2 /private/tmp/wbl-v12-aligned/apps/web
+
+stdout | __tests__/security/_v12_search_probe.test.js > seeded disposable /api/search punctuation, literal wildcards, and cross-tenant isolation
+SEEDED_SEARCH_RESULT={"unauthenticated_status":401,"userA_OReilly":[{"id":"1bcb69cf-ed74-4148-b6d6-0e4095ac5748","title":"O'Reilly Media Architect"}],"userA_NodeJs":[{"id":"ea940b6b-d143-449f-ab8d-c756fb4e3139","title":"Node.js Core Maintainer"}],"userA_LiteralPctUnderscore":[{"id":"502c3587-11f7-43b2-a260-6561275fad28","title":"100%_Engineer"}],"userA_FilterInjectionAttempt_count":0,"userB_OReilly":[{"id":"13c1b3b8-7eab-424f-8071-5ad61bf4c2a2","title":"O'Reilly Secret Role"}],"cross_tenant_leak_count":0,"status":"ALL_PASSED"}
+
+ ✓ __tests__/security/_v12_search_probe.test.js (1 test) 490ms
+   ✓ seeded disposable /api/search punctuation, literal wildcards, and cross-tenant isolation  490ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  21:24:15
+   Duration  716ms (transform 26ms, setup 89ms, import 66ms, tests 490ms, environment 0ms)
+
+
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+stderr | __tests__/security/_v12_search_probe.test.js > seeded disposable /api/search punctuation, literal wildcards, and cross-tenant isolation
+[SupabaseServer] Error reading cookies: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context
+

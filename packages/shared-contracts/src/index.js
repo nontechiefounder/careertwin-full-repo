@@ -1,0 +1,21 @@
+/**
+ * workBYLiNE Shared Contracts (packages/shared-contracts) — Unified Pure JavaScript + JSDoc
+ * CTW-IP-005, CTW-IP-015, CTW-IP-016, CTW-IP-017, CTW-IP-093
+ */
+
+export const CLAIM_STATUSES = Object.freeze({
+  VERIFIED: 'VERIFIED',
+  INFERRED: 'INFERRED',
+  CONFLICTING: 'CONFLICTING',
+  MISSING: 'MISSING',
+  UNPROVEN: 'UNPROVEN',
+});
+
+export const READINESS_STATES = Object.freeze({
+  EVIDENCE_READY: 'EVIDENCE READY',
+  NEEDS_PROOF: 'NEEDS PROOF',
+  HUMAN_REVIEW_REQUIRED: 'HUMAN REVIEW REQUIRED',
+  INSUFFICIENT_EVIDENCE: 'INSUFFICIENT EVIDENCE',
+});
+
+export const CONTRACT_SPEC_VERSION = '1.0.0';

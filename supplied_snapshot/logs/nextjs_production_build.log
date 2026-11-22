@@ -1,0 +1,108 @@
+
+> twin-intake-next@0.1.0 build
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/darshilparmar/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/darshilparmar/Desktop/Genome/careertwin-v2-integration-worktree/apps/web/package-lock.json
+
+▲ Next.js 16.2.1 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ✓ externalDir
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./Desktop/Genome/careertwin-v2-integration-worktree/apps/web/next.config.mjs
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./Desktop/Genome/careertwin-v2-integration-worktree/apps/web/next.config.mjs
+    ./Desktop/Genome/careertwin-v2-integration-worktree/apps/web/lib/parser/documentParser.js
+    ./Desktop/Genome/careertwin-v2-integration-worktree/apps/web/app/api/employer/candidate-documents/upload/route.js
+
+
+✓ Compiled successfully in 9.4s
+  Finished TypeScript in 153ms    ✓ Finished TypeScript in 153ms 
+  Collecting page data using 7 workers in 722ms    ✓ Collecting page data using 7 workers in 722ms 
+✓ Generating static pages using 7 workers (37/37) in 557ms
+  Finalizing page optimization in 9ms    ✓ Finalizing page optimization in 9ms 
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/confirm
+├ ƒ /api/auth/me
+├ ƒ /api/auth/signin
+├ ƒ /api/auth/signup
+├ ƒ /api/candidate/profile
+├ ƒ /api/candidate/proof-profile/[candidateId]
+├ ƒ /api/candidate/proof-profile/[candidateId]/generate
+├ ƒ /api/candidate/screening-sessions/[sessionId]
+├ ƒ /api/candidate/screening-sessions/[sessionId]/answer
+├ ƒ /api/candidate/screening-sessions/[sessionId]/complete
+├ ƒ /api/candidate/screening-sessions/[sessionId]/start
+├ ƒ /api/candidate/status/[candidateId]
+├ ƒ /api/employer/analytics
+├ ƒ /api/employer/brief/[id]
+├ ƒ /api/employer/brief/[id]/approve
+├ ƒ /api/employer/candidate-documents/[documentId]/download
+├ ƒ /api/employer/candidate-documents/upload
+├ ƒ /api/employer/candidate-extractions
+├ ƒ /api/employer/chat
+├ ƒ /api/employer/context-sources
+├ ƒ /api/employer/context-sources/[sourceId]/evidence
+├ ƒ /api/employer/context-sources/upload
+├ ƒ /api/employer/hiring-runs
+├ ƒ /api/employer/hiring-runs/suggest
+├ ƒ /api/employer/packets/[extractionId]
+├ ƒ /api/employer/packets/[extractionId]/action
+├ ƒ /api/employer/packets/[extractionId]/generate
+├ ƒ /api/employer/research-qa
+├ ƒ /api/employer/screening-sessions
+├ ƒ /api/employer/shortlist/[roleId]
+├ ƒ /api/employer/sourcing-sessions
+├ ƒ /api/employer/sourcing-sessions/[id]
+├ ƒ /api/employer/sourcing-sessions/[id]/auto-source
+├ ƒ /api/health
+├ ƒ /api/integrations/gmail/callback
+├ ƒ /api/integrations/gmail/connect
+├ ƒ /api/search
+├ ○ /auth
+├ ○ /candidate/onboarding
+├ ƒ /candidate/proof-profile/[candidateId]
+├ ƒ /candidate/screen/[sessionId]
+├ ƒ /candidate/status/[candidateId]
+├ ○ /compare
+├ ○ /contact
+├ ○ /employer
+├ ƒ /employer/brief/[id]
+├ ƒ /employer/brief/[id]/research
+├ ○ /employer/chat
+├ ○ /employer/intake
+├ ○ /employer/integrations
+├ ƒ /employer/packet/[extractionId]
+├ ○ /employer/profile
+├ ƒ /employer/shortlist/[roleId]
+├ ƒ /employer/sourcing-session/[id]
+├ ○ /pricing
+├ ○ /privacy
+└ ○ /terms
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

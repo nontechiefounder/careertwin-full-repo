@@ -1,0 +1,26 @@
+{
+  "scope": "embedded PostgreSQL WASM; not network/runtime Supabase",
+  "checks": [
+    {
+      "check": "service_schema_executes_and_rls_enabled",
+      "passed": true,
+      "count": 7
+    },
+    {
+      "check": "anon_direct_read_denied",
+      "passed": true
+    },
+    {
+      "check": "authenticated_direct_read_denied",
+      "passed": true
+    },
+    {
+      "check": "supplied_legacy_migration_membership_column_failure_reproduced",
+      "passed": true
+    },
+    {
+      "check": "legacy_rpc_public_execute_revoked",
+      "passed": true
+    }
+  ]
+}

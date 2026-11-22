@@ -1,0 +1,5 @@
+{
+  "scope": "syntax/bundling of changed overlay files only; NOT a full Next.js build or DOM test",
+  "checked": 9,
+  "passed": true
+}

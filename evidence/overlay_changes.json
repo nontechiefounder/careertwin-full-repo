@@ -1,0 +1,11 @@
+[
+  "apps/web/app/api/employer/context-sources/[sourceId]/evidence/route.js",
+  "apps/web/app/api/employer/context-sources/route.js",
+  "apps/web/app/api/employer/context-sources/search/route.js",
+  "apps/web/app/api/employer/context-sources/upload/route.js",
+  "apps/web/app/api/employer/research-qa/route.js",
+  "apps/web/components/context/ContextEvidencePanel.jsx",
+  "apps/web/lib/contextClient.js",
+  "apps/web/lib/contextEvidenceWorker.js",
+  "apps/web/lib/engineConfig.js"
+]

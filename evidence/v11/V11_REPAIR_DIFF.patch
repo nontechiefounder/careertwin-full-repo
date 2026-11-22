@@ -1,0 +1,1029 @@
+diff --git a/STEP_V11_SECURITY_AND_AUTH0_EVIDENCE.md b/STEP_V11_SECURITY_AND_AUTH0_EVIDENCE.md
+new file mode 100644
+index 0000000..65b25a8
+--- /dev/null
++++ b/STEP_V11_SECURITY_AND_AUTH0_EVIDENCE.md
+@@ -0,0 +1,105 @@
++# workBYLiNE Genome — V11 Security Repairs & Auth0 Design Evidence
++
++- **Date:** 2026-11-22
++- **Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Baseline Branch / Commit:** `review/workbyline-v10-candidate` (`005144e517265a9556d67df51d82139c335a7479`)
++- **Repair Branch:** `fix/v11-security-repairs`
++
++---
++
++## 1. Changed Files Inventory (`v10` -> `v11`)
++
++- `apps/web/lib/gmail.js`
++- `apps/web/app/api/integrations/gmail/connect/route.js`
++- `apps/web/app/api/integrations/gmail/callback/route.js`
++- `apps/web/app/api/auth/me/route.js`
++- `apps/web/app/api/search/route.js`
++- `supabase/migrations/20260823000001_revoke_profiles_token_select.sql`
++- `apps/web/__tests__/security/V11SecurityRepairs.test.js`
++- `apps/web/__tests__/security/VitestDiscoveryContract.test.js`
++- `scripts/guarded_disposable_verify.sh`
++- `STEP_V11_SECURITY_AND_AUTH0_REPORT.md`
++- `STEP_V11_SECURITY_AND_AUTH0_EVIDENCE.md`
++- `evidence/v11/V11_REPAIR_DIFF.patch`
++- `evidence/v11/V11_CHANGED_FILES.txt`
++
++---
++
++## 2. Execution & Verification Receipts
++
++### 2.1 Initial Failure Preserved & Final Passing Guarded Run
++- **Run `20261122T102147Z_93826`:** Failed Step 2 in sandbox (`psql: Operation not permitted` on `127.0.0.1:54422`).
++- **Run `20261122T104546Z_99234`:** Failed Step 6a (`VitestDiscoveryContract.test.js` expected `67` suites, received `68` after adding `V11SecurityRepairs.test.js`). Updated `VitestDiscoveryContract.test.js` to `68` suites.
++- **Final Run `20261122T121331Z_11248`:** `status: "PASSED"`, `exit_code: 0`, `cleanup_status: "clean"`, `disposable_target: 54422 / postgres / supabase_db_wbl-disposable-verify`, `server_ownership.listener_pid: null`:
++  - Step 5: Forward migrations (including `20260823000001_revoke_profiles_token_select.sql`) applied; invariants `1|1|0|0|1` confirmed.
++  - Step 6a: `21` test files, `190` tests passed (`0` failed).
++  - Step 6b: `6` test files, `61` tests passed (`0` failed).
++  - Step 7: ESLint `0` errors; Webpack production build `13.2s`, `51/51` static pages.
++  - Step 8: Real PDF upload/parse/download/generate & competing pre-eval serialization passed.
++  - Step 9 (Playwright against `http://localhost:3010`): `39` passed, `2` skipped (`42.8s`, skips concern removed `DocumentDropzone` / `intake-handoff-notice`).
++
++### 2.2 Direct Disposable Database Privilege Verification (`127.0.0.1:54422`)
++- `SET LOCAL ROLE authenticated; SELECT gmail_refresh_token FROM public.profiles LIMIT 1;` -> `ERROR: permission denied for table profiles` (`SQLSTATE 42501`).
++- `information_schema.column_privileges` confirmed `authenticated` has `SELECT` only on `id, email, name, role, company, gmail_connected, gmail_email, created_at, updated_at` (`0` `anon`/`PUBLIC` grants).
++
++### 2.3 Scanner Non-Execution Receipts
++- `which semgrep codeql coderabbit gitleaks trivy osv-scanner snyk bandit` -> all `NOT_FOUND`.
++- `npm --prefix apps/web audit --json` -> `ENOTFOUND registry.npmjs.org` (`NOT VERIFIED`).
++
++---
++
++## 3. Complete 51-Route API Traceability Matrix
++
++| API Route | Methods | Identity & AuthZ Checks | DB / Provider Access | Failure Codes | Test Evidence / Status |
++|---|---|---|---|---|---|
++| `/api/auth/confirm` | `GET` | Public + `sanitizeRedirectUrl` | Supabase RLS client | `200`/redirect | `ApiAuthorizationCharacterization.test.js`, `DeviceSupportPolicy.test.js` |
++| `/api/auth/me` | `GET` | `getUser` | Supabase RLS client (explicit safe columns) | `401,500` | `ApiAuthorizationCharacterization.test.js`, `V11SecurityRepairs.test.js` |
++| `/api/auth/resend-verification` | `POST` | Public + single-instance cooldown/budget | Supabase Admin (`service_role`), dry-run/SMTP | `400,429,500,503` | `AuthPage.test.jsx` |
++| `/api/auth/signin` | `POST` | Public | Supabase RLS client | `400,401,500` | `ApiAuthorizationCharacterization.test.js`, `AuthSigninDecommission.test.js` |
++| `/api/auth/signup` | `POST` | Public | Supabase Admin (`service_role`), dry-run/SMTP | `400,500` | `ApiAuthorizationCharacterization.test.js`, `AuthPage.test.jsx` |
++| `/api/candidate/profile` | `GET,POST` | `getUser` | Supabase RLS client | `401,500` | `ApiAuthorizationCharacterization.test.js`, `candidate.test.js` |
++| `/api/candidate/proof-profile/[candidateId]` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `403,404,500` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/candidate/proof-profile/[candidateId]/generate` | `POST` | `requireUser` | Supabase RLS client | `403,404,500,502,503` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/candidate/screening-sessions/[sessionId]` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `403,404,500` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/candidate/screening-sessions/[sessionId]/answer` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `403,404,500` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/candidate/screening-sessions/[sessionId]/complete` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `403,404,422,500,502,503` | `screeningCompleteBehavior.test.js`, `TenantEvidenceSecurity.test.js` |
++| `/api/candidate/screening-sessions/[sessionId]/start` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `403,404,500` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/candidate/status/[candidateId]` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `403,404,500` | `ApiAuthorizationBoundaryReconciliation.test.js`, `ApiAuthorizationCharacterization.test.js` |
++| `/api/employer/analytics` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `403,500` | `ApiAuthorizationCharacterization.test.js`, `EmployerDay4Assertions.test.js` |
++| `/api/employer/brief/[id]` | `GET` | `getUser`, `getVerifiedOrgMembership` | Supabase RLS client | `401,403,404,500,503` | `ApiAuthorizationCharacterization.test.js`, `EmployerWorkspaceSecurity.test.js` |
++| `/api/employer/brief/[id]/approve` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `403,404,500` | `Track1IntegrityRepairs.test.js`, `rubricApproval.test.js` |
++| `/api/employer/candidate-documents/[documentId]/download` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `200,403,404,500` | `Core09RouteSecurityAndDecoupling.test.js` |
++| `/api/employer/candidate-documents/upload` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `400,403,404,409,413,415,422,500` | `Core09RouteSecurityAndDecoupling.test.js`, `UninterceptedPacketJourneyE2E.test.js` |
++| `/api/employer/candidate-extractions` | `POST` | `requireUser` | Decommissioned | `410,500` | `ApiAuthorizationCharacterization.test.js` |
++| `/api/employer/chat` | `POST` | `requireUser`, `getVerifiedOrgMembership`, `contextScope` | Python Context Service | `400,403,404,500,503` | `ApiAuthorizationCharacterization.test.js`, `EmployerChatRouteSecurity.test.js` |
++| `/api/employer/context-sources` | `GET` | `contextScope` | Python Context Service | `400,401,403,404,503` | `ContextEvidenceFoundation.test.js`, `Track1IntegrityRepairs.test.js` |
++| `/api/employer/context-sources/[sourceId]` | `DELETE` | `contextScope` | Python Context Service | `400,401,403,404,503` | `V3CloseoutBehavior.test.js` |
++| `/api/employer/context-sources/[sourceId]/evidence` | `GET` | `contextScope` | Python Context Service | `400,401,403,404,503` | `V3CloseoutBehavior.test.js` |
++| `/api/employer/context-sources/[sourceId]/retry` | `POST` | `contextScope` | Python Context Service | `400,401,403,404,503` | Unexamined in focused matrix |
++| `/api/employer/context-sources/ask` | `POST` | `contextScope` | Python Context Service | `400,401,403,503` | Unexamined in focused matrix |
++| `/api/employer/context-sources/related` | `POST` | `contextScope` | Python Context Service | `400,401,403,503` | Unexamined in focused matrix |
++| `/api/employer/context-sources/search` | `POST` | `contextScope` | Python Context Service | `400,401,403,503` | Unexamined in focused matrix |
++| `/api/employer/context-sources/upload` | `POST` | `contextScope` | Python Context Service | `400,413,422,503` | Unexamined in focused matrix |
++| `/api/employer/hiring-runs` | `GET,POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `400,403,500,503` | `ApiAuthorizationCharacterization.test.js`, `EmployerDay3Assertions.test.js` |
++| `/api/employer/hiring-runs/suggest` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `400,403,500,503` | `ApiAuthorizationCharacterization.test.js` |
++| `/api/employer/integrations/ashby` | `GET,POST` | `requireUser`, `getVerifiedOrgMembership` | Ashby client | `400,403,500,503` | Unexamined in focused matrix |
++| `/api/employer/organizations` | `GET,POST` | `requireUser` | Supabase RLS client | `400,409,500` | `SafeRedirectAndEntry.test.js` |
++| `/api/employer/organizations/accept-invite` | `POST` | `requireUser` | Supabase RLS client | `400,500` | Unexamined in focused matrix |
++| `/api/employer/organizations/invite` | `GET,POST` | `requireUser`, `getVerifiedOrgMembership` | Dry-run / SMTP | `400,403,404,500` | `SafeRedirectAndEntry.test.js` |
++| `/api/employer/packets/[extractionId]` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `400,403,404,500` | `ApiAuthorizationCharacterization.test.js`, `Core09RouteSecurityAndDecoupling.test.js` |
++| `/api/employer/packets/[extractionId]/action` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS + Admin (`profiles` email send), Dry-run / SMTP | `400,403,404,409,500,503` | `ApiAuthorizationCharacterization.test.js`, `Track1IntegrityRepairs.test.js` |
++| `/api/employer/packets/[extractionId]/generate` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `403,404,422,500,503` | `ApiAuthorizationCharacterization.test.js`, `UninterceptedPacketJourneyE2E.test.js` |
++| `/api/employer/research-qa` | `POST` | `contextScope` | Python Context Service | `400,403,404,500,502,503,504` | `CrossLanguageProxyContractUnit.test.js`, `researchQA.test.js` |
++| `/api/employer/screening-sessions` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `201,400,403,404,500` | `ScreeningServerCreationPath.test.js` |
++| `/api/employer/shortlist/[roleId]` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `400,403,404,500` | `ApiAuthorizationCharacterization.test.js`, `DataVertexRoutesAuth.test.js` |
++| `/api/employer/sourcing/account` | `GET` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`), DataVertex client | `200,403,500` | `DataVertexRoutesAuth.test.js` |
++| `/api/employer/sourcing/lookup` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`), DataVertex client | `400,403,404,500,503` | `DataVertexRoutesAuth.test.js` |
++| `/api/employer/sourcing/search` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`), DataVertex client | `400,403,404,500,503` | `DataVertexRoutesAuth.test.js` |
++| `/api/employer/sourcing/shortlist` | `POST` | `requireUser`, `getVerifiedOrgMembership` | DataVertex client | `400,403,404,500,503` | `DataVertexRoutesAuth.test.js` |
++| `/api/employer/sourcing-sessions` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase RLS client | `400,403,404,500` | `ApiAuthorizationCharacterization.test.js`, `SourcingSessionSecurity.test.js` |
++| `/api/employer/sourcing-sessions/[id]` | `GET` | `getUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `401,403,404,500` | `ApiAuthorizationCharacterization.test.js` |
++| `/api/employer/sourcing-sessions/[id]/auto-source` | `POST` | `requireUser`, `getVerifiedOrgMembership` | Supabase Admin (`service_role`) | `400,403,404,500,503` | `ApiAuthorizationCharacterization.test.js` |
++| `/api/health` | `GET` | Public / unauthenticated | None | `200` | `employer.test.js` |
++| `/api/integrations/gmail/callback` | `GET` | `getUser`, `verifyAndConsumeGmailOAuthState`, `ALLOWED_OAUTH_ERRORS` | Supabase Admin (`service_role`), Google OAuth | Redirects (`307`) | `ApiAuthorizationCharacterization.test.js`, `V11SecurityRepairs.test.js` |
++| `/api/integrations/gmail/connect` | `GET` | `getUser`, `createGmailOAuthState` + cookie | Supabase RLS client, Google OAuth | `401,500` | `ApiAuthorizationCharacterization.test.js`, `V11SecurityRepairs.test.js` |
++| `/api/search` | `GET` | `getUser`, `sanitizeSearchQuery`, `.eq('employer_id', user.id)` | Supabase RLS client | `401,500` | `ApiAuthorizationCharacterization.test.js`, `V11SecurityRepairs.test.js` |
+diff --git a/STEP_V11_SECURITY_AND_AUTH0_REPORT.md b/STEP_V11_SECURITY_AND_AUTH0_REPORT.md
+new file mode 100644
+index 0000000..007cee0
+--- /dev/null
++++ b/STEP_V11_SECURITY_AND_AUTH0_REPORT.md
+@@ -0,0 +1,83 @@
++# workBYLiNE Genome — V11 Bounded Security Repairs & Auth0 Migration Design
++
++- **Date:** 2026-11-22
++- **Phase:** VERIFICATION
++- **Overall Lifecycle Status:** `IMPLEMENTED PENDING INDEPENDENT REVIEW`
++- **Parent Frozen Archive:** `WorkByLine_Parth_Local_Review_v10.zip` (`20,737,959` bytes, SHA-256 `b46d2f354e45c1817623b984d88e9b673c6da814d30f549940afb9e6ab76966e`) — **preserved unchanged**
++- **Baseline Review Branch:** `review/workbyline-v10-candidate` (`005144e517265a9556d67df51d82139c335a7479`, `1,038/1,038` payload parity)
++- **V11 Repair Branch:** `fix/v11-security-repairs` (exported with reproducible Git bundle `WorkByLine_v11_Candidate.bundle`)
++
++---
++
++## 1. Bounded Security Repairs (Dispositions & Changes)
++
++| Finding | Root Cause in `v10` | `v11` Repair | Disposition |
++|---|---|---|---|
++| **Gmail OAuth State / Session Binding & Callback Error Handling** | `apps/web/lib/gmail.js` `getAuthUrl()` sent no `state`; `connect/route.js` set no OAuth transaction cookie; `callback/route.js` exchanged `code` without verifying session-bound `state`, interpolated raw `error` into `${process.env.NEXT_PUBLIC_URL}/employer/integrations?error=${error}` (could also produce `"undefined/..."`). | Added HMAC-SHA256 signed `state` (`{ sub, nonce, iat, exp }`, 10-minute TTL) + `HttpOnly; SameSite=Lax` cookie (`wbl_gmail_oauth_state`) + bounded single-use `consumedNonces` replay map in `apps/web/lib/gmail.js`; enforced verification in `callback/route.js` **before** `getTokens(code)` or `profiles` DB write; allowlisted callback `error` codes (`ALLOWED_OAUTH_ERRORS`) and used `URL` + `searchParams.set()`. | **TEST-VERIFIED** (`V11SecurityRepairs.test.js`) |
++| **Browser-Facing Profile Credential Exposure & DB Column Grants** | `apps/web/app/api/auth/me/route.js` used `.from('profiles').select('*')` and spread `...baseProfile`; `public.profiles` had table-level `SELECT` granted to `authenticated` (`20260803000001`), exposing `gmail_refresh_token`. | Replaced `.select('*')` with explicit non-credential columns and explicit safe response object in `apps/web/app/api/auth/me/route.js`. Added `supabase/migrations/20260823000001_revoke_profiles_token_select.sql` revoking table-level `SELECT` on `public.profiles` from `anon, authenticated` and granting column-level `SELECT` on safe columns only (preserving `service_role` for server-side Gmail send/callback). | **TEST-VERIFIED** (`V11SecurityRepairs.test.js` + direct `psql` `SQLSTATE 42501` check on disposable DB `54422`) |
++| **Search Filter Interpolation & Swallowed Query Errors** | `apps/web/app/api/search/route.js` interpolated raw `query` into `.or(\`role_title.ilike.%${query}%,company.ilike.%${query}%\`)` and ignored `runsError`/`candError`. | Added `sanitizeSearchQuery()` (bounds length to 100 chars, strips PostgREST metacharacters `\\,"'().*`, escapes `%` and `_`), preserved `.eq('employer_id', user.id)` + RLS scoping, and returned HTTP `500` on `runsError` or `candError`. | **TEST-VERIFIED** (`V11SecurityRepairs.test.js` + `ApiAuthorizationCharacterization.test.js`) |
++
++*Note on evidence boundaries:* We do not claim a cross-tenant exploit from string interpolation alone, an open redirect without demonstration, or absence of database-at-rest encryption from unwrapped column writes.
++
++---
++
++## 2. Scanner Availability & Boundaries
++
++- **Unavailable SAST / Secret Scanners (`NOT VERIFIED`):** `semgrep`, `codeql`, `coderabbit`, `gitleaks`, `trivy`, `osv-scanner`, `snyk`, and `bandit` are not installed in this environment.
++- **Dependency Vulnerability Audit (`NOT VERIFIED`):** `npm --prefix apps/web audit --json` failed offline (`ENOTFOUND registry.npmjs.org`).
++- **Deterministic Local Check:** Static route/sink/secret inspection ran across `51` API routes, `34` lib modules, and `29` SQL migrations (recorded in `STEP_V10_SOURCE_ALIGNMENT_AND_SECURITY_AUDIT_REPORT.md`); this is not equivalent to Semgrep/CodeQL/CodeRabbit/Gitleaks coverage.
++
++---
++
++## 3. Auth0 Migration Design (Design Only — Not Implemented in `v11`)
++
++### 3.1 Affected Component Inventory
++- **UI & Client Routing:** `apps/web/app/auth/**` (signup, signin, recovery, resend), `apps/web/components/ProtectedRoute.jsx`, `apps/web/lib/auth.js` (client session helpers).
++- **Middleware & Route Handlers:** No `apps/web/middleware.js` currently exists; all `51` routes under `apps/web/app/api/**` use `createSupabaseServerClient` (`apps/web/lib/supabaseServer.js`) or `requireUser` / `authenticateServerRequest` (`apps/web/lib/serverAuth.js`).
++- **Database Schema, RLS & Storage (`supabase/migrations/20260803..20260823`):**
++  - `public.profiles.id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE` (`20260803000001`).
++  - `auth.uid()` and `auth.users` email lookups in RLS policies & helper functions (`20260804000001`, `20260803000003`), `organization_memberships.user_id`, `hiring_runs.employer_id`, `candidate_profiles` (`candidate_profiles_id_fkey` already decoupled from `auth.users` in `20260817000001`), and `SECURITY DEFINER` RPCs (`complete_screening_session_transactional`, `record_pre_evaluation_decision_transactional`, `datavertex_reserve_credits`, `shortlist_candidate_from_provider_transactional`).
++  - Private storage bucket `candidate_resumes` RLS policies.
++
++### 3.2 Preserving Internal UUIDs & Identity Mapping
++- **Constraint:** Auth0 `sub` values are non-UUID strings (e.g. `auth0|...`, `google-oauth2|...`), whereas Genome's PostgreSQL schema, `profiles.id`, `organization_memberships.user_id`, and `auth.uid()` expect `UUID`.
++- **Recommended Pattern:** Preserve internal `UUID` user IDs via a trusted `public.auth_identities (id UUID, provider TEXT, subject TEXT, user_id UUID NOT NULL, email_verified BOOLEAN, UNIQUE(provider, subject))` mapping table (service-role managed).
++- **Supabase Integration Options:**
++  1. **Supabase Third-Party Auth (Auth0 OIDC) + UUID Claim:** Per official Supabase Auth0 documentation, Auth0 strips non-namespaced claims from Access Tokens, so an Auth0 Post-Login Action injects `role: 'authenticated'` into the **ID Token** (`RS256`), and Supabase verifies the Auth0 OIDC discovery JWKS (`[auth.third_party.auth0]` / Dashboard). To preserve UUIDs without rewriting every `UUID` column to `TEXT`, inject a verified `app_user_id` UUID claim in the Auth0 Post-Login Action (or resolve `auth_identities` server-side via a `current_app_user_id()` SQL helper replacing raw `auth.uid()` in RLS policies).
++  2. **Server-Side BFF Session + Minted Short-Lived Supabase JWT (Recommended for minimal RLS churn):** `@auth0/nextjs-auth0` (v4 `Auth0Client` + `middleware.ts`) handles browser login/logout/callback; server routes verify the Auth0 session, resolve/provision the internal `UUID` via `auth_identities`, and mint or bind a Supabase-compatible JWT with `sub = internal_uuid` and `role = 'authenticated'` (or execute RLS-scoped queries via `service_role` only after server-side `getVerifiedOrgMembership` checks).
++
++### 3.3 Conflicts with Existing `/auth` Routes
++- `@auth0/nextjs-auth0` v4 mounts `/auth/login`, `/auth/logout`, `/auth/callback`, and `/auth/profile` in `middleware.ts` by default, which collides with Genome's existing `apps/web/app/auth/` page (`GET /auth`) and `apps/web/app/api/auth/*` routes.
++- **Resolution:** Either mount Auth0 routes under a distinct prefix (e.g. `/api/auth0/login`, `/api/auth0/callback`) during dual-run, or retire `apps/web/app/auth/page.jsx` and `/api/auth/signin`, `/api/auth/signup`, `/api/auth/resend-verification`, `/api/auth/confirm` at cutover.
++
++### 3.4 Provisioning, Account Linking, Invites & Role Revocation
++- **Provisioning & Existing-Account Migration:** On first Auth0 login, require `email_verified === true` before linking to an existing `profiles` row by verified email; never auto-link unverified emails. Store `(provider='auth0', subject=sub, user_id=existing_uuid)` in `auth_identities`.
++- **Organization Invitations & Role Revocation:** Keep `organization_memberships` and `organization_invites` in PostgreSQL as the source of truth for RBAC (`owner`, `admin`, `recruiter`, `hiring_manager`, `auditor`, `viewer`) and `membership_status`. Revoking a member's `membership_status` immediately blocks server routes (`getVerifiedOrgMembership`) without waiting for Auth0 token expiry.
++
++### 3.5 Cutover, Rollback & Required Environment Variable Names
++- **Cutover:** (1) Deploy `auth_identities` migration + dual-read `serverAuth.js`; (2) Enable Auth0 tenant + Post-Login Action (`RS256` ID token `role: 'authenticated'`); (3) Migrate/link pilot users; (4) Retire `/api/auth/signin`, `/api/auth/signup`, `/api/auth/resend-verification`, `/api/auth/confirm`.
++- **Rollback:** Keep Supabase Auth `auth.users` rows intact during pilot; toggle auth feature flag back to Supabase Auth without data loss.
++- **Required Environment Variable Names (values omitted):** `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_SECRET`, `APP_BASE_URL`, `AUTH0_AUDIENCE` (if using API access tokens).
++
++---
++
++## 4. Verification Summary & Readiness by Scope
++
++- **Guarded Disposable Verification (`Run ID: 20261122T121331Z_11248`):** `PASSED` (`exit_code: 0`, `cleanup_status: "clean"`):
++  - Step 5: Applied all forward migrations including `20260823000001_revoke_profiles_token_select.sql`; invariants `1|1|0|0|1` confirmed.
++  - Step 6a: `21` test files, `190` tests passed (includes `V11SecurityRepairs.test.js` and `VitestDiscoveryContract.test.js` = `68` suites).
++  - Step 6b: `6` test files, `61` tests passed.
++  - Step 7: ESLint `0` errors; Webpack build `13.2s`, `51/51` static pages.
++  - Step 8: Real PDF upload/parse/download/generate & pre-eval serialization passed.
++  - Step 9: Playwright `39` passed, `2` skipped (`42.8s`).
++- **Direct Disposable DB Privilege Check (`54422`):** `SET LOCAL ROLE authenticated; SELECT gmail_refresh_token FROM public.profiles` -> `SQLSTATE 42501: permission denied`.
++
++| Scope | Assessment | Blocking Gates |
++|---|---|---|
++| **V11 Bounded Security Repairs** | **TEST-VERIFIED** (controlled Vitest + disposable PostgreSQL) | Independent review of `v11` candidate |
++| **Local Synthetic Demo** | **VERIFIED** (`20261122T121331Z_11248`) | Live SMTP/providers gated (`CAREERTWIN_DRY_RUN_EMAIL=true`) |
++| **Hosted Demo** | **NOT VERIFIED** | Hosting topology, `V6-R1` shared cooldown/budget (or Auth0 cutover), live SMTP/DB |
++| **Design-Partner Pilot** | **NOT VERIFIED** | Above + SAST/secret CLI scan (`semgrep`/`gitleaks`), CodeRabbit on authorized remote branch, Auth0 implementation if chosen |
++| **Real-Company Data / Production** | **NOT VERIFIED** | All above + live provider & cross-tenant acceptance |
++
++**Founder Decisions Required:** (1) Authorize remote branch push for CodeRabbit + CI SAST/secret scan; (2) Choose Auth0 vs. Supabase Auth + shared `V6-R1` store before hosted pilot; (3) Approve `v11` security repairs via independent review.
+diff --git a/apps/web/__tests__/security/V11SecurityRepairs.test.js b/apps/web/__tests__/security/V11SecurityRepairs.test.js
+new file mode 100644
+index 0000000..f671d6c
+--- /dev/null
++++ b/apps/web/__tests__/security/V11SecurityRepairs.test.js
+@@ -0,0 +1,257 @@
++import { describe, it, expect, vi, beforeEach } from 'vitest';
++
++const mockGetUser = vi.fn();
++const mockAdminUpdateEq = vi.fn();
++const mockAdminUpdate = vi.fn(() => ({ eq: mockAdminUpdateEq }));
++const mockAdminFrom = vi.fn(() => ({ update: mockAdminUpdate }));
++
++const mockUserFrom = vi.fn();
++const mockCreateSupabaseServerClient = vi.fn();
++
++vi.mock('@/lib/supabaseServer', () => ({
++  createSupabaseServerClient: (...args) => mockCreateSupabaseServerClient(...args),
++}));
++
++const mockGenerateAuthUrl = vi.fn((opts) => `https://accounts.google.com/o/oauth2/v2/auth?state=${encodeURIComponent(opts.state)}`);
++const mockGetToken = vi.fn();
++
++vi.mock('googleapis', () => ({
++  google: {
++    auth: {
++      OAuth2: function MockOAuth2() {
++        this.generateAuthUrl = mockGenerateAuthUrl;
++        this.getToken = mockGetToken;
++        this.setCredentials = vi.fn();
++      },
++    },
++    gmail: vi.fn(),
++  },
++}));
++
++describe('V11 Bounded Security Repairs', () => {
++  beforeEach(async () => {
++    vi.clearAllMocks();
++    process.env.GOOGLE_CLIENT_ID = 'test-client-id';
++    process.env.GOOGLE_CLIENT_SECRET = 'test-client-secret';
++    process.env.GMAIL_OAUTH_STATE_SECRET = 'test-oauth-state-secret-32-chars-min';
++    process.env.NEXT_PUBLIC_URL = 'http://localhost:3010';
++
++    const { clearConsumedGmailNoncesForTest } = await import('@/lib/gmail');
++    clearConsumedGmailNoncesForTest();
++
++    mockAdminUpdateEq.mockResolvedValue({ error: null });
++    mockGetToken.mockResolvedValue({
++      tokens: {
++        refresh_token: 'secret-refresh-token',
++        id_token: `${Buffer.from('{"alg":"RS256"}').toString('base64url')}.${Buffer.from('{"email":"emp@example.com"}').toString('base64url')}.sig`,
++      },
++    });
++
++    mockCreateSupabaseServerClient.mockImplementation(async (_req, useServiceRole) => {
++      if (useServiceRole) {
++        return { from: mockAdminFrom };
++      }
++      return {
++        auth: { getUser: mockGetUser },
++        from: mockUserFrom,
++      };
++    });
++  });
++
++  describe('1. Gmail OAuth State/Session Binding & Replay Protection', () => {
++    it('rejects missing, wrong, expired, different-session, and replayed state with zero token exchanges or DB writes', async () => {
++      const { createGmailOAuthState, GMAIL_OAUTH_STATE_COOKIE } = await import('@/lib/gmail');
++      const { GET: callbackGET } = await import('@/app/api/integrations/gmail/callback/route');
++
++      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-a' } }, error: null });
++
++      // Missing state
++      const resMissing = await callbackGET({
++        url: 'http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1',
++        cookies: { get: () => ({ value: 'nonce-1' }) },
++      });
++      expect(resMissing.headers.get('location')).toContain('error=invalid_state');
++
++      // Wrong / tampered state
++      const resWrong = await callbackGET({
++        url: 'http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1&state=tampered.sig',
++        cookies: { get: () => ({ value: 'nonce-1' }) },
++      });
++      expect(resWrong.headers.get('location')).toContain('error=invalid_state');
++
++      // Expired state
++      const expired = createGmailOAuthState('user-a', Date.now() - 20 * 60 * 1000);
++      const resExpired = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1&state=${encodeURIComponent(expired.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: expired.nonce } : undefined) },
++      });
++      expect(resExpired.headers.get('location')).toContain('error=invalid_state');
++
++      // Different-session state (minted for user-b, callback as user-a)
++      const otherSession = createGmailOAuthState('user-b');
++      const resDiff = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1&state=${encodeURIComponent(otherSession.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: otherSession.nonce } : undefined) },
++      });
++      expect(resDiff.headers.get('location')).toContain('error=invalid_state');
++
++      expect(mockGetToken).not.toHaveBeenCalled();
++      expect(mockAdminFrom).not.toHaveBeenCalled();
++
++      // Valid synthetic OAuth transaction succeeds once, then replay is blocked
++      const valid = createGmailOAuthState('user-a');
++      const resOk = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1&state=${encodeURIComponent(valid.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: valid.nonce } : undefined) },
++      });
++      expect(resOk.headers.get('location')).toContain('success=gmail_connected');
++      expect(mockGetToken).toHaveBeenCalledTimes(1);
++      expect(mockAdminFrom).toHaveBeenCalledWith('profiles');
++
++      // Replay same state + cookie -> blocked with zero extra exchanges/writes
++      const resReplay = await callbackGET({
++        url: `http://localhost:3010/api/integrations/gmail/callback?code=auth-code-1&state=${encodeURIComponent(valid.state)}`,
++        cookies: { get: (k) => (k === GMAIL_OAUTH_STATE_COOKIE ? { value: valid.nonce } : undefined) },
++      });
++      expect(resReplay.headers.get('location')).toContain('error=invalid_state');
++      expect(mockGetToken).toHaveBeenCalledTimes(1);
++      expect(mockAdminFrom).toHaveBeenCalledTimes(1);
++    });
++
++    it('allowlists callback error query parameter', async () => {
++      const { GET: callbackGET } = await import('@/app/api/integrations/gmail/callback/route');
++      const res = await callbackGET({
++        url: 'http://localhost:3010/api/integrations/gmail/callback?error=https://evil.example/phish',
++        cookies: { get: () => undefined },
++      });
++      expect(res.headers.get('location')).toBe('http://localhost:3010/employer/integrations?error=oauth_error');
++      expect(mockGetToken).not.toHaveBeenCalled();
++    });
++
++    it('connect endpoint requires auth and sets HttpOnly state cookie', async () => {
++      const { GET: connectGET } = await import('@/app/api/integrations/gmail/connect/route');
++      mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null });
++      const unauth = await connectGET(new Request('http://localhost:3010/api/integrations/gmail/connect'));
++      expect(unauth.status).toBe(401);
++
++      mockGetUser.mockResolvedValueOnce({ data: { user: { id: 'user-a' } }, error: null });
++      const ok = await connectGET(new Request('http://localhost:3010/api/integrations/gmail/connect'));
++      expect(ok.status).toBe(200);
++      const body = await ok.json();
++      expect(body.url).toContain('state=');
++      expect(ok.headers.get('set-cookie')).toContain('wbl_gmail_oauth_state=');
++    });
++  });
++
++  describe('2. /api/auth/me Safe Profile Serialization', () => {
++    it('selects explicit safe columns and never exposes gmail_refresh_token', async () => {
++      const { GET: meGET } = await import('@/app/api/auth/me/route');
++      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-a', email: 'a@example.com' } }, error: null });
++
++      let selectedCols = '';
++      mockUserFrom.mockImplementation((table) => {
++        if (table === 'profiles') {
++          return {
++            select: (cols) => {
++              selectedCols = cols;
++              return {
++                eq: () => ({
++                  single: async () => ({
++                    data: {
++                      id: 'user-a',
++                      email: 'a@example.com',
++                      name: 'Alice',
++                      role: 'employer',
++                      company: 'Acme',
++                      gmail_connected: true,
++                      gmail_email: 'a@gmail.com',
++                      gmail_refresh_token: 'SHOULD_NEVER_LEAK',
++                    },
++                    error: null,
++                  }),
++                }),
++              };
++            },
++          };
++        }
++        return {
++          select: () => ({
++            eq: async () => ({ data: [] }),
++          }),
++        };
++      });
++
++      const res = await meGET(new Request('http://localhost:3010/api/auth/me'));
++      expect(res.status).toBe(200);
++      const body = await res.json();
++      expect(selectedCols).not.toContain('*');
++      expect(selectedCols).not.toContain('gmail_refresh_token');
++      expect(body).not.toHaveProperty('gmail_refresh_token');
++      expect(JSON.stringify(body)).not.toContain('SHOULD_NEVER_LEAK');
++      expect(body.gmail_connected).toBe(true);
++    });
++  });
++
++  describe('3. /api/search Filter Sanitization, AuthZ & Error Handling', () => {
++    it('sanitizes PostgREST metacharacters, scopes by employer_id, and fails closed on query error', async () => {
++      const { GET: searchGET, sanitizeSearchQuery } = await import('@/app/api/search/route');
++
++      expect(sanitizeSearchQuery('Staff,id.neq.0)or(id.eq.1')).toBe('Staff id neq 0 or id eq 1');
++      expect(sanitizeSearchQuery('100%_Engineer')).toBe('100\\%\\_Engineer');
++
++      // Unauthenticated -> 401
++      mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null });
++      const r401 = await searchGET(new Request('http://localhost:3010/api/search?q=engineer'));
++      expect(r401.status).toBe(401);
++
++      // DB query error -> 500 (never silently swallowed)
++      mockGetUser.mockResolvedValueOnce({ data: { user: { id: 'user-a' } }, error: null });
++      mockUserFrom.mockImplementation(() => ({
++        select: () => ({
++          or: () => ({
++            eq: () => ({
++              limit: async () => ({ data: null, error: { message: 'db down' } }),
++            }),
++          }),
++        }),
++      }));
++      const r500 = await searchGET(new Request('http://localhost:3010/api/search?q=engineer'));
++      expect(r500.status).toBe(500);
++
++      // Valid query succeeds scoped to employer_id
++      let capturedOr = '';
++      let capturedEmployerId = '';
++      mockGetUser.mockResolvedValueOnce({ data: { user: { id: 'user-a' } }, error: null });
++      mockUserFrom.mockImplementation((table) => {
++        if (table === 'hiring_runs') {
++          return {
++            select: () => ({
++              or: (expr) => {
++                capturedOr = expr;
++                return {
++                  eq: (_col, val) => {
++                    capturedEmployerId = val;
++                    return {
++                      limit: async () => ({ data: [{ id: 'run-1', role_title: 'Staff Engineer', company: 'Acme', status: 'active' }], error: null }),
++                    };
++                  },
++                };
++              },
++            }),
++          };
++        }
++        return {
++          select: () => ({
++            ilike: () => ({ limit: async () => ({ data: [], error: null }) }),
++          }),
++        };
++      });
++      const r200 = await searchGET(new Request('http://localhost:3010/api/search?q=Staff,id.neq.0'));
++      expect(r200.status).toBe(200);
++      expect(capturedOr).toBe('role_title.ilike.%Staff id neq 0%,company.ilike.%Staff id neq 0%');
++      expect(capturedEmployerId).toBe('user-a');
++      const body200 = await r200.json();
++      expect(body200.results).toHaveLength(1);
++    });
++  });
++});
+diff --git a/apps/web/__tests__/security/VitestDiscoveryContract.test.js b/apps/web/__tests__/security/VitestDiscoveryContract.test.js
+index 2b72bd2..438ba4b 100644
+--- a/apps/web/__tests__/security/VitestDiscoveryContract.test.js
++++ b/apps/web/__tests__/security/VitestDiscoveryContract.test.js
+@@ -56,6 +56,7 @@ describe('Vitest Discovery Contract (UX-V2-D4-C1)', () => {
+       'CreditLedgerPrivilegeSecurity.test.js',
+       'ScoreScaleAndEvidenceDedup.test.js',
+       'DeviceSupportUnit.test.jsx',
++      'V11SecurityRepairs.test.js',
+     ];
+ 
+     for (const suite of requiredSuites) {
+@@ -67,6 +68,6 @@ describe('Vitest Discovery Contract (UX-V2-D4-C1)', () => {
+     const webVitestSuites = webMatches.filter(
+       f => !f.endsWith('Assertions.test.js') && !f.endsWith('E2E.test.js') && !f.endsWith('Policy.test.js')
+     );
+-    expect(webVitestSuites.length).toBe(67);
++    expect(webVitestSuites.length).toBe(68);
+   });
+ });
+diff --git a/apps/web/app/api/auth/me/route.js b/apps/web/app/api/auth/me/route.js
+index 9d2be1d..fb80038 100644
+--- a/apps/web/app/api/auth/me/route.js
++++ b/apps/web/app/api/auth/me/route.js
+@@ -1,19 +1,22 @@
+ import { createSupabaseServerClient } from '@/lib/supabaseServer';
+ import { NextResponse } from 'next/server';
+ 
++const SAFE_PROFILE_COLUMNS =
++  'id, email, name, role, company, gmail_connected, gmail_email, created_at, updated_at';
++
+ export async function GET(request) {
+   try {
+     const supabase = await createSupabaseServerClient(request);
+     const { data: { user }, error: authError } = await supabase.auth.getUser();
+-    
++
+     if (authError || !user) {
+       return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+     }
+ 
+-    // Try to fetch profile from profiles table
+-    const { data: profile, error: profileError } = await supabase
++    // Fetch explicit non-credential profile fields only
++    const { data: profile } = await supabase
+       .from('profiles')
+-      .select('*')
++      .select(SAFE_PROFILE_COLUMNS)
+       .eq('id', user.id)
+       .single();
+ 
+@@ -26,30 +29,44 @@ export async function GET(request) {
+         .eq('user_id', user.id);
+ 
+       if (memberships && Array.isArray(memberships)) {
+-        orgs = memberships.map(m => ({
++        orgs = memberships.map((m) => ({
+           id: m.organization_id,
+           name: m.organizations?.name || 'Organization',
+           role: m.membership_role,
+-          status: m.membership_status
++          status: m.membership_status,
+         }));
+       }
+     } catch (orgErr) {
+       console.warn('[Auth Me] Organization lookup non-blocking warning:', orgErr);
+     }
+ 
+-    const baseProfile = profile || {
+-      id: user.id,
+-      email: user.email,
+-      role: user.user_metadata?.role || 'employer',
+-      name: user.user_metadata?.name || 'User',
+-      company: user.user_metadata?.company || null,
+-      is_fallback: true
+-    };
++    const safeProfile = profile
++      ? {
++          id: profile.id,
++          email: profile.email ?? user.email,
++          role: profile.role ?? user.user_metadata?.role ?? 'employer',
++          name: profile.name ?? user.user_metadata?.name ?? 'User',
++          company: profile.company ?? null,
++          gmail_connected: Boolean(profile.gmail_connected),
++          gmail_email: profile.gmail_email ?? null,
++          created_at: profile.created_at ?? null,
++          updated_at: profile.updated_at ?? null,
++        }
++      : {
++          id: user.id,
++          email: user.email,
++          role: user.user_metadata?.role || 'employer',
++          name: user.user_metadata?.name || 'User',
++          company: user.user_metadata?.company || null,
++          gmail_connected: false,
++          gmail_email: null,
++          is_fallback: true,
++        };
+ 
+     return NextResponse.json({
+-      ...baseProfile,
++      ...safeProfile,
+       organizations: orgs,
+-      active_organization_id: orgs[0]?.id || null
++      active_organization_id: orgs[0]?.id || null,
+     });
+   } catch (err) {
+     console.error('Auth check error:', err);
+diff --git a/apps/web/app/api/integrations/gmail/callback/route.js b/apps/web/app/api/integrations/gmail/callback/route.js
+index 4e5084d..a0ffe35 100644
+--- a/apps/web/app/api/integrations/gmail/callback/route.js
++++ b/apps/web/app/api/integrations/gmail/callback/route.js
+@@ -1,18 +1,64 @@
+-import { getTokens } from '@/lib/gmail';
++import {
++  getTokens,
++  GMAIL_OAUTH_STATE_COOKIE,
++  verifyAndConsumeGmailOAuthState,
++} from '@/lib/gmail';
+ import { createSupabaseServerClient } from '@/lib/supabaseServer';
+ import { NextResponse } from 'next/server';
+ 
++const ALLOWED_OAUTH_ERRORS = new Set([
++  'access_denied',
++  'invalid_request',
++  'unauthorized_client',
++  'unsupported_response_type',
++  'invalid_scope',
++  'server_error',
++  'temporarily_unavailable',
++]);
++
++function resolveBaseOrigin(request) {
++  const configured = (process.env.NEXT_PUBLIC_URL || '').trim();
++  if (configured) {
++    try {
++      return new URL(configured).origin;
++    } catch {
++      // fall through to request origin
++    }
++  }
++  return new URL(request.url).origin;
++}
++
++function buildIntegrationsRedirect(request, params) {
++  const target = new URL('/employer/integrations', resolveBaseOrigin(request));
++  for (const [k, v] of Object.entries(params)) {
++    if (v !== undefined && v !== null) {
++      target.searchParams.set(k, String(v));
++    }
++  }
++  const response = NextResponse.redirect(target);
++  response.cookies.set(GMAIL_OAUTH_STATE_COOKIE, '', {
++    httpOnly: true,
++    sameSite: 'lax',
++    secure: process.env.NODE_ENV === 'production',
++    path: '/api/integrations/gmail/callback',
++    maxAge: 0,
++  });
++  return response;
++}
++
+ export async function GET(request) {
+   const { searchParams } = new URL(request.url);
+   const code = searchParams.get('code');
+-  const error = searchParams.get('error');
++  const state = searchParams.get('state');
++  const rawError = searchParams.get('error');
+ 
+-  if (error) {
+-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/employer/integrations?error=${error}`);
++  if (rawError) {
++    const safeError = ALLOWED_OAUTH_ERRORS.has(rawError) ? rawError : 'oauth_error';
++    return buildIntegrationsRedirect(request, { error: safeError });
+   }
+ 
+   if (!code) {
+-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/employer/integrations?error=no_code`);
++    return buildIntegrationsRedirect(request, { error: 'no_code' });
+   }
+ 
+   try {
+@@ -21,7 +67,27 @@ export async function GET(request) {
+ 
+     if (!user) {
+       console.error('Session lost during Google callback redirect');
+-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/auth?error=session_lost`);
++      const authTarget = new URL('/auth', resolveBaseOrigin(request));
++      authTarget.searchParams.set('error', 'session_lost');
++      const res = NextResponse.redirect(authTarget);
++      res.cookies.set(GMAIL_OAUTH_STATE_COOKIE, '', {
++        httpOnly: true,
++        sameSite: 'lax',
++        secure: process.env.NODE_ENV === 'production',
++        path: '/api/integrations/gmail/callback',
++        maxAge: 0,
++      });
++      return res;
++    }
++
++    const cookieNonce = request.cookies?.get?.(GMAIL_OAUTH_STATE_COOKIE)?.value || null;
++    const verification = verifyAndConsumeGmailOAuthState({
++      state,
++      expectedUserId: user.id,
++      cookieNonce,
++    });
++    if (!verification.ok) {
++      return buildIntegrationsRedirect(request, { error: 'invalid_state' });
+     }
+ 
+     const tokens = await getTokens(code);
+@@ -29,7 +95,9 @@ export async function GET(request) {
+     // Save the refresh token to the profiles table
+     const updateData = {
+       gmail_connected: true,
+-      gmail_email: tokens.id_token ? JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString()).email : null
++      gmail_email: tokens.id_token
++        ? JSON.parse(Buffer.from(tokens.id_token.split('.')[1], 'base64').toString()).email
++        : null,
+     };
+ 
+     if (tokens.refresh_token) {
+@@ -45,10 +113,9 @@ export async function GET(request) {
+ 
+     if (dbError) throw dbError;
+ 
+-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/employer/integrations?success=gmail_connected`);
+-
++    return buildIntegrationsRedirect(request, { success: 'gmail_connected' });
+   } catch (err) {
+     console.error('Gmail callback error:', err);
+-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/employer/integrations?error=callback_failed`);
++    return buildIntegrationsRedirect(request, { error: 'callback_failed' });
+   }
+ }
+diff --git a/apps/web/app/api/integrations/gmail/connect/route.js b/apps/web/app/api/integrations/gmail/connect/route.js
+index 4b5a9cb..c400d71 100644
+--- a/apps/web/app/api/integrations/gmail/connect/route.js
++++ b/apps/web/app/api/integrations/gmail/connect/route.js
+@@ -1,19 +1,14 @@
+-import { getAuthUrl } from '@/lib/gmail';
++import { createGmailOAuthState, getAuthUrl, GMAIL_OAUTH_STATE_COOKIE } from '@/lib/gmail';
+ import { createSupabaseServerClient } from '@/lib/supabaseServer';
+ import { NextResponse } from 'next/server';
+ 
+ export async function GET(request) {
+   try {
+-    // DEBUG LOGS
+-    console.log('GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'EXISTS' : 'MISSING');
+-    console.log('GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'EXISTS' : 'MISSING');
+-    console.log('GOOGLE_REDIRECT_URI:', process.env.GOOGLE_REDIRECT_URI);
+-
+     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+-        return NextResponse.json({ 
+-            error: 'Environment variables missing on server',
+-            details: 'GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET is not defined' 
+-        }, { status: 500 });
++      return NextResponse.json(
++        { error: 'OAuth configuration missing on server' },
++        { status: 500 }
++      );
+     }
+ 
+     const supabase = await createSupabaseServerClient(request);
+@@ -23,10 +18,19 @@ export async function GET(request) {
+       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+     }
+ 
+-    const url = getAuthUrl();
+-    return NextResponse.json({ url });
++    const { state, nonce, maxAgeSeconds } = createGmailOAuthState(user.id);
++    const url = getAuthUrl(state);
++    const response = NextResponse.json({ url });
++    response.cookies.set(GMAIL_OAUTH_STATE_COOKIE, nonce, {
++      httpOnly: true,
++      sameSite: 'lax',
++      secure: process.env.NODE_ENV === 'production',
++      path: '/api/integrations/gmail/callback',
++      maxAge: maxAgeSeconds,
++    });
++    return response;
+   } catch (err) {
+     console.error('Gmail connect error:', err);
+-    return NextResponse.json({ error: 'Failed to generate auth URL', details: err.message }, { status: 500 });
++    return NextResponse.json({ error: 'Failed to generate auth URL' }, { status: 500 });
+   }
+ }
+diff --git a/apps/web/app/api/search/route.js b/apps/web/app/api/search/route.js
+index 79a2683..d9d298c 100644
+--- a/apps/web/app/api/search/route.js
++++ b/apps/web/app/api/search/route.js
+@@ -1,11 +1,27 @@
+ import { createSupabaseServerClient } from '@/lib/supabaseServer';
+ import { NextResponse } from 'next/server';
+ 
++const MAX_SEARCH_LENGTH = 100;
++
++/**
++ * Strip PostgREST filter-syntax metacharacters and escape LIKE wildcards
++ * so user input cannot alter `.or(...)` boolean/operator structure.
++ */
++export function sanitizeSearchQuery(rawQuery) {
++  if (typeof rawQuery !== 'string') return '';
++  const bounded = rawQuery.trim().slice(0, MAX_SEARCH_LENGTH);
++  return bounded
++    .replace(/[\\,"'().*]/g, ' ')
++    .replace(/[%_]/g, (ch) => `\\${ch}`)
++    .replace(/\s+/g, ' ')
++    .trim();
++}
++
+ export async function GET(request) {
+   try {
+     const { searchParams } = new URL(request.url);
+-    const query = searchParams.get('q');
+-    
++    const query = sanitizeSearchQuery(searchParams.get('q'));
++
+     if (!query) {
+       return NextResponse.json({ results: [] });
+     }
+@@ -17,7 +33,7 @@ export async function GET(request) {
+       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+     }
+ 
+-    // 1. Search Hiring Runs
++    // 1. Search Hiring Runs scoped to the authenticated employer
+     const { data: runs, error: runsError } = await supabase
+       .from('hiring_runs')
+       .select('id, role_title, company, status, created_at')
+@@ -25,35 +41,43 @@ export async function GET(request) {
+       .eq('employer_id', user.id)
+       .limit(10);
+ 
+-    // 2. Search Candidate Profiles
++    if (runsError) {
++      console.error('Search hiring_runs error:', runsError);
++      return NextResponse.json({ error: 'Search query failed' }, { status: 500 });
++    }
++
++    // 2. Search Candidate Profiles (governed by RLS)
+     const { data: candidates, error: candError } = await supabase
+       .from('candidate_profiles')
+       .select('id, name, bio, location, linkedin_url')
+       .ilike('name', `%${query}%`)
+       .limit(10);
+ 
+-    // 3. Format and combine
++    if (candError) {
++      console.error('Search candidate_profiles error:', candError);
++      return NextResponse.json({ error: 'Search query failed' }, { status: 500 });
++    }
++
+     const results = [
+-      ...(runs || []).map(r => ({
++      ...(runs || []).map((r) => ({
+         id: r.id,
+         type: 'role',
+         title: r.role_title,
+         subtitle: r.company,
+         url: `/employer/brief/${r.id}`,
+-        status: r.status
++        status: r.status,
+       })),
+-      ...(candidates || []).map(c => ({
++      ...(candidates || []).map((c) => ({
+         id: c.id,
+         type: 'candidate',
+         title: c.name,
+         subtitle: c.bio,
+-        url: `/employer/packet/${c.id}`, // Assuming this is the profile view
+-        location: c.location
+-      }))
++        url: `/employer/packet/${c.id}`,
++        location: c.location,
++      })),
+     ];
+ 
+     return NextResponse.json({ results: results.slice(0, 15) });
+-
+   } catch (err) {
+     console.error('Search API Error:', err);
+     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+diff --git a/apps/web/lib/gmail.js b/apps/web/lib/gmail.js
+index 803c5b7..25fcb5f 100644
+--- a/apps/web/lib/gmail.js
++++ b/apps/web/lib/gmail.js
+@@ -1,3 +1,4 @@
++import crypto from 'node:crypto';
+ import { google } from 'googleapis';
+ 
+ const oauth2Client = new google.auth.OAuth2(
+@@ -13,11 +14,127 @@ export const SCOPES = [
+   'https://www.googleapis.com/auth/userinfo.profile',
+ ];
+ 
+-export function getAuthUrl() {
++export const GMAIL_OAUTH_STATE_COOKIE = 'wbl_gmail_oauth_state';
++const GMAIL_OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
++const MAX_TRACKED_NONCES = 2000;
++const consumedNonces = new Map();
++
++function getOAuthStateSecret() {
++  const secret = (
++    process.env.GMAIL_OAUTH_STATE_SECRET ||
++    process.env.SUPABASE_SERVICE_ROLE_KEY ||
++    process.env.GOOGLE_CLIENT_SECRET ||
++    ''
++  ).trim();
++  if (!secret) {
++    throw new Error('GMAIL_OAUTH_STATE_SECRET is not configured');
++  }
++  return secret;
++}
++
++function pruneExpiredNonces(now) {
++  for (const [nonce, expiresAt] of consumedNonces.entries()) {
++    if (expiresAt <= now) {
++      consumedNonces.delete(nonce);
++    }
++  }
++}
++
++export function createGmailOAuthState(userId, now = Date.now()) {
++  if (!userId || typeof userId !== 'string') {
++    throw new Error('Authenticated userId is required for Gmail OAuth state');
++  }
++  const secret = getOAuthStateSecret();
++  const nonce = crypto.randomBytes(24).toString('base64url');
++  const payload = {
++    sub: userId,
++    nonce,
++    iat: now,
++    exp: now + GMAIL_OAUTH_STATE_TTL_MS,
++  };
++  const encoded = Buffer.from(JSON.stringify(payload)).toString('base64url');
++  const sig = crypto.createHmac('sha256', secret).update(encoded).digest('base64url');
++  return {
++    state: `${encoded}.${sig}`,
++    nonce,
++    maxAgeSeconds: Math.floor(GMAIL_OAUTH_STATE_TTL_MS / 1000),
++  };
++}
++
++export function verifyAndConsumeGmailOAuthState({
++  state,
++  expectedUserId,
++  cookieNonce,
++  now = Date.now(),
++}) {
++  if (!state || typeof state !== 'string' || !expectedUserId || !cookieNonce || typeof cookieNonce !== 'string') {
++    return { ok: false, reason: 'missing_state_or_session' };
++  }
++  const parts = state.split('.');
++  if (parts.length !== 2 || !parts[0] || !parts[1]) {
++    return { ok: false, reason: 'malformed_state' };
++  }
++  const [encoded, providedSig] = parts;
++  let secret;
++  try {
++    secret = getOAuthStateSecret();
++  } catch {
++    return { ok: false, reason: 'missing_server_secret' };
++  }
++  const expectedSig = crypto.createHmac('sha256', secret).update(encoded).digest('base64url');
++  const providedBuf = Buffer.from(providedSig);
++  const expectedBuf = Buffer.from(expectedSig);
++  if (providedBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(providedBuf, expectedBuf)) {
++    return { ok: false, reason: 'invalid_signature' };
++  }
++
++  let payload;
++  try {
++    payload = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8'));
++  } catch {
++    return { ok: false, reason: 'invalid_payload' };
++  }
++
++  if (!payload || typeof payload.sub !== 'string' || typeof payload.nonce !== 'string' || typeof payload.exp !== 'number') {
++    return { ok: false, reason: 'invalid_claims' };
++  }
++  if (payload.sub !== expectedUserId) {
++    return { ok: false, reason: 'session_mismatch' };
++  }
++  const nonceBuf = Buffer.from(payload.nonce);
++  const cookieBuf = Buffer.from(cookieNonce);
++  if (nonceBuf.length !== cookieBuf.length || !crypto.timingSafeEqual(nonceBuf, cookieBuf)) {
++    return { ok: false, reason: 'cookie_mismatch' };
++  }
++  if (now > payload.exp) {
++    return { ok: false, reason: 'expired_state' };
++  }
++
++  pruneExpiredNonces(now);
++  if (consumedNonces.has(payload.nonce)) {
++    return { ok: false, reason: 'replayed_state' };
++  }
++  if (consumedNonces.size >= MAX_TRACKED_NONCES) {
++    const oldestKey = consumedNonces.keys().next().value;
++    if (oldestKey) consumedNonces.delete(oldestKey);
++  }
++  consumedNonces.set(payload.nonce, payload.exp);
++  return { ok: true, sub: payload.sub };
++}
++
++export function clearConsumedGmailNoncesForTest() {
++  consumedNonces.clear();
++}
++
++export function getAuthUrl(state) {
++  if (!state || typeof state !== 'string') {
++    throw new Error('OAuth state is required');
++  }
+   return oauth2Client.generateAuthUrl({
+     access_type: 'offline', // Critical for getting a refresh token
+     scope: SCOPES,
+     prompt: 'consent', // Ensures we always get a refresh token
++    state,
+   });
+ }
+ 
+diff --git a/scripts/guarded_disposable_verify.sh b/scripts/guarded_disposable_verify.sh
+index 14a1d48..9a4e80c 100644
+--- a/scripts/guarded_disposable_verify.sh
++++ b/scripts/guarded_disposable_verify.sh
+@@ -815,6 +815,8 @@ psql "${DISPOSABLE_DATABASE_URL}" -v ON_ERROR_STOP=1 \
+   -f "${ISOLATED_RUN_DIR}/supabase/migrations/20260821000003_track1_forward_upgrade_reconciliation.sql"
+ psql "${DISPOSABLE_DATABASE_URL}" -v ON_ERROR_STOP=1 \
+   -f "${ISOLATED_RUN_DIR}/supabase/migrations/20260822000001_transactional_screening_completion.sql"
++psql "${DISPOSABLE_DATABASE_URL}" -v ON_ERROR_STOP=1 \
++  -f "${ISOLATED_RUN_DIR}/supabase/migrations/20260823000001_revoke_profiles_token_select.sql"
+ 
+ POST_MIG_CHECK=$(psql "${DISPOSABLE_DATABASE_URL}" -v ON_ERROR_STOP=1 -t -A -c "
+   SELECT
+@@ -859,7 +861,8 @@ run_allowlisted "test" npx --no-install vitest run \
+   __tests__/intake/RoleIntakeUI.test.jsx \
+   __tests__/api/dryRunEmail.test.js \
+   __tests__/evals/V3CloseoutBehavior.test.js \
+-  __tests__/api/screeningCompleteBehavior.test.js
++  __tests__/api/screeningCompleteBehavior.test.js \
++  __tests__/security/V11SecurityRepairs.test.js
+ 
+ echo "  -> [6b] Real Disposable Database & Concurrency Suites..."
+ run_allowlisted "test" npx --no-install vitest run --no-file-parallelism \
+diff --git a/supabase/migrations/20260823000001_revoke_profiles_token_select.sql b/supabase/migrations/20260823000001_revoke_profiles_token_select.sql
+new file mode 100644
+index 0000000..981ad1a
+--- /dev/null
++++ b/supabase/migrations/20260823000001_revoke_profiles_token_select.sql
+@@ -0,0 +1,16 @@
++-- Migration 20260823000001: Restrict public.profiles SELECT privileges so
++-- ordinary authenticated/anon clients cannot query gmail_refresh_token directly.
++-- Server-side service_role retains full column access for Gmail send/callback.
++
++REVOKE SELECT ON public.profiles FROM anon, authenticated;
++GRANT SELECT (
++    id,
++    email,
++    name,
++    role,
++    company,
++    gmail_connected,
++    gmail_email,
++    created_at,
++    updated_at
++) ON public.profiles TO authenticated;

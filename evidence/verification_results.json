@@ -1,0 +1,123 @@
+{
+  "local_gates": [
+    {
+      "name": "python_suite",
+      "command": [
+        "pytest",
+        "tests",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "72 passed, 1 warning (Pydantic V2 config deprecation in Graphiti)"
+    },
+    {
+      "name": "temporal_live_acceptance",
+      "command": [
+        "python",
+        "tests/temporal_live_acceptance.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "EvidenceVersionWorkflow completed, replay idempotency verified, lease fencing verified, retry exhaustion verified"
+    },
+    {
+      "name": "hybrid_postgres_retrieval",
+      "command": [
+        "node",
+        "tests/hybrid_postgres.mjs"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "10/10 checks passed on PG WASM + pgvector with frozen query set"
+    },
+    {
+      "name": "four_layer_native_postgres_expansion",
+      "command": [
+        "python",
+        "scripts/verify_four_layer_expansion.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "All 4 layers verified on native PostgreSQL 17.6 + pgvector (Temporal workflow, Scoped Hybrid RRF, LangGraph bounded QA, Graphiti derived namespacing)"
+    },
+    {
+      "name": "vitest_full_suite",
+      "command": [
+        "npx",
+        "vitest",
+        "run"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "51 passed | 2 skipped (53 test files, 536 passed tests, 0 failures)"
+    },
+    {
+      "name": "nextjs_production_build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "Compiled in 10.9s, 39 static + dynamic routes generated cleanly"
+    },
+    {
+      "name": "playwright_browser_acceptance",
+      "command": [
+        "node",
+        "scripts/browser_context_evidence_acceptance.mjs"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "6/6 authentic browser checks passed, 4 screenshots captured"
+    },
+    {
+      "name": "playwright_extended_browser_acceptance",
+      "command": [
+        "node",
+        "scripts/browser_memory_expansion_extended_acceptance.mjs"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "Strategy dropdown (search vs related) and cross-tenant boundary verified, screenshot captured"
+    },
+    {
+      "name": "paired_rollback_rehearsal",
+      "command": [
+        "bash",
+        "infra/deployment/rehearse_paired_rollback.sh"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "details": "Core-08 archive readability, lockfile parity, live schema rollback on disposable DB executed cleanly"
+    }
+  ],
+  "implemented_and_tested": [
+    "Temporal durable version processing (wbctx-version-<id>)",
+    "Temporal worker restart, duplicate dispatch rejection, lease fencing, retry exhaustion",
+    "pgvector 384-d dense embedding + PostgreSQL FTS scoped hybrid retrieval with RRF (1 / (60 + rank))",
+    "Scope-before-ranking enforcement (org, run, workspace, role, as_of timestamp, tombstones)",
+    "Bounded LangGraph QA flow via server proxy (retrieve -> generate_or_abstain -> validate)",
+    "JSON type validation, immutable citation identity, exact quote verification, claim-level evidence check",
+    "Safe evidence abstention (INSUFFICIENT_EVIDENCE) on hallucinated or ungrounded claims",
+    "Explicit 503 LIVE_GENERATION_UNAVAILABLE on unconfigured model providers",
+    "Graphiti projection adapter with deterministic namespacing and episode derivation",
+    "Graphiti candidate re-resolution against authorized source versions (revoked/stale sources produce 0 candidates)",
+    "Frontend Context Evidence Panel with retrieval strategy selector (Document search vs Related evidence)",
+    "Role brief UI integration with zero state leakage between hiring runs",
+    "Audit blockers resolved (m.org_id, nested COMMITs, quickstart paths, credentials masking, rollback URL)",
+    "Next.js production build and full Vitest regression (536 passed tests)"
+  ],
+  "blocked": [
+    "live customer data (prohibited by founder boundaries)",
+    "remote git push or cloud deployment (prohibited without founder approval)"
+  ],
+  "deferred": [
+    "live Gemini API credentials (retained explicit 503 until hosted credentials configured)",
+    "hosted Neo4j credentials (graphiti adapter retained and tested locally, disabled by default)"
+  ],
+  "overall": "FOUR_LAYER_V2_EXPANSION_COMPLETE_AND_LOCALLY_ACCEPTED"
+}

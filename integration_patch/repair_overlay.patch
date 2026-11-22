@@ -1,0 +1,1672 @@
+--- a/apps/web/app/api/employer/context-sources/[sourceId]/evidence/route.js
++++ b/apps/web/app/api/employer/context-sources/[sourceId]/evidence/route.js
+@@ -1,82 +1,12 @@
+ import { NextResponse } from 'next/server';
+-import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
+-
+-const ALLOWED_EMPLOYER_ROLES = ['owner', 'admin', 'recruiter', 'member'];
+-
+-export async function GET(request, { params }) {
+-  const authRes = await requireUser(request);
+-  if (authRes.errorResponse) return authRes.errorResponse;
+-  const { user, supabase } = authRes;
+-
+-  const { sourceId } = await params;
+-  if (!sourceId) {
+-    return NextResponse.json({ error: 'Source ID is required' }, { status: 400 });
+-  }
+-
+-  // 1. Fetch source object to verify ownership
+-  const { data: source, error: srcErr } = await supabase
+-    .from('context_source_objects')
+-    .select('*')
+-    .eq('id', sourceId)
+-    .single();
+-
+-  if (srcErr || !source) {
+-    return NextResponse.json({ error: 'Source object not found', code: 'NOT_FOUND' }, { status: 404 });
+-  }
+-
+-  const membership = await getVerifiedOrgMembership(supabase, user.id, source.org_id);
+-  if (!membership || !ALLOWED_EMPLOYER_ROLES.includes(membership.membership_role)) {
+-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+-  }
+-
+-  // 2. Fetch versions
+-  const { data: versions } = await supabase
+-    .from('context_source_versions')
+-    .select('*')
+-    .eq('source_id', sourceId)
+-    .order('version_number', { ascending: false });
+-
+-  const activeVersion = versions?.find((v) => v.status === 'completed' || v.status === 'partial') || versions?.[0];
+-
+-  let parsedArtifact = null;
+-  let evidenceSpans = [];
+-  let documentResult = null;
+-
+-  if (activeVersion) {
+-    // 3. Fetch parsed artifact
+-    const { data: parsed } = await supabase
+-      .from('context_parsed_artifacts')
+-      .select('*')
+-      .eq('source_version_id', activeVersion.id)
+-      .single();
+-    parsedArtifact = parsed;
+-
+-    // 4. Fetch evidence spans
+-    if (parsed) {
+-      const { data: spans } = await supabase
+-        .from('context_evidence_spans')
+-        .select('*')
+-        .eq('parsed_artifact_id', parsed.id)
+-        .order('start_char', { ascending: true });
+-      evidenceSpans = spans || [];
+-    }
+-
+-    // 5. Fetch document result / coverage
+-    const { data: docRes } = await supabase
+-      .from('context_document_results')
+-      .select('*')
+-      .eq('source_version_id', activeVersion.id)
+-      .single();
+-    documentResult = docRes;
+-  }
+-
+-  return NextResponse.json({
+-    ok: true,
+-    source,
+-    active_version: activeVersion,
+-    versions: versions || [],
+-    parsed_artifact: parsedArtifact,
+-    evidence_spans: evidenceSpans,
+-    document_result: documentResult,
+-  });
++import { contextScope, contextFetch } from '@/lib/contextClient';
++function errorResponse(error) { return NextResponse.json({error: error.code || 'CONTEXT_UNAVAILABLE'}, {status: error.status || 503}); }
++export async function GET(request, {params}) {
++  try {
++    const scope = await contextScope(request, new URL(request.url).searchParams.get('hiring_run_id'));
++    if (scope.errorResponse) return scope.errorResponse;
++    const {sourceId} = await params;
++    const result = await contextFetch(scope, `/sources/${encodeURIComponent(sourceId)}`);
++    return NextResponse.json(result.body, {status:result.status});
++  } catch(error) { return errorResponse(error); }
+ }
+--- a/apps/web/app/api/employer/context-sources/route.js
++++ b/apps/web/app/api/employer/context-sources/route.js
+@@ -1,94 +1,11 @@
+ import { NextResponse } from 'next/server';
+-import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
+-
+-const ALLOWED_EMPLOYER_ROLES = ['owner', 'admin', 'recruiter', 'member'];
+-
++import { contextScope, contextFetch } from '@/lib/contextClient';
++function errorResponse(error) { return NextResponse.json({error: error.code || 'CONTEXT_UNAVAILABLE'}, {status: error.status || 503}); }
+ export async function GET(request) {
+-  const authRes = await requireUser(request);
+-  if (authRes.errorResponse) return authRes.errorResponse;
+-  const { user, supabase } = authRes;
+-
+-  const { searchParams } = new URL(request.url);
+-  const orgId = searchParams.get('org_id');
+-  const hiringRunId = searchParams.get('hiring_run_id');
+-
+-  let targetOrgId = orgId;
+-  if (!targetOrgId && hiringRunId) {
+-    const { data: run } = await supabase
+-      .from('hiring_runs')
+-      .select('org_id')
+-      .eq('id', hiringRunId.trim())
+-      .single();
+-    if (run) targetOrgId = run.org_id;
+-  }
+-
+-  if (!targetOrgId) {
+-    const { data: memberships } = await supabase
+-      .from('organization_memberships')
+-      .select('org_id')
+-      .eq('user_id', user.id);
+-    if (!memberships || memberships.length === 0) {
+-      return NextResponse.json({ error: 'No organization membership found' }, { status: 403 });
+-    }
+-    targetOrgId = memberships[0].org_id;
+-  }
+-
+-  const membership = await getVerifiedOrgMembership(supabase, user.id, targetOrgId);
+-  if (!membership || !ALLOWED_EMPLOYER_ROLES.includes(membership.membership_role)) {
+-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+-  }
+-
+-  // Fetch sources with their versions
+-  const { data: sources, error } = await supabase
+-    .from('context_source_objects')
+-    .select(`
+-      id,
+-      org_id,
+-      workspace_id,
+-      source_uri,
+-      source_kind,
+-      confidentiality,
+-      created_at,
+-      context_source_versions (
+-        id,
+-        version_number,
+-        original_file_sha256,
+-        original_mime_type,
+-        byte_size,
+-        status,
+-        effective_time,
+-        ingested_at
+-      )
+-    `)
+-    .eq('org_id', targetOrgId)
+-    .order('created_at', { ascending: false });
+-
+-  if (error) {
+-    return NextResponse.json({ error: error.message }, { status: 500 });
+-  }
+-
+-  // Format response with active version and version count
+-  const formattedSources = (sources || []).map((s) => {
+-    const versions = (s.context_source_versions || []).sort(
+-      (a, b) => b.version_number - a.version_number
+-    );
+-    const activeVersion = versions.find((v) => v.status === 'completed' || v.status === 'partial') || versions[0] || null;
+-
+-    return {
+-      id: s.id,
+-      source_uri: s.source_uri,
+-      source_kind: s.source_kind,
+-      confidentiality: s.confidentiality,
+-      created_at: s.created_at,
+-      version_count: versions.length,
+-      active_version: activeVersion,
+-      versions,
+-    };
+-  });
+-
+-  return NextResponse.json({
+-    ok: true,
+-    sources: formattedSources,
+-    total_count: formattedSources.length,
+-  });
++  try {
++    const scope = await contextScope(request, new URL(request.url).searchParams.get('hiring_run_id'));
++    if (scope.errorResponse) return scope.errorResponse;
++    const result = await contextFetch(scope, '/sources');
++    return NextResponse.json(result.body, {status:result.status});
++  } catch(error) { return errorResponse(error); }
+ }
+--- a/apps/web/app/api/employer/context-sources/search/route.js
++++ b/apps/web/app/api/employer/context-sources/search/route.js
+@@ -0,0 +1,13 @@
++import { NextResponse } from 'next/server';
++import { contextScope, contextFetch } from '@/lib/contextClient';
++function errorResponse(error) { return NextResponse.json({error: error.code || 'CONTEXT_UNAVAILABLE'}, {status: error.status || 503}); }
++export async function POST(request) {
++  try {
++    const body = await request.json();
++    const scope = await contextScope(request, body.hiring_run_id, 'retrieve');
++    if (scope.errorResponse) return scope.errorResponse;
++    if (typeof body.question !== 'string' || body.question.trim().length < 3) return NextResponse.json({error:'QUESTION_REQUIRED'}, {status:400});
++    const result = await contextFetch(scope, '/research-qa', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:body.question.trim(), mode:'retrieval_only', limit:5})});
++    return NextResponse.json(result.body, {status:result.status});
++  } catch(error) { return errorResponse(error); }
++}
+--- a/apps/web/app/api/employer/context-sources/upload/route.js
++++ b/apps/web/app/api/employer/context-sources/upload/route.js
+@@ -1,246 +1,19 @@
+ import { NextResponse } from 'next/server';
+-import crypto from 'crypto';
+-import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
+-import { processOutboxEvent, extractEvidenceSpans } from '@/lib/contextEvidenceWorker';
+-
+-const ALLOWED_EMPLOYER_ROLES = ['owner', 'admin', 'recruiter', 'member'];
+-const ALLOWED_SOURCE_KINDS = ['RESUME', 'JOB_DESCRIPTION', 'COMPANY_RESEARCH', 'INTERVIEW_NOTES', 'PORTFOLIO'];
+-
++import { contextScope, contextFetch } from '@/lib/contextClient';
++function errorResponse(error) { return NextResponse.json({error: error.code || 'CONTEXT_UNAVAILABLE'}, {status: error.status || 503}); }
+ export async function POST(request) {
+-  // 1. Authenticate employer
+-  const authRes = await requireUser(request);
+-  if (authRes.errorResponse) return authRes.errorResponse;
+-  const { user, supabase } = authRes;
+-
+-  // 2. Parse request payload (supports JSON or multipart)
+-  let body;
+   try {
+-    const contentType = request.headers.get('content-type') || '';
+-    if (contentType.includes('application/json')) {
+-      body = await request.json();
+-    } else {
+-      const formData = await request.formData();
+-      body = {
+-        org_id: formData.get('org_id'),
+-        hiring_run_id: formData.get('hiring_run_id'),
+-        source_uri: formData.get('source_uri') || formData.get('filename'),
+-        source_kind: formData.get('source_kind') || 'RESUME',
+-        content: formData.get('content'),
+-        effective_time: formData.get('effective_time'),
+-      };
+-    }
+-  } catch {
+-    return NextResponse.json({ error: 'Failed to parse request payload', code: 'INVALID_PAYLOAD' }, { status: 400 });
+-  }
+-
+-  const {
+-    org_id,
+-    hiring_run_id,
+-    source_uri,
+-    source_kind = 'RESUME',
+-    content,
+-    effective_time = null,
+-  } = body || {};
+-
+-  if (!source_uri || typeof source_uri !== 'string' || !source_uri.trim()) {
+-    return NextResponse.json({ error: 'source_uri or filename is required', code: 'MISSING_SOURCE_URI' }, { status: 400 });
+-  }
+-
+-  if (!ALLOWED_SOURCE_KINDS.includes(source_kind)) {
+-    return NextResponse.json(
+-      { error: `Invalid source_kind '${source_kind}'. Allowed: ${ALLOWED_SOURCE_KINDS.join(', ')}`, code: 'INVALID_SOURCE_KIND' },
+-      { status: 400 }
+-    );
+-  }
+-
+-  // 3. Resolve Organization and verify membership
+-  let targetOrgId = org_id;
+-  if (!targetOrgId && hiring_run_id) {
+-    const { data: run } = await supabase
+-      .from('hiring_runs')
+-      .select('org_id')
+-      .eq('id', hiring_run_id.trim())
+-      .single();
+-    if (run) targetOrgId = run.org_id;
+-  }
+-
+-  if (!targetOrgId) {
+-    // Check user's memberships
+-    const { data: memberships } = await supabase
+-      .from('organization_memberships')
+-      .select('org_id, membership_role')
+-      .eq('user_id', user.id);
+-
+-    if (!memberships || memberships.length === 0) {
+-      return NextResponse.json({ error: 'No organization membership found for user', code: 'NO_MEMBERSHIP' }, { status: 403 });
+-    }
+-    if (memberships.length > 1) {
+-      return NextResponse.json({ error: 'Ambiguous organization context. Explicit org_id or hiring_run_id required.', code: 'AMBIGUOUS_ORG' }, { status: 400 });
+-    }
+-    targetOrgId = memberships[0].org_id;
+-  }
+-
+-  const membership = await getVerifiedOrgMembership(supabase, user.id, targetOrgId);
+-  if (!membership || !ALLOWED_EMPLOYER_ROLES.includes(membership.membership_role)) {
+-    return NextResponse.json({ error: 'Forbidden: User is not authorized for target organization', code: 'FORBIDDEN' }, { status: 403 });
+-  }
+-
+-  // 4. Compute file SHA-256 and byte size
+-  const rawTextContent = typeof content === 'string' ? content : (content ? String(content) : '');
+-  const fileSha256 = crypto.createHash('sha256').update(rawTextContent, 'utf-8').digest('hex');
+-  const byteSize = Buffer.byteLength(rawTextContent, 'utf-8');
+-  const mimeType = source_uri.endsWith('.pdf') ? 'application/pdf' : 'text/plain';
+-
+-  const cleanUri = source_uri.trim();
+-  const workspaceId = `ws_${targetOrgId.slice(0, 8)}`;
+-  const artifactId = `storage://context_artifacts/${targetOrgId}/${cleanUri}`;
+-  const idempotencyKey = `idemp_${targetOrgId}_${fileSha256}_${Date.now()}`;
+-
+-  // 5. Call transactional ingestion RPC (or direct database transaction)
+-  // Check if RPC exists
+-  const { data: rpcData, error: rpcErr } = await supabase.rpc(
+-    'ingest_context_source_version_transactional',
+-    {
+-      p_org_id: targetOrgId,
+-      p_workspace_id: workspaceId,
+-      p_source_uri: cleanUri,
+-      p_source_kind: source_kind,
+-      p_file_sha256: fileSha256,
+-      p_mime_type: mimeType,
+-      p_byte_size: byteSize,
+-      p_original_artifact_id: artifactId,
+-      p_effective_time: effective_time,
+-      p_idempotency_key: idempotencyKey,
+-    }
+-  );
+-
+-  let sourceId;
+-  let versionId;
+-  let versionNumber;
+-  let outboxId;
+-  let isNewSource = true;
+-
+-  if (rpcErr || !rpcData || rpcData.length === 0) {
+-    // Fallback: direct atomic tables write in case migration is applying
+-    // Check if source object exists
+-    const { data: existingSource } = await supabase
+-      .from('context_source_objects')
+-      .select('id')
+-      .eq('org_id', targetOrgId)
+-      .eq('source_uri', cleanUri)
+-      .single();
+-
+-    if (existingSource) {
+-      sourceId = existingSource.id;
+-      isNewSource = false;
+-      const { data: versions } = await supabase
+-        .from('context_source_versions')
+-        .select('version_number')
+-        .eq('source_id', sourceId)
+-        .order('version_number', { ascending: false })
+-        .limit(1);
+-      versionNumber = (versions?.[0]?.version_number || 0) + 1;
+-
+-      // Supersede older versions
+-      await supabase
+-        .from('context_source_versions')
+-        .update({ status: 'superseded' })
+-        .eq('source_id', sourceId)
+-        .in('status', ['pending', 'running', 'completed']);
+-    } else {
+-      const { data: newSrc, error: srcErr } = await supabase
+-        .from('context_source_objects')
+-        .insert({
+-          org_id: targetOrgId,
+-          workspace_id: workspaceId,
+-          source_uri: cleanUri,
+-          source_kind,
+-        })
+-        .select('id')
+-        .single();
+-
+-      if (srcErr) throw new Error(srcErr.message);
+-      sourceId = newSrc.id;
+-      versionNumber = 1;
+-    }
+-
+-    const { data: newVer, error: verErr } = await supabase
+-      .from('context_source_versions')
+-      .insert({
+-        source_id: sourceId,
+-        org_id: targetOrgId,
+-        version_number: versionNumber,
+-        original_artifact_id: artifactId,
+-        original_file_sha256: fileSha256,
+-        original_mime_type: mimeType,
+-        byte_size: byteSize,
+-        effective_time,
+-        status: 'pending',
+-      })
+-      .select('id')
+-      .single();
+-
+-    if (verErr) throw new Error(verErr.message);
+-    versionId = newVer.id;
+-
+-    const { data: newOutbox } = await supabase
+-      .from('context_transactional_outbox')
+-      .insert({
+-        org_id: targetOrgId,
+-        event_type: 'SOURCE_VERSION_INGESTED',
+-        aggregate_type: 'source_version',
+-        aggregate_id: versionId,
+-        payload: {
+-          source_id: sourceId,
+-          version_id: versionId,
+-          version_number: versionNumber,
+-          source_uri: cleanUri,
+-          file_sha256: fileSha256,
+-          artifact_id: artifactId,
+-        },
+-        idempotency_key: idempotencyKey,
+-        status: 'pending',
+-      })
+-      .select('id')
+-      .single();
+-
+-    outboxId = newOutbox?.id;
+-  } else {
+-    sourceId = rpcData[0].source_id;
+-    versionId = rpcData[0].version_id;
+-    versionNumber = rpcData[0].version_number;
+-    outboxId = rpcData[0].outbox_id;
+-    isNewSource = rpcData[0].is_new_source;
+-  }
+-
+-  // 6. Execute worker processing for the outbox event
+-  if (outboxId) {
+-    const outboxEvent = {
+-      id: outboxId,
+-      org_id: targetOrgId,
+-      payload: {
+-        source_id: sourceId,
+-        version_id: versionId,
+-        version_number: versionNumber,
+-        artifact_id: artifactId,
+-      },
+-      attempts: 0,
+-      max_attempts: 5,
+-    };
+-
+-    // Execute background worker processing immediately for synchronous readiness
+-    await processOutboxEvent(supabase, outboxEvent);
+-  }
+-
+-  return NextResponse.json({
+-    ok: true,
+-    source_id: sourceId,
+-    version_id: versionId,
+-    version_number: versionNumber,
+-    is_new_source: isNewSource,
+-    source_uri: cleanUri,
+-    file_sha256: fileSha256,
+-    status: 'completed',
+-    freshness: versionNumber > 1 ? 'UPDATED_VERSION' : 'INITIAL_VERSION',
+-  });
++    const form = await request.formData();
++    const file = form.get('file');
++    if (!file || typeof file.arrayBuffer !== 'function' || !file.size) return NextResponse.json({error:'FILE_REQUIRED'}, {status:422});
++    if (file.size > 10 * 1024 * 1024) return NextResponse.json({error:'FILE_TOO_LARGE'}, {status:413});
++    if (form.has('org_id') || form.has('workspace_id') || form.has('role_id')) return NextResponse.json({error:'CLIENT_SCOPE_OVERRIDE'}, {status:400});
++    const scope = await contextScope(request, form.get('hiring_run_id'), 'upload');
++    if (scope.errorResponse) return scope.errorResponse;
++    const outgoing = new FormData();
++    outgoing.set('file', file);
++    outgoing.set('source_key', form.get('source_key') || file.name);
++    const result = await contextFetch(scope, '/sources', {method:'POST', body:outgoing});
++    return NextResponse.json(result.body, {status:result.status});
++  } catch(error) { return errorResponse(error); }
+ }
+--- a/apps/web/app/api/employer/research-qa/route.js
++++ b/apps/web/app/api/employer/research-qa/route.js
+@@ -1,270 +1,17 @@
+-import { NextResponse } from 'next/server';
+-import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
+-import {
+-  validateEngineConfig,
+-  resolveEngineContext,
+-  generateDelegatedAuthorizationToken,
+-  validateEngineResponse,
+-  ALLOWED_MODES,
+-} from '@/lib/engineConfig';
+-
+-const ALLOWED_EMPLOYER_ROLES = ['owner', 'admin', 'recruiter', 'member'];
+-
++import {NextResponse} from 'next/server';
++import {contextScope, contextFetch} from '@/lib/contextClient';
+ export async function POST(request) {
+-  // 1. Feature Flag Enforcement (Disabled by default)
+-  const isFeatureEnabled =
+-    process.env.NEXT_PUBLIC_ENABLE_RESEARCH_QA === 'true' ||
+-    process.env.ENABLE_RESEARCH_QA === 'true';
+-
+-  if (!isFeatureEnabled) {
+-    return NextResponse.json(
+-      {
+-        error: 'The Research QA feature is disabled by organization policy.',
+-        code: 'RESEARCH_QA_DISABLED',
+-        safe_next_action: 'Enable NEXT_PUBLIC_ENABLE_RESEARCH_QA to access document QA.',
+-      },
+-      { status: 403 }
+-    );
+-  }
+-
+-  // 2. Authenticate User via Real Supabase Session
+-  const authRes = await requireUser(request);
+-  if (authRes.errorResponse) return authRes.errorResponse;
+-  const { user, supabase } = authRes;
+-
+-  // 3. Parse and Validate Request Payload
+-  let body;
++  if (process.env.ENABLE_RESEARCH_QA !== 'true' && process.env.NEXT_PUBLIC_ENABLE_RESEARCH_QA !== 'true') return NextResponse.json({error:'RESEARCH_QA_DISABLED',code:'RESEARCH_QA_DISABLED'},{status:403});
+   try {
+-    body = await request.json();
+-  } catch {
+-    return NextResponse.json({ error: 'Invalid JSON payload', code: 'INVALID_JSON' }, { status: 400 });
+-  }
+-
+-  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+-    return NextResponse.json({ error: 'Request body must be a valid object', code: 'INVALID_BODY' }, { status: 400 });
+-  }
+-
+-  const { hiring_run_id, role_id, question, mode = 'retrieval_augmented', limit = 5 } = body;
+-
+-  // Question validation
+-  if (!question || typeof question !== 'string' || !question.trim()) {
+-    return NextResponse.json({ error: 'Question is required', code: 'QUESTION_REQUIRED' }, { status: 400 });
+-  }
+-
+-  const trimmedQuestion = question.trim();
+-  if (trimmedQuestion.length < 3) {
+-    return NextResponse.json({ error: 'Question must be at least 3 characters long', code: 'QUESTION_TOO_SHORT' }, { status: 400 });
+-  }
+-  if (trimmedQuestion.length > 1000) {
+-    return NextResponse.json({ error: 'Question exceeds maximum length of 1,000 characters', code: 'QUESTION_TOO_LONG' }, { status: 400 });
+-  }
+-
+-  // Mode validation
+-  if (!ALLOWED_MODES.includes(mode)) {
+-    return NextResponse.json(
+-      { error: `Invalid mode '${mode}'. Allowed: ${ALLOWED_MODES.join(', ')}`, code: 'INVALID_MODE' },
+-      { status: 400 }
+-    );
+-  }
+-
+-  // Limit validation: Strict integer between 1 and 20 (reject "5junk", 1.9, etc.)
+-  if (typeof limit !== 'number' || !Number.isInteger(limit) || limit < 1 || limit > 20) {
+-    return NextResponse.json(
+-      { error: 'Limit must be a strict integer between 1 and 20', code: 'INVALID_LIMIT' },
+-      { status: 400 }
+-    );
+-  }
+-
+-  // 4. Strict Workspace Authorization & Server-Owned Mapping (Finding A1)
+-  // Require explicit hiring_run_id; never choose memberships[0]
+-  if (!hiring_run_id || typeof hiring_run_id !== 'string' || !hiring_run_id.trim()) {
+-    return NextResponse.json(
+-      {
+-        error: 'A valid hiring_run_id is required to resolve authorized organization and corpus context.',
+-        code: 'MISSING_HIRING_RUN',
+-      },
+-      { status: 400 }
+-    );
+-  }
+-
+-  // Verify hiring run and organization membership in database
+-  const { data: run, error: runErr } = await supabase
+-    .from('hiring_runs')
+-    .select('id, org_id')
+-    .eq('id', hiring_run_id.trim())
+-    .single();
+-
+-  if (runErr || !run) {
+-    return NextResponse.json(
+-      { error: 'Hiring run not found or access denied', code: 'FORBIDDEN' },
+-      { status: 404 }
+-    );
+-  }
+-
+-  const membership = await getVerifiedOrgMembership(supabase, user.id, run.org_id);
+-  if (!membership || !ALLOWED_EMPLOYER_ROLES.includes(membership.membership_role)) {
+-    return NextResponse.json(
+-      { error: 'Forbidden: User does not belong to authorized organization', code: 'FORBIDDEN' },
+-      { status: 403 }
+-    );
+-  }
+-
+-  // Resolve server-owned engine workspace & role mapping
+-  const contextRes = resolveEngineContext(run.org_id, run.id, role_id || null);
+-  if (!contextRes.ok) {
+-    return NextResponse.json(
+-      { error: contextRes.message, code: contextRes.code },
+-      { status: contextRes.status }
+-    );
+-  }
+-
+-  // 5. Configuration Validation — Must Fail Closed (Finding A2)
+-  const configRes = validateEngineConfig();
+-  if (!configRes.ok) {
+-    return NextResponse.json(
+-      { error: configRes.message, code: configRes.code },
+-      { status: configRes.status }
+-    );
+-  }
+-
+-  const { engineBaseUrl, engineServiceKey } = configRes;
+-  const { workspaceId, roleId, companyName, corpusScope } = contextRes;
+-
+-  // 6. Engine-Side Delegated Authorization (Finding A2)
+-  // Issue HMAC-SHA256 signed bearer token binding actor, org, run, workspace, role, and op
+-  const delegatedToken = generateDelegatedAuthorizationToken({
+-    actorId: user.id,
+-    actorEmail: user.email,
+-    orgId: run.org_id,
+-    hiringRunId: run.id,
+-    workspaceId,
+-    roleId,
+-    operation: mode === 'retrieval_only' ? 'retrieve' : 'research_qa',
+-    secretKey: engineServiceKey,
+-    ttlSeconds: 300,
+-  });
+-
+-  // 7. Scoped Server-to-Server Request with 30s Timeout Protection (Finding A4)
+-  const controller = new AbortController();
+-  const timeoutId = setTimeout(() => controller.abort(), 30000);
+-
+-  try {
+-    const engineRes = await fetch(
+-      `${engineBaseUrl}/v1/workspaces/${encodeURIComponent(workspaceId)}/research-qa`,
+-      {
+-        method: 'POST',
+-        headers: {
+-          'Content-Type': 'application/json',
+-          'Authorization': `Bearer ${engineServiceKey}`,
+-          'X-Delegated-Authorization': `Bearer ${delegatedToken}`,
+-        },
+-        body: JSON.stringify({
+-          question: trimmedQuestion,
+-          mode,
+-          limit,
+-          role_id: roleId,
+-        }),
+-        signal: controller.signal,
+-      }
+-    );
+-
+-    // Authentication failure on upstream engine
+-    if (engineRes.status === 401 || engineRes.status === 403) {
+-      clearTimeout(timeoutId);
+-      return NextResponse.json(
+-        { error: 'Internal service or delegated authorization failure', code: 'ENGINE_AUTH_ERROR' },
+-        { status: 502 }
+-      );
+-    }
+-
+-    // Workspace not found upstream
+-    if (engineRes.status === 404) {
+-      clearTimeout(timeoutId);
+-      return NextResponse.json(
+-        { error: 'Research workspace not found in engine', code: 'WORKSPACE_NOT_FOUND' },
+-        { status: 404 }
+-      );
+-    }
+-
+-    // Upstream engine error response
+-    if (!engineRes.ok) {
+-      clearTimeout(timeoutId);
+-      const errData = await engineRes.json().catch(() => ({}));
+-      const detailStr = String(errData.detail || errData.error || '');
+-
+-      // Check if upstream provider call was blocked due to missing/unprovisioned key
+-      if (
+-        detailStr.includes('GEMINI_API_KEY environment variable is not set') ||
+-        detailStr.includes('provider credential') ||
+-        detailStr.includes('BLOCKED_PENDING_KEY_ROTATION')
+-      ) {
+-        return NextResponse.json(
+-          {
+-            error: 'Provider credential unconfigured. Live generation is BLOCKED pending key configuration.',
+-            code: 'BLOCKED_PENDING_KEY_ROTATION',
+-            status: 'INSUFFICIENT_EVIDENCE',
+-            disclaimer:
+-              corpusScope === 'PUBLIC_RESEARCH'
+-                ? 'PUBLIC RESEARCH / NOT EMPLOYER-APPROVED. Live provider calls are blocked pending key configuration.'
+-                : 'CONFIDENTIAL TENANT CORPUS / NOT EMPLOYER-APPROVED. Live provider calls are blocked pending key configuration.',
+-            citations: [],
+-            execution_provenance: 'BLOCKED_PENDING_KEY_ROTATION',
+-          },
+-          { status: 503 }
+-        );
+-      }
+-
+-      return NextResponse.json(
+-        { error: errData.detail || 'Context engine execution failed', code: 'ENGINE_ERROR' },
+-        { status: engineRes.status }
+-      );
+-    }
+-
+-    const rawEngineData = await engineRes.json();
+-    clearTimeout(timeoutId);
+-
+-    // 8. Strict Discriminated Response Contract Validation (Finding A3)
+-    const validationRes = validateEngineResponse(rawEngineData, mode);
+-    if (!validationRes.ok) {
+-      return NextResponse.json(
+-        { error: validationRes.message, code: validationRes.code },
+-        { status: validationRes.status }
+-      );
+-    }
+-
+-    const validatedData = validationRes.data;
+-
+-    // 9. Return Sanitized Payload with Company, Scope & Mode Context (Finding A5)
+-    return NextResponse.json({
+-      mode: validatedData.mode,
+-      answer: validatedData.answer,
+-      status: validatedData.status,
+-      company_name: companyName,
+-      role_id: roleId,
+-      corpus_scope: corpusScope,
+-      disclaimer:
+-        corpusScope === 'PUBLIC_RESEARCH'
+-          ? 'PUBLIC RESEARCH / NOT EMPLOYER-APPROVED. This information is derived from indexed reference documents for recruiter context only. It does not establish candidate competence or modify hiring rubrics.'
+-          : 'CONFIDENTIAL TENANT CORPUS / NOT EMPLOYER-APPROVED. This information is retrieved from private tenant documents. It does not establish candidate competence or modify hiring rubrics.',
+-      citations: validatedData.citations,
+-      passages: validatedData.passages || [],
+-      retrieved_count: validatedData.retrieved_count || (validatedData.citations ? validatedData.citations.length : 0),
+-      has_validation_errors: validatedData.has_validation_errors,
+-      latency_ms: validatedData.latency_ms,
+-      execution_provenance: validatedData.execution_provenance,
+-      diagnostics: validatedData.diagnostics || [],
+-    });
+-  } catch (err) {
+-    clearTimeout(timeoutId);
+-    if (err.name === 'AbortError') {
+-      return NextResponse.json(
+-        { error: 'Research QA request timed out after 30 seconds', code: 'GATEWAY_TIMEOUT' },
+-        { status: 504 }
+-      );
+-    }
+-    return NextResponse.json(
+-      { error: 'Context engine service temporarily unavailable', code: 'SERVICE_UNAVAILABLE' },
+-      { status: 503 }
+-    );
+-  }
++    const b=await request.json();
++    if (!b || typeof b!=='object' || Array.isArray(b) || typeof b.question!=='string' || b.question.trim().length<3 || b.question.length>1000) return NextResponse.json({error:'INVALID_REQUEST'},{status:400});
++    if (['org_id','workspace_id','role_id'].some(k=>b[k]!=null)) return NextResponse.json({error:'CLIENT_SCOPE_OVERRIDE'},{status:400});
++    const mode=b.mode||'retrieval_only', limit=b.limit??5;
++    if (!Number.isInteger(limit)||limit<1||limit>20) return NextResponse.json({error:'INVALID_LIMIT'},{status:400});
++    if(mode!=='retrieval_only') return NextResponse.json({error:'GENERATION_NOT_IMPLEMENTED',code:'GENERATION_NOT_IMPLEMENTED'},{status:503});
++    const scope=await contextScope(request,b.hiring_run_id,'retrieve');
++    if(scope.errorResponse)return scope.errorResponse;
++    const result=await contextFetch(scope,'/research-qa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:b.question.trim(),mode,limit})});
++    return NextResponse.json(result.body,{status:result.status});
++  } catch(error) {return NextResponse.json({error:error.code||'CONTEXT_UNAVAILABLE'},{status:error.status||503});}
+ }
+--- a/apps/web/components/context/ContextEvidencePanel.jsx
++++ b/apps/web/components/context/ContextEvidencePanel.jsx
+@@ -1,367 +1,52 @@
+ "use client";
++import {useEffect, useState} from 'react';
++import api from '@/lib/api';
+ 
+-import { useState, useEffect } from "react";
+-import {
+-  FileText,
+-  Upload,
+-  RefreshCw,
+-  CheckCircle2,
+-  AlertTriangle,
+-  Layers,
+-  ChevronRight,
+-  Shield,
+-  Loader2,
+-  Clock,
+-  Sparkles,
+-  ArrowUpRight,
+-} from "lucide-react";
+-import api from "@/lib/api";
+-
+-export default function ContextEvidencePanel({
+-  hiringRunId,
+-  orgId,
+-  className = "",
+-}) {
+-  const [sources, setSources] = useState([]);
+-  const [selectedSourceId, setSelectedSourceId] = useState(null);
+-  const [evidenceData, setEvidenceData] = useState(null);
+-  const [loading, setLoading] = useState(true);
+-  const [uploading, setUploading] = useState(false);
+-  const [uploadError, setUploadError] = useState(null);
+-  const [activeTab, setActiveTab] = useState("sources"); // 'sources' | 'evidence'
+-
+-  // Fetch sources
+-  const fetchSources = async () => {
++export default function ContextEvidencePanel({hiringRunId}) {
++  const [sources,setSources]=useState([]), [selected,setSelected]=useState(null);
++  const [file,setFile]=useState(null), [sourceKey,setSourceKey]=useState('');
++  const [error,setError]=useState(''), [busy,setBusy]=useState(false);
++  const [question,setQuestion]=useState(''), [result,setResult]=useState(null);
++  async function refresh() {
+     try {
+-      const res = await api.get(
+-        `/employer/context-sources?${hiringRunId ? `hiring_run_id=${hiringRunId}` : ""}${orgId ? `&org_id=${orgId}` : ""}`
+-      );
+-      if (res.data?.ok) {
+-        setSources(res.data.sources || []);
+-        if (res.data.sources?.length > 0 && !selectedSourceId) {
+-          setSelectedSourceId(res.data.sources[0].id);
+-        }
+-      }
+-    } catch (err) {
+-      console.error("Failed to load context sources:", err);
+-    } finally {
+-      setLoading(false);
+-    }
+-  };
+-
+-  useEffect(() => {
+-    fetchSources();
+-  }, [hiringRunId, orgId]);
+-
+-  // Fetch evidence for selected source
+-  const fetchEvidence = async (sourceId) => {
+-    if (!sourceId) return;
++      const res=await api.get(`/employer/context-sources?hiring_run_id=${encodeURIComponent(hiringRunId)}`);
++      setSources(res.data.sources||[]); setError('');
++    } catch(e) {setError(e.response?.data?.error||'Could not load document status.');}
++  }
++  useEffect(()=>{setSources([]);setSelected(null);setResult(null);setSourceKey('');refresh();},[hiringRunId]);
++  useEffect(()=>{if(!sources.some(s=>s.state==='pending'))return; const timer=setTimeout(refresh,2000);return()=>clearTimeout(timer);},[sources,hiringRunId]);
++  const active=sources.find(s=>s.source_id===selected);
++  async function upload(e) {
++    e.preventDefault();if(!file)return;setBusy(true);setError('');
+     try {
+-      const res = await api.get(`/employer/context-sources/${sourceId}/evidence`);
+-      if (res.data?.ok) {
+-        setEvidenceData(res.data);
+-      }
+-    } catch (err) {
+-      console.error("Failed to fetch evidence:", err);
+-    }
+-  };
+-
+-  useEffect(() => {
+-    if (selectedSourceId) {
+-      fetchEvidence(selectedSourceId);
+-    }
+-  }, [selectedSourceId]);
+-
+-  // Handle uploading or bumping version of a source document
+-  const handleUploadSample = async (isNewVersion = false) => {
+-    setUploading(true);
+-    setUploadError(null);
+-
+-    const filename = isNewVersion && evidenceData?.source?.source_uri
+-      ? evidenceData.source.source_uri
+-      : "sarah_connor_lead_infra.pdf";
+-
+-    // Simulate changed content if version bump
+-    const versionSalt = isNewVersion ? `\n\n[REVISION UPDATE ${Date.now()}]: Added GCP Professional Cloud Architect and FedRAMP high authorization deliverables.` : "";
+-    const rawContent = `# Sarah Connor — Staff Infrastructure & Security Engineer\n\n## Professional Summary\nStaff Infrastructure Engineer with 11+ years leading cloud platforms, Kubernetes orchestration, and SOC2 compliance.\n\n## Core Technical Skills\nKubernetes, Terraform, AWS, Go, Python, PostgreSQL, Kafka, Linux systems programming.${versionSalt}\n\n## Experience & Deliverables\nDelivered multi-region Kubernetes platform across AWS and on-premise clusters. Implemented automated SOC2 Type II compliance framework with strict audit trails.\n\n## Education & Certifications\nB.S. in Computer Science. Certified Kubernetes Administrator (CKA). AWS Solutions Architect Professional.`;
+-
+-    try {
+-      const res = await api.post("/employer/context-sources/upload", {
+-        hiring_run_id: hiringRunId,
+-        org_id: orgId,
+-        source_uri: filename,
+-        source_kind: "RESUME",
+-        content: rawContent,
+-        effective_time: new Date().toISOString(),
+-      });
+-
+-      if (res.data?.ok) {
+-        await fetchSources();
+-        if (res.data.source_id) {
+-          setSelectedSourceId(res.data.source_id);
+-          await fetchEvidence(res.data.source_id);
+-          setActiveTab("evidence");
+-        }
+-      }
+-    } catch (err) {
+-      setUploadError(err.response?.data?.error || err.message || "Upload failed");
+-    } finally {
+-      setUploading(false);
+-    }
+-  };
+-
+-  return (
+-    <div
+-      role="region"
+-      aria-label="Context Evidence Foundation Panel"
+-      data-testid="context-evidence-panel"
+-      className={`rounded-2xl border border-white/[0.08] bg-[#111111] p-6 space-y-6 ${className}`}
+-    >
+-      {/* Header */}
+-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
+-        <div className="flex items-center gap-2.5">
+-          <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+-            <Shield className="h-4 w-4" />
+-          </div>
+-          <div>
+-            <h3 className="text-sm font-semibold text-[#F2F2F2]">
+-              Context Evidence Foundation
+-            </h3>
+-            <p className="text-[11px] font-mono text-[#A3A3A3] mt-0.5">
+-              Authoritative Source Objects • Immutable Versions • Granular Evidence Spans
+-            </p>
+-          </div>
+-        </div>
+-
+-        {/* Action Controls */}
+-        <div className="flex items-center gap-2">
+-          <button
+-            type="button"
+-            data-testid="upload-context-source-btn"
+-            onClick={() => handleUploadSample(false)}
+-            disabled={uploading}
+-            className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] text-xs font-medium text-white/90 flex items-center gap-1.5 transition-all disabled:opacity-40"
+-          >
+-            {uploading ? (
+-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+-            ) : (
+-              <Upload className="h-3.5 w-3.5 text-emerald-400" />
+-            )}
+-            <span>Ingest Source Document</span>
+-          </button>
+-        </div>
+-      </div>
+-
+-      {uploadError && (
+-        <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center gap-2">
+-          <AlertTriangle className="h-4 w-4 shrink-0" />
+-          <span>{uploadError}</span>
+-        </div>
+-      )}
+-
+-      {/* Tabs */}
+-      <div className="flex items-center gap-1 border-b border-white/[0.06] pb-2 text-xs">
+-        <button
+-          type="button"
+-          onClick={() => setActiveTab("sources")}
+-          className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+-            activeTab === "sources"
+-              ? "bg-white/[0.08] text-white"
+-              : "text-white/50 hover:text-white/80"
+-          }`}
+-        >
+-          Source Objects ({sources.length})
+-        </button>
+-        <button
+-          type="button"
+-          onClick={() => setActiveTab("evidence")}
+-          disabled={!selectedSourceId}
+-          className={`px-3 py-1.5 rounded-lg font-medium transition-all disabled:opacity-30 ${
+-            activeTab === "evidence"
+-              ? "bg-white/[0.08] text-white"
+-              : "text-white/50 hover:text-white/80"
+-          }`}
+-        >
+-          Evidence Spans & Coverage
+-        </button>
+-      </div>
+-
+-      {/* Tab 1: Source Objects List */}
+-      {activeTab === "sources" && (
+-        <div className="space-y-3">
+-          {loading ? (
+-            <div className="p-8 text-center text-xs text-white/40 flex items-center justify-center gap-2">
+-              <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+-              <span>Loading context source records...</span>
+-            </div>
+-          ) : sources.length === 0 ? (
+-            <div className="p-8 rounded-xl border border-dashed border-white/[0.1] text-center space-y-2">
+-              <FileText className="h-8 w-8 text-white/20 mx-auto" />
+-              <p className="text-xs text-white/60">No context sources ingested yet.</p>
+-              <button
+-                type="button"
+-                onClick={() => handleUploadSample(false)}
+-                className="text-xs text-emerald-400 hover:underline"
+-              >
+-                Ingest Sarah Connor resume fixture
+-              </button>
+-            </div>
+-          ) : (
+-            <div className="grid grid-cols-1 gap-2.5">
+-              {sources.map((s) => {
+-                const isSelected = s.id === selectedSourceId;
+-                const activeVer = s.active_version;
+-                return (
+-                  <div
+-                    key={s.id}
+-                    onClick={() => {
+-                      setSelectedSourceId(s.id);
+-                      setActiveTab("evidence");
+-                    }}
+-                    className={`p-3.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
+-                      isSelected
+-                        ? "bg-[#181818] border-emerald-500/40"
+-                        : "bg-[#141414] border-white/[0.06] hover:bg-white/[0.03]"
+-                    }`}
+-                  >
+-                    <div className="flex items-center gap-3 overflow-hidden">
+-                      <div className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-white/60 shrink-0">
+-                        <FileText className="h-4 w-4 text-emerald-400" />
+-                      </div>
+-                      <div className="space-y-0.5 overflow-hidden">
+-                        <p className="text-xs font-medium text-white truncate">
+-                          {s.source_uri}
+-                        </p>
+-                        <div className="flex items-center gap-2 text-[10px] font-mono text-white/40">
+-                          <span className="uppercase text-emerald-400/80">{s.source_kind}</span>
+-                          <span>•</span>
+-                          <span>{s.confidentiality}</span>
+-                          <span>•</span>
+-                          <span className="text-white/60 font-semibold">
+-                            v{activeVer?.version_number || 1}
+-                          </span>
+-                        </div>
+-                      </div>
+-                    </div>
+-
+-                    <div className="flex items-center gap-2 shrink-0">
+-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+-                        {activeVer?.status || "completed"}
+-                      </span>
+-                      <ChevronRight className="h-4 w-4 text-white/30" />
+-                    </div>
+-                  </div>
+-                );
+-              })}
+-            </div>
+-          )}
+-        </div>
+-      )}
+-
+-      {/* Tab 2: Evidence Spans & Coverage Inspector */}
+-      {activeTab === "evidence" && evidenceData && (
+-        <div className="space-y-5">
+-          {/* Active Version Bar */}
+-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+-            <div className="space-y-1">
+-              <div className="flex items-center gap-2">
+-                <span className="text-xs font-semibold text-white">
+-                  {evidenceData.source?.source_uri}
+-                </span>
+-                <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono">
+-                  Version {evidenceData.active_version?.version_number || 1} (Active)
+-                </span>
+-                {evidenceData.versions?.length > 1 && (
+-                  <span className="px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-mono">
+-                    {evidenceData.versions.length} Revisions Recorded
+-                  </span>
+-                )}
+-              </div>
+-              <p className="text-[10px] font-mono text-white/40 truncate">
+-                SHA256: {evidenceData.active_version?.original_file_sha256}
+-              </p>
+-            </div>
+-
+-            <div className="flex items-center gap-2">
+-              <button
+-                type="button"
+-                data-testid="bump-source-version-btn"
+-                onClick={() => handleUploadSample(true)}
+-                disabled={uploading}
+-                className="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-1 transition-all disabled:opacity-40"
+-              >
+-                <RefreshCw className="h-3 w-3" />
+-                <span>Upload Changed Source (Bump v{Number(evidenceData.active_version?.version_number || 1) + 1})</span>
+-              </button>
+-            </div>
+-          </div>
+-
+-          {/* Coverage Summary Metrics */}
+-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+-            <div className="p-3 rounded-xl bg-[#161616] border border-white/[0.06] space-y-0.5">
+-              <p className="text-[10px] font-mono text-white/40 uppercase">Coverage Score</p>
+-              <p className="text-base font-semibold text-emerald-400">
+-                {evidenceData.document_result?.coverage_score || 95}%
+-              </p>
+-            </div>
+-            <div className="p-3 rounded-xl bg-[#161616] border border-white/[0.06] space-y-0.5">
+-              <p className="text-[10px] font-mono text-white/40 uppercase">Evidence Spans</p>
+-              <p className="text-base font-semibold text-white">
+-                {evidenceData.evidence_spans?.length || 0}
+-              </p>
+-            </div>
+-            <div className="p-3 rounded-xl bg-[#161616] border border-white/[0.06] space-y-0.5">
+-              <p className="text-[10px] font-mono text-white/40 uppercase">Parser / Version</p>
+-              <p className="text-xs font-mono text-white/70 truncate">
+-                {evidenceData.parsed_artifact?.parser_name || "docling"} v{evidenceData.parsed_artifact?.parser_version || "1.4.0"}
+-              </p>
+-            </div>
+-            <div className="p-3 rounded-xl bg-[#161616] border border-white/[0.06] space-y-0.5">
+-              <p className="text-[10px] font-mono text-white/40 uppercase">Exceptions</p>
+-              <p className="text-xs font-mono text-emerald-400">
+-                {evidenceData.document_result?.exceptions?.length || 0} Reported
+-              </p>
+-            </div>
+-          </div>
+-
+-          {/* Granular Evidence Spans List */}
+-          <div className="space-y-2.5">
+-            <div className="flex items-center justify-between">
+-              <h4 className="text-xs font-semibold text-[#F2F2F2] flex items-center gap-1.5">
+-                <Layers className="h-3.5 w-3.5 text-emerald-400" />
+-                <span>Extracted Evidence Spans ({evidenceData.evidence_spans?.length || 0})</span>
+-              </h4>
+-              <span className="text-[10px] font-mono text-[#A3A3A3]">
+-                Exact character offsets preserved
+-              </span>
+-            </div>
+-
+-            <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+-              {(evidenceData.evidence_spans || []).map((span) => (
+-                <div
+-                  key={span.id}
+-                  className="p-3.5 rounded-xl bg-[#161616] border border-white/[0.06] space-y-1.5 text-xs"
+-                >
+-                  <div className="flex items-center justify-between text-[11px] font-mono text-[#A3A3A3]">
+-                    <div className="flex items-center gap-2">
+-                      <span className="text-emerald-400 font-semibold">{span.span_key}</span>
+-                      <span className="px-1.5 py-0.2 rounded bg-white/[0.06] text-[10px]">
+-                        {span.span_type}
+-                      </span>
+-                    </div>
+-                    <span>
+-                      Offsets: [{span.start_char}..{span.end_char}] • Page {span.page_number || 1}
+-                    </span>
+-                  </div>
+-                  <blockquote className="border-l-2 border-emerald-500/30 pl-2.5 py-0.5 text-xs text-white/90 italic font-serif">
+-                    &ldquo;{span.exact_text}&rdquo;
+-                  </blockquote>
+-                </div>
+-              ))}
+-            </div>
+-          </div>
+-        </div>
+-      )}
+-    </div>
+-  );
++      const form=new FormData();form.set('file',file);form.set('hiring_run_id',hiringRunId);form.set('source_key',sourceKey||file.name);
++      const response=await api.post('/employer/context-sources/upload',form);
++      setSelected(response.data.source_id);await refresh();
++    } catch(e){setError(e.response?.data?.error||'Upload failed.');}finally{setBusy(false);}
++  }
++  async function search(e) {
++    e.preventDefault();setBusy(true);setError('');
++    try {const r=await api.post('/employer/context-sources/search',{hiring_run_id:hiringRunId,question});setResult(r.data);}
++    catch(e){setError(e.response?.data?.error||'Search failed.');}finally{setBusy(false);}
++  }
++  return <section aria-label="Context evidence" data-testid="context-evidence-panel" className="rounded-xl border border-white/20 p-5 space-y-4">
++    <h2>Document evidence</h2>
++    <p>Source material requires human review. This view does not verify competence or approve hiring criteria.</p>
++    {error&&<p role="alert">{error}</p>}
++    <form onSubmit={upload} className="space-y-2">
++      <label>Choose a document <input aria-label="Choose document" type="file" accept=".pdf,.docx,.txt,.md,.csv" onChange={e=>setFile(e.target.files?.[0]||null)}/></label>
++      <label>Source key <input value={sourceKey} onChange={e=>setSourceKey(e.target.value)} placeholder="Keep this key to upload a revised version"/></label>
++      <button disabled={busy||!file}>Upload and queue processing</button>
++    </form>
++    <button onClick={refresh} disabled={busy}>Refresh status</button>
++    <ul>{sources.map(s=><li key={s.source_id}><button onClick={()=>{setSelected(s.source_id);setSourceKey(s.source_key);}}>{s.source_id} — version {s.version}: {s.state}</button></li>)}</ul>
++    {active&&<article><h3>Version {active.version}: {active.state}</h3>
++      <p>Original SHA-256: {active.original_sha256}</p><p>Parser: {active.parser||'Not processed'}</p>
++      <p>Pages with native text: {active.pages_with_text??'Unknown'} / {active.pages_total??'Unknown'}. This is not a semantic accuracy score.</p>
++      <ul>{active.exceptions.map(x=><li key={x}>{x}</li>)}</ul>
++      {active.spans.map(s=><blockquote key={s.span_id}><p>{s.text}</p><footer>Page {s.page??'unknown'}, offsets [{s.start}, {s.end}), Unicode code points.</footer></blockquote>)}
++    </article>}
++    <form onSubmit={search}><label>Find evidence <input aria-label="Find evidence" value={question} onChange={e=>setQuestion(e.target.value)}/></label><button disabled={busy||question.trim().length<3}>Search passages</button></form>
++    {result&&<article><p>{result.disclaimer}</p><p>Coverage: {JSON.stringify(result.coverage)}</p>{result.passages.map(p=><blockquote key={p.span_id}>{p.text}<footer>Source {p.source_id}, version {p.version_id}, page {p.page??'unknown'}</footer></blockquote>)}</article>}
++  </section>;
+ }
+--- a/apps/web/lib/contextClient.js
++++ b/apps/web/lib/contextClient.js
+@@ -0,0 +1,51 @@
++// Server-only adapter. Mount into the complete V2 baseline before acceptance.
++import 'server-only';
++import crypto from 'node:crypto';
++import { requireUser, getVerifiedOrgMembership } from '@/lib/serverAuth';
++
++export class ContextError extends Error {
++  constructor(status, code) { super(code); this.status = status; this.code = code; }
++}
++
++export async function contextScope(request, runId, operation = 'read') {
++  if (typeof runId !== 'string' || !runId.trim()) throw new ContextError(400, 'HIRING_RUN_REQUIRED');
++  const auth = await requireUser(request);
++  if (auth.errorResponse) return { errorResponse: auth.errorResponse };
++  const { data: run, error } = await auth.supabase.from('hiring_runs').select('id, org_id').eq('id', runId.trim()).single();
++  if (error || !run) throw new ContextError(404, 'RUN_NOT_FOUND');
++  const membership = await getVerifiedOrgMembership(auth.supabase, auth.user.id, run.org_id);
++  const write = operation === 'upload' || operation === 'delete';
++  const roles = write ? ['owner', 'admin', 'recruiter', 'hiring_manager'] : ['owner', 'admin', 'recruiter', 'hiring_manager', 'auditor'];
++  if (!membership || membership.membership_status !== 'active' || !roles.includes(membership.membership_role)) throw new ContextError(403, 'ACCESS_DENIED');
++  let registry;
++  try { registry = JSON.parse(process.env.WORKBYLINE_ENGINE_MAPPINGS || '{}'); }
++  catch { throw new ContextError(503, 'MAPPING_CONFIG_INVALID'); }
++  const mapping = registry?.[run.org_id]?.runs?.[run.id];
++  if (!mapping || mapping.status !== 'active' || typeof mapping.workspaceId !== 'string' || !mapping.workspaceId.trim() || typeof mapping.roleId !== 'string' || !mapping.roleId.trim()) throw new ContextError(403, 'UNMAPPED_WORKSPACE');
++  const raw = process.env.WORKBYLINE_CONTEXT_SERVICE_URL;
++  const secret = process.env.WORKBYLINE_CONTEXT_DELEGATION_SECRET;
++  let url;
++  try { url = new URL(raw); } catch { throw new ContextError(503, 'CONTEXT_CONFIG_MISSING'); }
++  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || !secret || secret.length < 32) throw new ContextError(503, 'CONTEXT_CONFIG_INVALID');
++  if (url.protocol === 'http:' && !['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)) throw new ContextError(503, 'TLS_REQUIRED');
++  const now = Math.floor(Date.now() / 1000);
++  const claims = {iss: 'workbyline-v2-web', aud: 'workbyline-context-evidence', actor: auth.user.id, org: run.org_id, run: run.id, workspace: mapping.workspaceId, role: mapping.roleId, operation, iat: now, exp: now + 60, jti: crypto.randomUUID()};
++  const head = Buffer.from(JSON.stringify({alg: 'HS256', typ: 'JWT'})).toString('base64url');
++  const body = Buffer.from(JSON.stringify(claims)).toString('base64url');
++  const signature = crypto.createHmac('sha256', secret).update(`${head}.${body}`).digest('base64url');
++  return {base: url.href.replace(/\/$/, ''), workspace: mapping.workspaceId, token: `${head}.${body}.${signature}`};
++}
++
++export async function contextFetch(scope, path, options = {}) {
++  const controller = new AbortController();
++  const timer = setTimeout(() => controller.abort(), 15000);
++  try {
++    const response = await fetch(`${scope.base}/v1/workspaces/${encodeURIComponent(scope.workspace)}${path}`, {...options, headers: {...options.headers, Authorization: `Bearer ${scope.token}`}, signal: controller.signal, cache: 'no-store'});
++    const body = await response.json();
++    if (!response.ok) throw new ContextError(response.status, /^[A-Z0-9_]+$/.test(body.error) ? body.error : 'CONTEXT_SERVICE_ERROR');
++    return {body, status: response.status};
++  } catch (error) {
++    if (error instanceof ContextError) throw error;
++    throw new ContextError(error.name === 'AbortError' ? 504 : 503, 'CONTEXT_UNAVAILABLE');
++  } finally { clearTimeout(timer); }
++}
+--- a/apps/web/lib/contextEvidenceWorker.js
++++ b/apps/web/lib/contextEvidenceWorker.js
+@@ -1,319 +1,7 @@
+-/**
+- * Context Evidence Worker & Transactional Outbox Consumer
+- * 
+- * Provides:
+- * 1. Idempotent outbox task processing with deduplication and retry limits.
+- * 2. Parsing, normalized text extraction, and content hashing.
+- * 3. Exact character-offset evidence span extraction (truthful source locators).
+- * 4. Document-level coverage evaluation and explicit exception reporting.
+- * 5. Crash recovery and error isolation.
+- * 6. Clean worker interface designed for later Temporal Activity integration.
+- */
+-
+-import crypto from 'crypto';
+-
+-export const PARSER_NAME = 'docling-evidence-parser';
+-export const PARSER_VERSION = '1.4.0';
+-export const SCHEMA_VERSION = '2026.1';
+-
+-/**
+- * Extracts normalized text and granular evidence spans with exact offsets from raw document content.
+- */
+-export function extractEvidenceSpans(rawText, sourceVersionId) {
+-  if (!rawText || typeof rawText !== 'string') {
+-    return {
+-      normalizedText: '',
+-      contentSha256: crypto.createHash('sha256').update('').digest('hex'),
+-      spans: [],
+-      coverageScore: 0,
+-      exceptions: ['EMPTY_DOCUMENT_INPUT'],
+-    };
+-  }
+-
+-  // Normalize line endings and whitespace while preserving offset mappings
+-  const normalizedText = rawText.replace(/\r\n/g, '\n');
+-  const contentSha256 = crypto.createHash('sha256').update(normalizedText, 'utf-8').digest('hex');
+-
+-  // Split into paragraphs / logical spans with exact start and end char offsets
+-  const spans = [];
+-  const exceptions = [];
+-  let currentOffset = 0;
+-
+-  // Split by double newlines or headers to produce discrete passages
+-  const paragraphs = normalizedText.split(/(\n\s*\n)/);
+-
+-  let spanIndex = 1;
+-  let pageNumber = 1;
+-
+-  for (let i = 0; i < paragraphs.length; i++) {
+-    const segment = paragraphs[i];
+-    const segmentLength = segment.length;
+-
+-    // Check for simulated page breaks
+-    if (segment.includes('\f') || segment.includes('--- Page ')) {
+-      pageNumber += 1;
+-    }
+-
+-    const trimmed = segment.trim();
+-    if (trimmed.length > 15) {
+-      const leadingWhitespace = segment.indexOf(trimmed);
+-      const startChar = currentOffset + leadingWhitespace;
+-      const endChar = startChar + trimmed.length;
+-
+-      // Classify span type based on content hints
+-      let spanType = 'PASSAGE';
+-      if (/requirements?|qualifications?|must have|responsibilities/i.test(trimmed)) {
+-        spanType = 'REQUIREMENT';
+-      } else if (/years? of experience|architected|delivered|led|implemented|managed/i.test(trimmed)) {
+-        spanType = 'CLAIM';
+-      }
+-
+-      spans.push({
+-        span_key: `SPAN-${String(spanIndex).padStart(3, '0')}`,
+-        start_char: startChar,
+-        end_char: endChar,
+-        page_number: pageNumber,
+-        exact_text: trimmed,
+-        span_type: spanType,
+-      });
+-      spanIndex++;
+-    }
+-
+-    currentOffset += segmentLength;
+-  }
+-
+-  // Calculate coverage score
+-  const coveredChars = spans.reduce((sum, s) => sum + (s.end_char - s.start_char), 0);
+-  const totalChars = normalizedText.trim().length;
+-  const coverageScore = totalChars > 0 ? Math.min(100, Math.round((coveredChars / totalChars) * 100)) : 0;
+-
+-  if (spans.length === 0) {
+-    exceptions.push('NO_EXTRACTABLE_EVIDENCE_SPANS');
+-  }
+-
+-  return {
+-    normalizedText,
+-    contentSha256,
+-    spans,
+-    coverageScore,
+-    exceptions,
+-  };
++// The fabricated-content worker is retired. No application fallback is allowed.
++export async function processOutboxEvent() {
++  throw new Error('LEGACY_WORKER_DISABLED_USE_CONTEXT_SERVICE');
+ }
+-
+-/**
+- * Processes a single outbox event idempotently.
+- * Enforces deduplication, atomic database state transitions, and retry recording.
+- */
+-export async function processOutboxEvent(supabase, outboxEvent) {
+-  if (!outboxEvent || !outboxEvent.id) {
+-    return { ok: false, error: 'Invalid outbox event payload' };
+-  }
+-
+-  const { id: outboxId, org_id: orgId, payload } = outboxEvent;
+-  const { source_id: sourceId, version_id: versionId, version_number: versionNumber, artifact_id: artifactId } = payload;
+-
+-  // 1. Mark outbox task as 'processing' and increment attempts
+-  const { error: lockErr } = await supabase
+-    .from('context_transactional_outbox')
+-    .update({
+-      status: 'processing',
+-      attempts: (outboxEvent.attempts || 0) + 1,
+-    })
+-    .eq('id', outboxId);
+-
+-  if (lockErr) {
+-    return { ok: false, error: `Failed to acquire outbox lock: ${lockErr.message}` };
+-  }
+-
+-  try {
+-    // 2. Load the source version to verify tenant and status
+-    const { data: version, error: verErr } = await supabase
+-      .from('context_source_versions')
+-      .select('*')
+-      .eq('id', versionId)
+-      .eq('org_id', orgId)
+-      .single();
+-
+-    if (verErr || !version) {
+-      throw new Error(`Source version '${versionId}' not found for tenant '${orgId}'`);
+-    }
+-
+-    // 3. Mark version as running
+-    await supabase
+-      .from('context_source_versions')
+-      .update({ status: 'running' })
+-      .eq('id', versionId);
+-
+-    // 4. Retrieve or synthesize raw text from storage/artifact
+-    // In local execution, we use document text fixture or artifact path
+-    let rawText = '';
+-    if (version.original_mime_type === 'application/pdf' || version.original_artifact_id?.includes('sarah_connor')) {
+-      rawText = `# Sarah Connor — Staff Infrastructure & Security Engineer\n\n## Professional Summary\nStaff Infrastructure Engineer with 11+ years leading cloud platforms, Kubernetes orchestration, and SOC2 compliance.\n\n## Core Technical Skills\nKubernetes, Terraform, AWS, Go, Python, PostgreSQL, Kafka, Linux systems programming.\n\n## Experience & Deliverables\nDelivered multi-region Kubernetes platform across AWS and on-premise clusters. Implemented automated SOC2 Type II compliance framework with strict audit trails.\n\n## Education & Certifications\nB.S. in Computer Science. Certified Kubernetes Administrator (CKA). AWS Solutions Architect Professional.`;
+-    } else {
+-      rawText = `# Document Source: ${version.original_artifact_id}\nIngested version: ${versionNumber}\nContent SHA256: ${version.original_file_sha256}\n\n## Detailed Document Content\nThis document provides verified candidate credentials and experience details for human evaluation.`;
+-    }
+-
+-    // 5. Extract normalized text and evidence spans
+-    const extraction = extractEvidenceSpans(rawText, versionId);
+-
+-    // 6. Create Parsed Artifact record
+-    const { data: parsedArtifact, error: parseErr } = await supabase
+-      .from('context_parsed_artifacts')
+-      .insert({
+-        source_version_id: versionId,
+-        org_id: orgId,
+-        parser_name: PARSER_NAME,
+-        parser_version: PARSER_VERSION,
+-        schema_version: SCHEMA_VERSION,
+-        normalized_content_sha256: extraction.contentSha256,
+-        normalized_text: extraction.normalizedText,
+-        metadata: {
+-          char_count: extraction.normalizedText.length,
+-          span_count: extraction.spans.length,
+-        },
+-      })
+-      .select('id')
+-      .single();
+-
+-    if (parseErr || !parsedArtifact) {
+-      throw new Error(`Failed to insert parsed artifact: ${parseErr?.message}`);
+-    }
+-
+-    // 7. Insert granular evidence spans
+-    if (extraction.spans.length > 0) {
+-      const spanRows = extraction.spans.map((s) => ({
+-        parsed_artifact_id: parsedArtifact.id,
+-        source_version_id: versionId,
+-        org_id: orgId,
+-        span_key: s.span_key,
+-        start_char: s.start_char,
+-        end_char: s.end_char,
+-        page_number: s.page_number,
+-        exact_text: s.exact_text,
+-        span_type: s.span_type,
+-      }));
+-
+-      const { error: spanErr } = await supabase
+-        .from('context_evidence_spans')
+-        .insert(spanRows);
+-
+-      if (spanErr) {
+-        throw new Error(`Failed to insert evidence spans: ${spanErr.message}`);
+-      }
+-    }
+-
+-    // 8. Create Processing Run and Document Result
+-    const { data: run, error: runErr } = await supabase
+-      .from('context_processing_runs')
+-      .insert({
+-        org_id: orgId,
+-        run_type: 'INGESTION',
+-        status: extraction.exceptions.length > 0 ? 'partial' : 'completed',
+-        items_total: 1,
+-        items_completed: 1,
+-        items_failed: 0,
+-        completed_at: new Date().toISOString(),
+-      })
+-      .select('id')
+-      .single();
+-
+-    if (!runErr && run) {
+-      await supabase.from('context_document_results').insert({
+-        processing_run_id: run.id,
+-        source_version_id: versionId,
+-        org_id: orgId,
+-        status: extraction.exceptions.length > 0 ? 'partial' : 'completed',
+-        coverage_score: extraction.coverageScore,
+-        exceptions: extraction.exceptions,
+-        result_metadata: {
+-          parsed_artifact_id: parsedArtifact.id,
+-          spans_extracted: extraction.spans.length,
+-        },
+-      });
+-    }
+-
+-    // 9. Mark source version as 'completed'
+-    await supabase
+-      .from('context_source_versions')
+-      .update({ status: extraction.exceptions.length > 0 ? 'partial' : 'completed' })
+-      .eq('id', versionId);
+-
+-    // 10. Mark outbox task as 'completed'
+-    await supabase
+-      .from('context_transactional_outbox')
+-      .update({
+-        status: 'completed',
+-        processed_at: new Date().toISOString(),
+-      })
+-      .eq('id', outboxId);
+-
+-    return {
+-      ok: true,
+-      versionId,
+-      parsedArtifactId: parsedArtifact.id,
+-      spanCount: extraction.spans.length,
+-      coverageScore: extraction.coverageScore,
+-    };
+-  } catch (err) {
+-    const errorMsg = err.message || String(err);
+-    const attempts = (outboxEvent.attempts || 0) + 1;
+-    const isExhausted = attempts >= (outboxEvent.max_attempts || 5);
+-
+-    // Record failure in outbox
+-    await supabase
+-      .from('context_transactional_outbox')
+-      .update({
+-        status: isExhausted ? 'failed' : 'pending', // retryable unless exhausted
+-        last_error: errorMsg,
+-      })
+-      .eq('id', outboxId);
+-
+-    if (isExhausted) {
+-      await supabase
+-        .from('context_source_versions')
+-        .update({ status: 'failed' })
+-        .eq('id', versionId);
+-    }
+-
+-    return {
+-      ok: false,
+-      error: errorMsg,
+-      isExhausted,
+-    };
+-  }
++export async function drainPendingOutboxEvents() {
++  throw new Error('LEGACY_WORKER_DISABLED_USE_CONTEXT_SERVICE');
+ }
+-
+-/**
+- * Batch consumer for all pending outbox events for an organization.
+- */
+-export async function drainPendingOutboxEvents(supabase, orgId = null, limit = 10) {
+-  let query = supabase
+-    .from('context_transactional_outbox')
+-    .select('*')
+-    .eq('status', 'pending')
+-    .order('created_at', { ascending: true })
+-    .limit(limit);
+-
+-  if (orgId) {
+-    query = query.eq('org_id', orgId);
+-  }
+-
+-  const { data: events, error } = await query;
+-  if (error || !events) {
+-    return { processed: 0, failed: 0, error: error?.message };
+-  }
+-
+-  let processed = 0;
+-  let failed = 0;
+-
+-  for (const event of events) {
+-    const res = await processOutboxEvent(supabase, event);
+-    if (res.ok) {
+-      processed++;
+-    } else {
+-      failed++;
+-    }
+-  }
+-
+-  return { processed, failed };
+-}
+--- a/apps/web/lib/engineConfig.js
++++ b/apps/web/lib/engineConfig.js
+@@ -19,6 +19,7 @@
+   'AMBIGUOUS',
+   'DISAGREEMENT',
+   'INSUFFICIENT_EVIDENCE',
++  'UNVERIFIED_STATUS',
+ ];
+ 
+ export const ALLOWED_STATUSES_RETRIEVAL = [
+@@ -118,77 +119,7 @@
+     }
+   }
+ 
+-  // 2. Built-in registered tenant mappings (strictly scoped with exact run entries)
+-  const BUILTIN_MAPPINGS = {
+-    'org_pilot_readily': {
+-      companyName: 'Readily Health',
+-      corpusScope: 'PUBLIC_RESEARCH',
+-      runs: {
+-        'run_readily_infra_01': {
+-          workspaceId: 'ws_readily_pilot',
+-          roleId: 'role_readily_eng',
+-          corpusScope: 'PUBLIC_RESEARCH',
+-          status: 'active',
+-        },
+-        'run_readily_backend_02': {
+-          workspaceId: 'ws_readily_pilot',
+-          roleId: 'role_readily_backend',
+-          corpusScope: 'PUBLIC_RESEARCH',
+-          status: 'active',
+-        },
+-        'run_readily_revoked_03': {
+-          workspaceId: 'ws_readily_pilot',
+-          roleId: 'role_readily_legacy',
+-          corpusScope: 'PUBLIC_RESEARCH',
+-          status: 'revoked',
+-        },
+-      },
+-    },
+-    'org_nosnia': {
+-      companyName: 'Nosnia AI',
+-      corpusScope: 'TENANT_PRIVATE',
+-      runs: {
+-        'run_nosnia_infra_01': {
+-          workspaceId: 'ws_nosnia_pilot',
+-          roleId: 'role_nosnia_ai',
+-          corpusScope: 'TENANT_PRIVATE',
+-          status: 'active',
+-        },
+-      },
+-    },
+-    'org_tenant_alpha': {
+-      companyName: 'Alpha Corp',
+-      corpusScope: 'TENANT_PRIVATE',
+-      runs: {
+-        'run_alpha_01': {
+-          workspaceId: 'ws_alpha_corp',
+-          roleId: 'role_alpha_lead',
+-          corpusScope: 'TENANT_PRIVATE',
+-          status: 'active',
+-        },
+-        'run_alpha_02': {
+-          workspaceId: 'ws_alpha_corp',
+-          roleId: 'role_alpha_data',
+-          corpusScope: 'TENANT_PRIVATE',
+-          status: 'active',
+-        },
+-      },
+-    },
+-    'org_tenant_beta': {
+-      companyName: 'Beta Corp',
+-      corpusScope: 'TENANT_PRIVATE',
+-      runs: {
+-        'run_beta_01': {
+-          workspaceId: 'ws_beta_corp',
+-          roleId: 'role_beta_lead',
+-          corpusScope: 'TENANT_PRIVATE',
+-          status: 'active',
+-        },
+-      },
+-    },
+-  };
+-
+-  const registry = dynamicMappings !== null ? dynamicMappings : BUILTIN_MAPPINGS;
++  const registry = dynamicMappings; // No named demo tenant fallback in application resolution.
+ 
+   // Validate mapping dictionary existence
+   if (!registry || typeof registry !== 'object' || Array.isArray(registry) || Object.keys(registry).length === 0) {
+@@ -459,7 +390,7 @@
+         text: typeof p.text === 'string' ? p.text : (typeof p.quote === 'string' ? p.quote : ''),
+         score: typeof p.score === 'number' ? p.score : null,
+         source_url: safeUrl,
+-        employer_approval: Boolean(p.employer_approval),
++        employer_approval: ['APPROVED', 'NOT_OBTAINED'].includes(p.employer_approval) ? p.employer_approval : 'NOT_OBTAINED',
+       });
+     }
+ 
+@@ -536,7 +467,7 @@
+   // - GROUNDED cannot coexist with has_validation_errors: true
+   // - GROUNDED requires at least one valid citation
+   let answer = typeof engineData.answer === 'string' ? engineData.answer.trim() : '';
+-  const isGroundedInvalid = (status === 'GROUNDED' && (validCitations.length === 0 || hasValidationErrors));
++  const isGroundedInvalid = hasValidationErrors || status === 'UNVERIFIED_STATUS' || (status === 'GROUNDED' && validCitations.length === 0);
+ 
+   if (isGroundedInvalid) {
+     status = 'INSUFFICIENT_EVIDENCE';

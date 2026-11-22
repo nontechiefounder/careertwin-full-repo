@@ -1,0 +1,7 @@
+MANIFEST_SHA256.txt
+STEP_V12_ALIGNMENT_AND_SEARCH_EVIDENCE.md
+STEP_V12_ALIGNMENT_AND_SEARCH_REPORT.md
+apps/web/app/api/search/route.js
+evidence/v12_1/V12_1_ALIGNMENT_DIFF.patch
+evidence/v12_1/V12_1_CHANGED_FILES.txt
+evidence/v12_1/seeded_search_disposable_receipts.txt
