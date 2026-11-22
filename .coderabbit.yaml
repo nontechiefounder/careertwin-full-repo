@@ -1,0 +1,35 @@
+# Lives on review-infra branch (review/workbyline-v12-ci-review) targeting review/v12-review-base
+language: "en-US"
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: true
+    base_branches:
+      - "review/v12-review-base"
+  path_filters:
+    - "apps/web/**"
+    - "service/**"
+    - "services/**"
+    - "packages/**"
+    - "supabase/migrations/**"
+    - "migrations/**"
+    - "scripts/**"
+    - "tests/**"
+    - "evals/**"
+    - "infra/**"
+    - "supplied_snapshot/**"
+    - ".github/workflows/**"
+    - "package.json"
+    - "package-lock.json"
+    - "requirements*.txt"
+    - "docker-compose.yml"
+    - "!**/node_modules/**"
+    - "!**/.next/**"
+    - "!logs/**"
+chat:
+  auto_reply: false
